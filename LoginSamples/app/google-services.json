@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "625712816714",
+    "firebase_url": "https://loginsamples-fdcff.firebaseio.com",
+    "project_id": "loginsamples-fdcff",
+    "storage_bucket": "loginsamples-fdcff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625712816714:android:bfb8018b079181a8627cb3",
+        "android_client_info": {
+          "package_name": "com.appsnipp.loginsamples"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "625712816714-u7sce7db4lj6ju4ev12m5ugvsgq9ihsl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appsnipp.loginsamples",
+            "certificate_hash": "897b1032c75038dcebded3f015aa271cb51e87f1"
+          }
+        },
+        {
+          "client_id": "625712816714-d1i89baraer0sp520t67f89q38ulsfo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFhYNMBfPmOpFfnMzYiF0q6mbN-aNqpaw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "625712816714-d1i89baraer0sp520t67f89q38ulsfo6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
