@@ -13,7 +13,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="5dp"
-        tools:ignore="UselessParent">
+        tools:ignore="UselessParent"
+        android:background="@drawable/login_button_bk"
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_avatar"

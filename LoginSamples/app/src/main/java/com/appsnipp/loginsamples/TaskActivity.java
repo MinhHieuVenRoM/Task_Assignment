@@ -1,6 +1,7 @@
 package com.appsnipp.loginsamples;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.appsnipp.loginsamples.adapter.MainItemClicked;
 import com.appsnipp.loginsamples.adapter.TaskAdapter;
 import com.appsnipp.loginsamples.model.APIClient;
 import com.appsnipp.loginsamples.model.ProjectModel;
@@ -25,14 +27,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskActivity extends AppCompatActivity implements MainItemClicked {
 
-    private TaskAdapter adapter;
     private TaskAdapter mAdapter;
     private RecyclerView recyclerView;
     private RecyclerView mRecyclerView;
     private ArrayList<ProjectModel> mProjectModelList;
     ProgressDialog progressDialog;
+    AppCompatTextView mPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,8 @@ public class TaskActivity extends AppCompatActivity {
                 ArrayList<ProjectModel> models = response.body();
                 if (models != null){
                     mProjectModelList = models;
-                    mAdapter = new TaskAdapter(mProjectModelList);
-                    mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.projectModelList = mProjectModelList;
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -79,19 +82,18 @@ public class TaskActivity extends AppCompatActivity {
         progressDialog.show();
     }
 
-    /*Method to generate List of data using RecyclerView with custom adapter*/
-    private void generateDataList(ArrayList<ProjectModel> projectList) {
-        recyclerView = findViewById(R.id.rv_project);
-        adapter = new TaskAdapter(projectList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-    }
-
     private void setupRecyclerView() {
         mRecyclerView = findViewById(R.id.rv_project);
         mRecyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
+        mAdapter = new TaskAdapter(new ArrayList<ProjectModel>());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.itemClicked=this;
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+
     }
 }

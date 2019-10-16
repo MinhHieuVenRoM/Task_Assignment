@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class ProjectModel {
-
+    @SerializedName("isItemClicked")
+    @Expose
+    Boolean isItemClicked = false;
     @SerializedName("id")
     @Expose
     private String id;
@@ -62,4 +64,11 @@ public class ProjectModel {
         this.userNameCreate = userNameCreate;
     }
 
+    public Boolean getItemClicked() {
+        return isItemClicked;
+    }
+
+    public void setItemClicked(Boolean itemClicked) {
+        isItemClicked = itemClicked;
+    }
 }
