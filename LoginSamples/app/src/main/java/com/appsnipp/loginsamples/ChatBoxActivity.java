@@ -35,7 +35,7 @@ public class ChatBoxActivity extends AppCompatActivity {
 
     public void init() {
         try {
-            mSocket = IO.socket("http://10.90.89.168:3000");
+            mSocket = IO.socket("http://10.0.2.2:3000");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

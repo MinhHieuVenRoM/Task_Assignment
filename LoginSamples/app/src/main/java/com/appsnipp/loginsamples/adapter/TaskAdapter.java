@@ -1,5 +1,7 @@
 package com.appsnipp.loginsamples.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appsnipp.loginsamples.ChatActivity;
 import com.appsnipp.loginsamples.R;
+import com.appsnipp.loginsamples.RegisterActivity;
 import com.appsnipp.loginsamples.model.ProjectModel;
+import com.appsnipp.loginsamples.model.TaskModel;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import java.text.ParseException;
@@ -19,34 +24,51 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> {
-    public ArrayList<ProjectModel> projectModelList;
-   public MainItemClicked itemClicked;
+    public ArrayList<TaskModel> taskModelList;
+    public MainItemClicked itemClicked;
+    private Context context;
+
+    public TaskAdapter(Context context) {
+        this.context = context;
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView nameproject;
-        TextView detailproject;
-        TextView card_name_project;
+        TextView nametask;
+        TextView detailtask;
+        TextView nguoiphutrach;
+        TextView trangthai,chitietcongviec;
+
         RelativeTimeTextView end_date;
         Boolean isItemClicked = false;
-        MyViewHolder(View view) {
+        MyViewHolder(final View view) {
             super(view);
 
-            nameproject = view.findViewById(R.id.tv_ten);
-            detailproject = view.findViewById(R.id.tv_detail);
-            card_name_project = view.findViewById(R.id.card_name_project);
-            end_date = view.findViewById(R.id.tv_time_stamp);
+            nametask = view.findViewById(R.id.tv_tentask);
+            detailtask = view.findViewById(R.id.tv_detailtask);
+            nguoiphutrach = view.findViewById(R.id.tv_nguoiphutrach);
+            end_date = view.findViewById(R.id.tv_time_stamp_task);
+            chitietcongviec=view.findViewById(R.id.tx_chitietcongviet);
+            trangthai=view.findViewById(R.id.tv_task_state);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!isItemClicked){
                         isItemClicked = true;
-                        itemView.setBackgroundColor(itemView.getContext().getColor(R.color.green));
+                        itemView.setBackgroundColor(itemView.getContext().getColor(R.color.whiteCardColor));
                     }else {
                         isItemClicked = false;
                         itemView.setBackgroundColor(itemView.getContext().getColor(R.color.whiteCardColor));
                     }
                     itemClicked.onItemClicked(getAdapterPosition());
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Intent myIntent = new Intent(view.getContext(), RegisterActivity.class);
+                    view.getContext().startActivity(myIntent);
+                    return true;
                 }
             });
         }
@@ -56,20 +78,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
 
     // in this adaper constructor we add the list of messages as a parameter so that
 // we will passe  it when making an instance of the adapter object in our activity
-    public TaskAdapter(ArrayList<ProjectModel> ProjectModelList) {
-        this.projectModelList = ProjectModelList;
+    public TaskAdapter(ArrayList<TaskModel> taskModelList) {
+        this.taskModelList = taskModelList;
     }
 
     @Override
     public int getItemCount() {
-        return projectModelList.size();
+        return taskModelList.size();
     }
 
     @NonNull
     @Override
     public TaskAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_project, parent, false);
+                .inflate(R.layout.item_task, parent, false);
 
         return new TaskAdapter.MyViewHolder(itemView);
     }
@@ -77,13 +99,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final TaskAdapter.MyViewHolder holder, final int position) {
 
-        ProjectModel m = projectModelList.get(position);
-        holder.detailproject.setText(m.getId());
-        holder.nameproject.setText(m.getName());
-        String fisrt_name = m.getName().substring(0, 1);
-        holder.card_name_project.setText(fisrt_name);
+        TaskModel m = taskModelList.get(position);
+        holder.detailtask.setText(m.getDetail());
+        holder.nametask.setText(m.getName());
+       holder.nguoiphutrach.setText(m.getUserCreate());
+       holder.trangthai.setText((m.getStatus()));
+        holder.chitietcongviec.setText(m.getDetail());
         try {
-            holder.end_date.setReferenceTime(setendate(m.getEndTime()).getTimeInMillis());
+            holder.end_date.setReferenceTime(setendate(m.getDeadline()).getTimeInMillis());
         } catch (ParseException e) {
             e.printStackTrace();
         }

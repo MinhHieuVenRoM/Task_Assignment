@@ -10,4 +10,7 @@ public interface  RequestAPI {
 
     @GET("/project")
     Call<ArrayList<ProjectModel>>  getALLProject();
+    @GET("/List_Task")
+    Call<ArrayList<TaskModel>>  getalltask();
+
 }
