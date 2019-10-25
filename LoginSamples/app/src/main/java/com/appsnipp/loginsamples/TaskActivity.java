@@ -1,5 +1,6 @@
 package com.appsnipp.loginsamples;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
@@ -7,8 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.appsnipp.loginsamples.adapter.MainItemClicked;
@@ -18,6 +21,7 @@ import com.appsnipp.loginsamples.model.APIClient;
 import com.appsnipp.loginsamples.model.ProjectModel;
 import com.appsnipp.loginsamples.model.RequestAPI;
 import com.appsnipp.loginsamples.model.TaskModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,7 @@ import retrofit2.Response;
 
 public class TaskActivity extends AppCompatActivity  implements MainItemClicked{
 
+    private FloatingActionButton btn_adding_task;
     private TaskAdapter mAdapter;
     private RecyclerView recyclerView;
     private RecyclerView mRecyclerView;
@@ -48,6 +53,31 @@ public class TaskActivity extends AppCompatActivity  implements MainItemClicked{
 
         getTaskListData();
         showLoading();
+
+        btn_adding_task = (FloatingActionButton) findViewById(R.id.btn_add_task);
+        btn_adding_task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddingTaskActivity();
+
+//                AlertDialog.Builder alertDialog = new AlertDialog.Builder(TaskActivity.this);
+//                alertDialog.setTitle("Xác nhận ...");
+//                alertDialog.setMessage("Bạn có thực sự muốn xóa?");
+//                alertDialog.setIcon(R.mipmap.ic_launcher);
+//                alertDialog.setPositiveButton("YES",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                Toast.makeText(TaskActivity.this, "Bạn đã chọn YES", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                alertDialog.show();
+            }
+        });
+    }
+
+    public void goToAddingTaskActivity(){
+        Intent intent = new Intent(TaskActivity.this, AddingTaskActivity.class);
+        startActivity(intent);
     }
 
     private void getTaskListData() {

@@ -130,4 +130,5 @@ public class ProjectActivity extends AppCompatActivity implements MainItemClicke
         Intent intent = new Intent(this, TaskActivity.class);
         startActivity(intent);
     }
+
 }

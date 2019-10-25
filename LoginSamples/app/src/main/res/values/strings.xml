@@ -27,4 +27,5 @@
     <string name="sex">Sex</string>
     <string name="birthday">Birthday</string>
     <string name="profile">Profile</string>
+    <string name="title_activity_adding_task">AddingTaskActivity</string>
 </resources>

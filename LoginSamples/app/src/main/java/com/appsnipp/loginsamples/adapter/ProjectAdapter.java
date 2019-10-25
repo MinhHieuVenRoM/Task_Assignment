@@ -49,7 +49,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
 
                     }else {
                         isItemClicked = false;
-                        itemView.setBackgroundColor(itemView.getContext().getColor(R.color.whiteCardColor));
+                        itemView.setBackgroundColor(itemView.getContext().getColor(R.color.backgroundNull));
                     }
                     itemClicked.onItemClicked(getAdapterPosition());
                 }
