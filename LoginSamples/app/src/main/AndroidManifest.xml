@@ -9,20 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ProfileActivity">
-
-
-
-        </activity>
-        <activity android:name=".TaskActivity"></activity>
-        <activity android:name=".ProjectActivity" />
+        <activity android:name=".Task.AddingTaskActivity"></activity>
+        <activity android:name=".Attendance.AttendanceActivity" />
+        <activity android:name=".Personal_Information.ProfileActivity" />
+        <activity android:name=".Task.TaskActivity" />
+        <activity android:name=".Project.ProjectActivity" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".ChatActivity"
+            android:name=".CHAT.ChatActivity"
             android:theme="@style/Material" />
-        <activity android:name=".ChatBoxActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".CHAT.ChatBoxActivity" />
+        <activity android:name=".LOGIN.RegisterActivity" />
+        <activity android:name=".LOGIN.LoginActivity" />
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
