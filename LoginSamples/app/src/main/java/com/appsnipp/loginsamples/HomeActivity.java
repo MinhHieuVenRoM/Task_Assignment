@@ -12,9 +12,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.ui.AppBarConfiguration;
 
-import com.appsnipp.loginsamples.CHAT.ChatActivity;
-import com.appsnipp.loginsamples.Personal_Information.ProfileActivity;
-import com.appsnipp.loginsamples.Project.ProjectActivity;
+import com.appsnipp.loginsamples.chat.ChatActivity;
+import com.appsnipp.loginsamples.personal_information.ProfileActivity;
+import com.appsnipp.loginsamples.project.ProjectActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{

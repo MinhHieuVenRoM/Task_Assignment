@@ -1,4 +1,4 @@
-package com.appsnipp.loginsamples.Project;
+package com.appsnipp.loginsamples.project;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -16,9 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appsnipp.loginsamples.CHAT.ChatActivity;
+import com.appsnipp.loginsamples.chat.ChatActivity;
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.Task.TaskActivity;
+import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.adapter.ProjectItemClicked;
 import com.appsnipp.loginsamples.adapter.ProjectAdapter;
 import com.appsnipp.loginsamples.model.APIClient;

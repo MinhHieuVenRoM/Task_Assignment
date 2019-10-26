@@ -1,4 +1,4 @@
-package com.appsnipp.loginsamples.Personal_Information;
+package com.appsnipp.loginsamples.personal_information;
 
 import androidx.appcompat.app.AppCompatActivity;
 

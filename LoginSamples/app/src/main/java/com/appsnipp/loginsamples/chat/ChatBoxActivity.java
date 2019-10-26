@@ -1,4 +1,4 @@
-package com.appsnipp.loginsamples.CHAT;
+package com.appsnipp.loginsamples.chat;
 
 import android.os.Bundle;
 import android.view.View;

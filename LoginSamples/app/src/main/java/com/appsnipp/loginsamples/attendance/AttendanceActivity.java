@@ -1,4 +1,4 @@
-package com.appsnipp.loginsamples.Attendance;
+package com.appsnipp.loginsamples.attendance;
 
 import androidx.appcompat.app.AppCompatActivity;
 

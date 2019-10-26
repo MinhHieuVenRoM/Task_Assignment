@@ -1,4 +1,4 @@
-package com.appsnipp.loginsamples.LOGIN;
+package com.appsnipp.loginsamples.login;
 
 import android.content.Intent;
 

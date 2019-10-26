@@ -10,27 +10,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <activity android:name=".Task.AddingTaskActivity"
+        <activity android:name=".task.AddingTaskActivity"
             android:label="@string/title_activity_adding_task"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
-        <activity android:name=".Attendance.AttendanceActivity" />
-        <activity android:name=".Personal_Information.ProfileActivity" />
-        <activity android:name=".Task.TaskActivity" />
-        <activity android:name=".Project.ProjectActivity" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".CHAT.ChatActivity"
-            android:theme="@style/Material" />
-        <activity android:name=".CHAT.ChatBoxActivity" />
-        <activity android:name=".LOGIN.RegisterActivity" />
-        <activity android:name=".LOGIN.LoginActivity" />
-        <activity android:name=".HomeActivity">
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"/>
+        <activity android:name=".attendance.AttendanceActivity" >
+
+        </activity>
+        <activity android:name=".personal_information.ProfileActivity" />
+        <activity android:name=".task.TaskActivity" />
+        <activity android:name=".project.ProjectActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".chat.ChatActivity"
+            android:theme="@style/Material" />
+        <activity android:name=".chat.ChatBoxActivity" />
+        <activity android:name=".login.RegisterActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".HomeActivity">
+
         </activity>
     </application>
 

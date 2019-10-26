@@ -1,59 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-   >
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="@color/backgroundNull"
-        app:elevation="3dp">
+        android:layout_height="60dp"
+        android:background="@color/colorAccent"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/colorAccent"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-            <!--                android:layout_gravity="center_horizontal"-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
-                style="@style/TitleToolbar"
-                android:id="@+id/toolbar_title" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_7sdp"
+            android:src="@drawable/ic_arrow_back" />
 
-        </androidx.appcompat.widget.Toolbar>
-        <LinearLayout
-            style="@style/parent"
-            android:background="@drawable/toolbar_shape"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_height="12dp">
-        </LinearLayout>
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/TitleToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <include
         layout="@layout/recyclerview_layout"
         android:layout_width="match_parent"
-        android:layout_height="809dp"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add_project"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:focusable="auto"
-
         android:visibility="visible"
         app:srcCompat="@drawable/ic_library_add_black_24dp" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

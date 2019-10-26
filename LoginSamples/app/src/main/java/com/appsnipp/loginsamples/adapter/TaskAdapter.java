@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.LOGIN.RegisterActivity;
+import com.appsnipp.loginsamples.login.RegisterActivity;
 import com.appsnipp.loginsamples.model.TaskModel;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 

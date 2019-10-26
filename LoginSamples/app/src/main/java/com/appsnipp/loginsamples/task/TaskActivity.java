@@ -1,4 +1,4 @@
-package com.appsnipp.loginsamples.Task;
+package com.appsnipp.loginsamples.task;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.appsnipp.loginsamples.CHAT.ChatActivity;
+import com.appsnipp.loginsamples.chat.ChatActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override
