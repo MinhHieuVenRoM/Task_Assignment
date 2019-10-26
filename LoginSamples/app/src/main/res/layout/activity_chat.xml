@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.appsnipp.loginsamples.ChatActivity">
+    tools:context="com.appsnipp.loginsamples.CHAT.ChatActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_input_text"

@@ -10,10 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appsnipp.loginsamples.ChatActivity;
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.RegisterActivity;
-import com.appsnipp.loginsamples.model.ProjectModel;
+import com.appsnipp.loginsamples.LOGIN.RegisterActivity;
 import com.appsnipp.loginsamples.model.TaskModel;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
@@ -26,7 +24,7 @@ import java.util.Locale;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> {
     public ArrayList<TaskModel> taskModelList;
-    public MainItemClicked itemClicked;
+    public ProjectItemClicked itemClicked;
     private Context context;
 
     public TaskAdapter(Context context) {
@@ -60,7 +58,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
                         isItemClicked = false;
                         itemView.setBackgroundColor(itemView.getContext().getColor(R.color.whiteCardColor));
                     }
-                    itemClicked.onItemClicked(getAdapterPosition());
+                   // itemClicked.onItemClicked(getAdapterPosition());
                 }
             });
             itemView.setOnLongClickListener(new View.OnLongClickListener() {

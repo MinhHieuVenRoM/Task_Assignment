@@ -2,9 +2,10 @@ package com.appsnipp.loginsamples.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ProjectModel {
+public class ProjectModel implements Serializable {
     @SerializedName("isItemClicked")
     @Expose
     Boolean isItemClicked = false;
