@@ -1,7 +1,8 @@
-package com.appsnipp.loginsamples;
+package com.appsnipp.loginsamples.Task;
 
 import android.os.Bundle;
 
+import com.appsnipp.loginsamples.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 

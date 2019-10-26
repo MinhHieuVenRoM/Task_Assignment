@@ -3,6 +3,7 @@ package com.appsnipp.loginsamples.Task;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.appsnipp.loginsamples.model.APIClient;
 import com.appsnipp.loginsamples.model.ProjectModel;
 import com.appsnipp.loginsamples.model.RequestAPI;
 import com.appsnipp.loginsamples.model.TaskModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -26,6 +28,7 @@ import retrofit2.Response;
 
 public class TaskActivity extends AppCompatActivity {
 
+    private FloatingActionButton btn_adding_task;
     private TaskAdapter mAdapter;
     private RecyclerView recyclerView;
     private ArrayList<TaskModel> mTaskModelList;
@@ -49,6 +52,19 @@ public class TaskActivity extends AppCompatActivity {
 
         getTaskListData();
         showLoading();
+
+        btn_adding_task = (FloatingActionButton) findViewById(R.id.btn_add_task);
+        btn_adding_task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddingTaskActivity();
+            }
+        });
+    }
+
+    public void goToAddingTaskActivity(){
+        Intent intent = new Intent(TaskActivity.this, AddingTaskActivity.class);
+        startActivity(intent);
     }
 
     private void getDataIntent() {
