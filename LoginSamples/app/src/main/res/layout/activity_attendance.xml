@@ -11,7 +11,7 @@
         android:id="@+id/calenderView"
         android:layout_width="match_parent"
         android:layout_height="311dp"
-        android:background="@drawable/backgroup_cn"
+        android:background="@drawable/background_cn"
         android:textColorPrimary="@color/whiteTextColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
