@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ public class TaskActivity extends AppCompatActivity {
     private ArrayList<TaskModel> mTaskModelList;
     ProgressDialog progressDialog;
     private ProjectModel model;
+    TextView title;
 
 
     @Override
@@ -44,7 +46,9 @@ public class TaskActivity extends AppCompatActivity {
         getDataIntent();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Danh sách task trong"+model.getName());
+        toolbar.setTitle("");
+        title=findViewById(R.id.toolbar_title_task);
+        title.setText(model.getName());
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
         setSupportActionBar(toolbar);
 

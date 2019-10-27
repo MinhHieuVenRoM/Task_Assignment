@@ -9,33 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-        <activity android:name=".task.AddingTaskActivity"
+        <activity android:name=".conclude.ConcludeActivity"/>
+        <activity
+            android:name=".task.AddingTaskActivity"
             android:label="@string/title_activity_adding_task"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"/>
-        <activity android:name=".attendance.AttendanceActivity" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity android:name=".attendance.AttendanceActivity"/>
         <activity android:name=".personal_information.ProfileActivity" />
         <activity android:name=".task.TaskActivity" />
         <activity android:name=".project.ProjectActivity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".chat.ChatActivity"
             android:theme="@style/Material" />
         <activity android:name=".chat.ChatBoxActivity" />
         <activity android:name=".login.RegisterActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".HomeActivity">
-
-        </activity>
+        <activity android:name=".HomeActivity"> <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
     </application>
 
 </manifest>
