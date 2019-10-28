@@ -28,6 +28,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
         TextView nameproject;
         TextView detailproject;
         TextView card_name_project;
+        TextView userCreate;
         RelativeTimeTextView end_date;
         Boolean isItemClicked = false;
 
@@ -38,6 +39,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
             detailproject = view.findViewById(R.id.tv_detail);
             card_name_project = view.findViewById(R.id.card_name_project);
             end_date = view.findViewById(R.id.tv_time_stamp);
+            userCreate = view.findViewById(R.id.tv_userCreate);
         }
 
         public void setOnItemClicked(ProjectModel model) {
@@ -49,6 +51,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
             nameproject.setText(projectModel.getName());
             String fisrt_name = projectModel.getName().substring(0, 1);
             card_name_project.setText(fisrt_name);
+            userCreate.setText(projectModel.getUserNameCreate());
             try {
                 end_date.setReferenceTime(setendate(projectModel.getEndTime()).getTimeInMillis());
             } catch (ParseException e) {

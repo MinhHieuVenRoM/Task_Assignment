@@ -49,6 +49,7 @@ public class TaskActivity extends AppCompatActivity {
         toolbar.setTitle("");
         title=findViewById(R.id.toolbar_title_task);
         title.setText(model.getName());
+        
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
         setSupportActionBar(toolbar);
 

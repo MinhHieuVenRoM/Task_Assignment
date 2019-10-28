@@ -16,11 +16,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
-
         </activity>
         <activity android:name=".conclude.ConcludeActivity" />
+        <activity
+            android:name=".task.DetailTaskActivity"
+            android:label="@string/title_activity_detail_task"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity android:name=".conclude.ConcludeActivity"/>
         <activity
             android:name=".task.AddingTaskActivity"
             android:label="@string/title_activity_adding_task"
