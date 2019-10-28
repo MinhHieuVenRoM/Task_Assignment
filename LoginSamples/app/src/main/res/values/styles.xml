@@ -110,18 +110,18 @@
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="CalenderViewCustom" parent="Theme.AppCompat">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorAccent">@color/blue</item>
         <item name="colorPrimary">@color/whiteTextColor</item>
     </style>
 
     <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <item name="android:textColor">@color/whiteTextColor</item>
-        <item name="android:weekNumberColor">@color/red</item>
+        <item name="android:weekNumberColor">@color/blue</item>
     </style>
 
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <item name="android:textColor">@color/whiteTextColor</item>
     </style>
 
-    <color name="red">#2196F3</color>
+    <color name="blue">#2196F3</color>
 </resources>
