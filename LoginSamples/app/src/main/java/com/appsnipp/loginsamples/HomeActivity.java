@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.appsnipp.loginsamples.chat.ChatActivity;
+import com.appsnipp.loginsamples.conclude.ConcludeActivity;
 import com.appsnipp.loginsamples.personal_information.ProfileActivity;
 import com.appsnipp.loginsamples.project.ProjectActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -45,11 +46,14 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);
     }
-    public void TaskClicked(View view){
+    public void ProjectClicked(View view){
         Intent intent = new Intent(this, ProjectActivity.class);
         startActivity(intent);
     }
-
+    public void ConcludeClicked(View view){
+        Intent intent = new Intent(this, ConcludeActivity.class);
+        startActivity(intent);
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

@@ -12,5 +12,7 @@ public interface  RequestAPI {
     Call<ArrayList<ProjectModel>>  getALLProject();
     @GET("/List_Task")
     Call<ArrayList<TaskModel>>  getalltask();
+    @GET("/Diemdanh")
+    Call<ArrayList<DIEMDANH>>  getalldiemdanh();
 
 }
