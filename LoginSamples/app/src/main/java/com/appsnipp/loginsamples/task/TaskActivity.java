@@ -44,7 +44,7 @@ public class TaskActivity extends AppCompatActivity {
         getDataIntent();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Danh sách task trong"+model.getName());
+        toolbar.setTitle(model.getName());
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
         setSupportActionBar(toolbar);
 

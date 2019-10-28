@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.login.RegisterActivity;
 import com.appsnipp.loginsamples.model.TaskModel;
+import com.appsnipp.loginsamples.task.DetailTaskActivity;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import java.text.ParseException;
@@ -64,7 +65,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Intent myIntent = new Intent(view.getContext(), RegisterActivity.class);
+                    Intent myIntent = new Intent(view.getContext(), DetailTaskActivity.class);
                     view.getContext().startActivity(myIntent);
                     return true;
                 }

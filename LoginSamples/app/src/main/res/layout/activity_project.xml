@@ -5,25 +5,25 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/colorAccent"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/colorAccent"
+    app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:padding="@dimen/_7sdp"
-            android:src="@drawable/ic_arrow_back" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:padding="@dimen/_7sdp"
+        android:src="@drawable/ic_arrow_back" />
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            style="@style/TitleToolbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp" />
+    <TextView
+        android:id="@+id/toolbar_title"
+        style="@style/TitleToolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
