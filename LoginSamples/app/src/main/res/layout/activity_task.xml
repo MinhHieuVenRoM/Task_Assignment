@@ -37,11 +37,22 @@
                 android:src="@drawable/settings" />
 <!--        </LinearLayout>-->
     </androidx.appcompat.widget.Toolbar>
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:hint="  Tìm kiếm"
+        android:layout_marginTop="@dimen/_47sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:fontFamily="@font/nunito"
+        android:textSize="@dimen/_13sdp"
+        android:textColorHint="#868686"/>
     <include
         layout="@layout/recyclerview_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_37sdp"
         android:layout_below="@id/toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
