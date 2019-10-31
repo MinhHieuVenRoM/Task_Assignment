@@ -18,4 +18,6 @@
     <color name="BlackColor">#000000</color>
     <color name="nameprojectColor">#009688</color>
     <color name="green">#008000</color>
+    <color name="userAvailable">#4BCC1F</color>
+    <color name="userUnavailable">#E41E26</color>
 </resources>
