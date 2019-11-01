@@ -31,7 +31,11 @@
     <string name="title_activity_detail_task">DetailTaskActivity</string>
     <string name="task">Task</string>
     <string name="create_project_success">Bạn đã tạo project thành công</string>
+<<<<<<< HEAD
     <string name="creae_new_project">Create new project</string>
     <string name="end_date">Ngày kết thúc</string>
     <string name="project_name">Tên project</string>
+=======
+    <string name="title_activity_user">UserActivity</string>
+>>>>>>> 33a5f54c74cea8d173f2d82ec214a9a89e18d46b
 </resources>

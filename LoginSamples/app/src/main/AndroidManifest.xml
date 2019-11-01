@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appsnipp.loginsamples">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".utils.GlobalApplication"
         android:allowBackup="true"
@@ -10,14 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".attendance.AttendanceReportActivity">
-
-        </activity>
+        <activity
+            android:name=".user.UserActivity"
+            android:label="@string/title_activity_user"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+        <activity android:name=".attendance.AttendanceReportActivity"></activity>
         <activity android:name=".conclude.ConcludeActivity" />
         <activity
             android:name=".task.DetailTaskActivity"
             android:label="@string/title_activity_detail_task"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".task.AddingTaskActivity"
             android:label="@string/title_activity_adding_task"
@@ -40,9 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity">
-
-        </activity>
+        <activity android:name=".HomeActivity"></activity>
     </application>
 
 </manifest>
