@@ -31,4 +31,5 @@
     <string name="title_activity_detail_task">DetailTaskActivity</string>
     <string name="task">Task</string>
     <string name="create_project_success">Bạn đã tạo project thành công</string>
+    <string name="title_activity_user">UserActivity</string>
 </resources>
