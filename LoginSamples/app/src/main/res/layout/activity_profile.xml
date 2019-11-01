@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avatar" />
+                android:src="@drawable/avataruser" />
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
@@ -139,10 +139,10 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
-                    android:text="@string/user_name" />
+                    android:text="Role" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_username"
+                    android:id="@+id/tv_userrole"
                     style="@style/TextViewContent"
                     android:text="MINH Khuê" />
 

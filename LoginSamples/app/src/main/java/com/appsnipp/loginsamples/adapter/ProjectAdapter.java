@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.model.ProjectModel;
+import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
+import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import java.text.ParseException;
@@ -22,13 +23,13 @@ import java.util.Locale;
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHolder> {
     public ArrayList<ProjectModel> projectModelList;
+    public ArrayList<UserModelDetail> userModelDetailList;
     public ProjectItemClicked itemClicked;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nameproject;
-        TextView detailproject;
         TextView card_name_project;
-        TextView userCreate;
+        TextView userCreate, tv_project_state;
         RelativeTimeTextView end_date;
         Boolean isItemClicked = false;
 
@@ -36,24 +37,30 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
             super(view);
 
             nameproject = view.findViewById(R.id.tv_ten);
-            detailproject = view.findViewById(R.id.tv_detail);
             card_name_project = view.findViewById(R.id.card_name_project);
             end_date = view.findViewById(R.id.tv_time_stamp);
             userCreate = view.findViewById(R.id.tv_userCreate);
+            tv_project_state = view.findViewById(R.id.tv_project_state);
         }
 
-        public void setOnItemClicked(ProjectModel model) {
-
-        }
 
         public void initData(final ProjectModel projectModel) {
-            detailproject.setText(projectModel.getId());
+            if (projectModel.getStatus() == 1) {
+                tv_project_state.setText("OPEN");
+            } else {
+                tv_project_state.setText("DONE");
+
+            }
             nameproject.setText(projectModel.getName());
             String fisrt_name = projectModel.getName().substring(0, 1);
             card_name_project.setText(fisrt_name);
-            userCreate.setText(projectModel.getUserNameCreate());
+            userCreate.setText(projectModel.getUserDetail());
+
+           String deadline= projectModel.getEndDate().substring(0, 10);
+            deadline=deadline.replace("-","/");
+
             try {
-                end_date.setReferenceTime(setendate(projectModel.getEndTime()).getTimeInMillis());
+                end_date.setReferenceTime(setendate(deadline).getTimeInMillis());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -69,7 +76,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
                         isItemClicked = false;
                         itemView.setBackgroundColor(itemView.getContext().getColor(R.color.backgroundNull));
                     }
-                    itemClicked.onItemClicked(getAdapterPosition(),projectModel );
+                    itemClicked.onItemClickedProject(getAdapterPosition(), projectModel);
                 }
             });
         }
@@ -101,11 +108,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
         ProjectModel projectModel = projectModelList.get(position);
         holder.initData(projectModel);
 
-      //  holder.setOnItemClicked();
+
     }
 
     public Calendar setendate(String enddate) throws ParseException {
-        SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
         Date date1 = formater.parse(enddate);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date1);

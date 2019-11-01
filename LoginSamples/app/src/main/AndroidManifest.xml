@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appsnipp.loginsamples">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".utils.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,19 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".attendance.AttendanceReportActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".conclude.ConcludeActivity" />
         <activity
             android:name=".task.DetailTaskActivity"
             android:label="@string/title_activity_detail_task"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
-        <activity android:name=".conclude.ConcludeActivity"/>
         <activity
             android:name=".task.AddingTaskActivity"
             android:label="@string/title_activity_adding_task"
@@ -36,7 +31,14 @@
             android:theme="@style/Material" />
         <activity android:name=".chat.ChatBoxActivity" />
         <activity android:name=".login.RegisterActivity" />
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".HomeActivity">
 
         </activity>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.silencedut.expandablelayout.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/expandable_layout"
     android:layout_width="match_parent"
@@ -99,11 +100,15 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="13dp"
                     android:id="@+id/tv_task_state"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/background_status_project"
+                    android:fontFamily="@font/nunitobold"
                     android:gravity="center"
                     android:paddingStart="@dimen/padding_tag"
                     android:paddingEnd="@dimen/padding_tag"
@@ -125,30 +130,6 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tx_chitietcongviet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Chi tiết công việc cần làmgggggggggg
-                gggggggggggggggggggggggggggggggggggggggggggg" />
-
-            <TextView
-                android:id="@+id/tx_thoigianbatdau"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ngày giao" />
-        </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
-
-</com.silencedut.expandablelayout.ExpandableLayout><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+</RelativeLayout><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->

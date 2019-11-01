@@ -15,6 +15,9 @@
     <dimen name="_14ssp">20sp</dimen>
     <dimen name="_12ssp">15sp</dimen>
     <dimen name="padding_tag">20dp</dimen>
+    <dimen name="margin_base">5dp</dimen>
+    <dimen name="margin_basex2">10dp</dimen>
+    <dimen name="margin_basex3">15dp</dimen>
 
 
 </resources>

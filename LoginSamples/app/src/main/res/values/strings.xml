@@ -29,4 +29,6 @@
     <string name="profile">Profile</string>
     <string name="title_activity_adding_task">AddingTaskActivity</string>
     <string name="title_activity_detail_task">DetailTaskActivity</string>
+    <string name="task">Task</string>
+    <string name="create_project_success">Bạn đã tạo project thành công</string>
 </resources>

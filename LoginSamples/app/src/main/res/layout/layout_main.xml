@@ -31,7 +31,6 @@
             android:text="Check in / out"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            android:onClick="loginClicked"
             />
 
 
@@ -40,7 +39,6 @@
             style="@style/loginButton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            android:onClick="loginClicked"
             android:text="Quản lý Task" />
 
 
@@ -49,14 +47,13 @@
             style="@style/loginButton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            android:onClick="loginClicked"
             android:text="Chấm công" />
         <Button
             android:id="@+id/cirLoginButtonLogout"
             style="@style/loginButton"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/loginViewsMargin"
-            android:onClick="loginClicked"
+
             android:text="LOG out" />
         <Button
             android:id="@+id/cirLoginButtoncomingsoon"

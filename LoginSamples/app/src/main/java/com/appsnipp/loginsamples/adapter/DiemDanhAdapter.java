@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.model.DIEMDANH;
-import com.appsnipp.loginsamples.model.ProjectModel;
-import com.github.curioustechizen.ago.RelativeTimeTextView;
+import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

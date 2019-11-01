@@ -1,5 +1,6 @@
 package com.appsnipp.loginsamples.task;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,11 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.TaskAdapter;
-import com.appsnipp.loginsamples.model.APIClient;
-import com.appsnipp.loginsamples.model.ProjectModel;
-import com.appsnipp.loginsamples.model.RequestAPI;
-import com.appsnipp.loginsamples.model.TaskModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.appsnipp.loginsamples.adapter.TaskItemClicked;
+import com.appsnipp.loginsamples.login.LoginActivity;
+import com.appsnipp.loginsamples.model.API.APIClient;
+import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
+import com.appsnipp.loginsamples.model.API.RequestAPI;
+import com.appsnipp.loginsamples.model.Result;
+import com.appsnipp.loginsamples.model.Task_model.TaskListResponse;
+import com.appsnipp.loginsamples.model.Task_model.TaskModel;
+import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.project.ProjectActivity;
+import com.appsnipp.loginsamples.utils.SharedPrefs;
 
 import java.util.ArrayList;
 
@@ -27,15 +35,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskActivity extends AppCompatActivity {
-
-    private FloatingActionButton btn_adding_task;
+public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
     private TaskAdapter mAdapter;
     private RecyclerView recyclerView;
-    private ArrayList<TaskModel> mTaskModelList;
-    ProgressDialog progressDialog;
+    private TaskListResponse mTaskModelList;
+    private TaskModel taskModel;
+    private ProgressDialog progressDialog;
     private ProjectModel model;
-    TextView title;
+    private TextView title;
+    private static final int RESULT=1;
 
 
     @Override
@@ -58,17 +66,19 @@ public class TaskActivity extends AppCompatActivity {
         getTaskListData();
         showLoading();
 
-        btn_adding_task = (FloatingActionButton) findViewById(R.id.btn_add_task);
-        btn_adding_task.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_add_task).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 goToAddingTaskActivity();
             }
         });
     }
 
     public void goToAddingTaskActivity(){
+
         Intent intent = new Intent(TaskActivity.this, AddingTaskActivity.class);
+        intent.putExtra("projectModel", model);
         startActivity(intent);
     }
 
@@ -78,23 +88,25 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void getTaskListData() {
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+
+
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<ArrayList<TaskModel>> call = service.getalltask();
-        call.enqueue(new Callback<ArrayList<TaskModel>>() {
+        Call<TaskListResponse> call = service.gettaskofproject(token,model.getId());
+        call.enqueue(new Callback<TaskListResponse>() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<TaskModel>> call, @NonNull Response<ArrayList<TaskModel>> response) {
+            public void onResponse(@NonNull Call<TaskListResponse> call, @NonNull Response<TaskListResponse> response) {
                 progressDialog.dismiss();
-//                generateDataList(response.body());
-                ArrayList<TaskModel> models = response.body();
+                TaskListResponse models = response.body();
                 if (models != null) {
                     mTaskModelList = models;
-                    mAdapter.taskModelList = mTaskModelList;
+                    mAdapter.taskModelList = mTaskModelList.getDataTask();
                     mAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<TaskModel>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<TaskListResponse> call, @NonNull Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(TaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
@@ -114,8 +126,66 @@ public class TaskActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new TaskAdapter(new ArrayList<TaskModel>());
         mRecyclerView.setAdapter(mAdapter);
-
+        mAdapter.itemClicked=this;
     }
 
+//    private void getTaskData(String id) {
+//        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+//        Call<TaskModel> call = service.getalltaskdetail(id);
+//        call.enqueue(new Callback<TaskModel>() {
+//            @Override
+//            public void onResponse(@NonNull Call<TaskModel> call, @NonNull Response<TaskModel> response) {
+//                progressDialog.dismiss();
+////                generateDataList(response.body());
+//                TaskModel models = response.body();
+//                if (models != null) {
+//                    taskModel = models;
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<TaskModel> call, @NonNull Throwable t) {
+//                progressDialog.dismiss();
+//                Toast.makeText(TaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode== RESULT && resultCode == Activity.RESULT_OK){
+            assert data != null;
+            String temp = data.getStringExtra("taskmodel");
+            assert temp != null;
+            if (temp.equals("what do you want")){
+
+            }
+        }
+    }
+
+    @Override
+    public void onItemClickedTask(int position, TaskModel modeltask) {
+        Toast.makeText(TaskActivity.this, modeltask.getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DetailTaskActivity.class);
+        intent.putExtra("taskmodel", modeltask);
+        startActivityForResult(intent,RESULT);
+    }
+
+    public void backProject_Task(View view){
+        finish();
+    }
+
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+
+        setupRecyclerView();
+        getTaskListData();
+
+
+        //Refresh your stuff here
+    }
 }

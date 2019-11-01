@@ -18,12 +18,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.chat.ChatActivity;
 import com.appsnipp.loginsamples.R;
+import com.appsnipp.loginsamples.login.LoginActivity;
+import com.appsnipp.loginsamples.model.User_model.ListUserModel;
+import com.appsnipp.loginsamples.model.Project_model.ProjectListResponse;
+import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
+import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.adapter.ProjectItemClicked;
 import com.appsnipp.loginsamples.adapter.ProjectAdapter;
-import com.appsnipp.loginsamples.model.APIClient;
-import com.appsnipp.loginsamples.model.ProjectModel;
-import com.appsnipp.loginsamples.model.RequestAPI;
+import com.appsnipp.loginsamples.model.API.APIClient;
+import com.appsnipp.loginsamples.model.API.RequestAPI;
+import com.appsnipp.loginsamples.utils.SharedPrefs;
+import com.appsnipp.loginsamples.utils.ToastUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -37,6 +44,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
     private FloatingActionButton btn_add;
     private ProjectAdapter mAdapter;
     private ArrayList<ProjectModel> mProjectModelList;
+    private ArrayList<UserModelDetail> mUsermodelDetails;
     ProgressDialog progressDialog;
 
 
@@ -52,12 +60,12 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText("Danh sách Project");
 
+        getlistuser();
         setupRecyclerView();
 
-        getProjectListData();
         showLoading();
 
-        btn_add = (FloatingActionButton) findViewById(R.id.btn_add_project);
+        btn_add = findViewById(R.id.btn_add_project);
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,7 +78,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Create",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(ProjectActivity.this, "Bạn đã tạo project THÀNH CÔNG", Toast.LENGTH_SHORT).show();
+                                new ToastUtil().showToast(getApplicationContext().getString(R.string.create_project_success));
                             }
                         })
                         .setNeutralButton("Cancel",
@@ -85,31 +93,60 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
         });
     }
 
-    private void setupToolBar() {
+/*    private void setupToolBar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Danh sách Project");
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
         setSupportActionBar(toolbar);
-    }
+    }*/
 
     private void getProjectListData() {
+
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<ArrayList<ProjectModel>> call = service.getALLProject();
-        call.enqueue(new Callback<ArrayList<ProjectModel>>() {
+
+        service.getALLProject(token)
+                .enqueue(new Callback<ProjectListResponse>() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<ProjectModel>> call, @NonNull Response<ArrayList<ProjectModel>> response) {
+            public void onResponse(@NonNull Call<ProjectListResponse> call, @NonNull Response<ProjectListResponse> response) {
                 progressDialog.dismiss();
-//                generateDataList(response.body());
-                ArrayList<ProjectModel> models = response.body();
+                ProjectListResponse models = response.body();
                 if (models != null){
-                    mProjectModelList = models;
+                    mProjectModelList = models.getData_project();
                     mAdapter.projectModelList = mProjectModelList;
+                    mAdapter.userModelDetailList=mUsermodelDetails;
                     mAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<ProjectModel>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ProjectListResponse> call, @NonNull Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(ProjectActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void getlistuser() {
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+
+        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+        service.getListUser(token)
+                .enqueue(new Callback<ListUserModel>() {
+            @Override
+            public void onResponse(@NonNull Call<ListUserModel> call, @NonNull Response<ListUserModel> response) {
+                progressDialog.dismiss();
+                ListUserModel models = response.body();
+                if (models != null){
+                    mUsermodelDetails = models.getData();
+                    getProjectListData();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ListUserModel> call, @NonNull Throwable t) {
                 progressDialog.dismiss();
                 Toast.makeText(ProjectActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
@@ -133,13 +170,15 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
     }
 
     @Override
-    public void onItemClicked(int position, ProjectModel model) {
+    public void onItemClickedProject(int position, ProjectModel model) {
 
         Toast.makeText(ProjectActivity.this, model.getId(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra("projectModel", model);
         startActivity(intent);
     }
+
+
     public void addprojectClicked(View view){
         Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);

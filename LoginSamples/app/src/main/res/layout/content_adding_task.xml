@@ -46,8 +46,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="date"
-                android:fontFamily="@font/nunito"/>
+                android:fontFamily="@font/nunito"
+                android:focusable="false"
+                />
 
         </LinearLayout>
         <LinearLayout
@@ -61,11 +62,11 @@
                 android:text="Người được giao:"
                 android:textSize="@dimen/_14ssp"
                 android:fontFamily="@font/nunito"/>
-            <EditText
-                android:id="@+id/task_assignto"
+            <Spinner
+                android:id="@+id/spinner_user_task_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"/>
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,6 +106,7 @@
             android:orientation="horizontal"
             android:gravity="center">
             <Button
+                android:id="@+id/addtask_detail"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:text="Tạo"

@@ -72,13 +72,12 @@
                 tools:text="Planing Poker" />
 
             <TextView
-                android:id="@+id/tv_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:singleLine="true"
                 android:textSize="@dimen/_12ssp"
-                tools:text="This is a example description to test"
+                tools:text=""
                 android:fontFamily="@font/nunito"/>
             <TextView
                 android:id="@+id/tv_userCreate"
@@ -87,7 +86,7 @@
                 android:layout_marginStart="15dp"
                 android:singleLine="true"
                 android:textSize="@dimen/_12ssp"
-                tools:text="Duyen"
+                tools:text="Hieu"
                 android:fontFamily="@font/nunito"/>
 
             <LinearLayout
@@ -112,6 +111,7 @@
             android:fontFamily="@font/nunito"/>
 
         <TextView
+
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="10dp"

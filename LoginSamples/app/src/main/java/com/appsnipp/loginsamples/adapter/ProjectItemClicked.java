@@ -1,7 +1,8 @@
 package com.appsnipp.loginsamples.adapter;
 
-import com.appsnipp.loginsamples.model.ProjectModel;
+import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
 
 public interface ProjectItemClicked {
-    void onItemClicked(int position, ProjectModel model);
+    void onItemClickedProject(int position, ProjectModel model);
+
 }

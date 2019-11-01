@@ -10,22 +10,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.ui.AppBarConfiguration;
 
 import com.appsnipp.loginsamples.chat.ChatActivity;
 import com.appsnipp.loginsamples.conclude.ConcludeActivity;
+import com.appsnipp.loginsamples.login.LoginActivity;
+import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.personal_information.ProfileActivity;
 import com.appsnipp.loginsamples.project.ProjectActivity;
+import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.Serializable;
 
 public class HomeActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 
-    private AppBarConfiguration mAppBarConfiguration;
     DrawerLayout drawer;
+    User userModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        getDataIntent();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -60,6 +68,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
             case R.id.nav_profile: {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                intent.putExtra("usermodel", (Serializable) userModel);
                 startActivity(intent);
                 break;
             }
@@ -67,5 +76,10 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         //close navigation drawer
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void getDataIntent() {
+//        Intent intent = getIntent();
+//        userModel = (User) intent.getSerializableExtra("usermodel");
+        userModel = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class);
     }
 }
