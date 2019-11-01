@@ -1,5 +1,6 @@
 package com.appsnipp.loginsamples.model.API;
 
+import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.Task_model.TaskaddResponse;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
@@ -44,6 +45,14 @@ public interface  RequestAPI {
             @Field("project_id") String project_id,
             @Field("content") String content,
             @Field("user_id") String user_id
+    );
+
+    @POST("create_project")
+    @FormUrlEncoded
+    Call<ProjectAddResponse> addproject(
+            @Header("Authorization") String token,
+            @Field("name") String name,
+            @Field("endDate") String end_date
     );
 
 

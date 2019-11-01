@@ -200,4 +200,7 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
         progressDialog.setMessage("Loading....");
         progressDialog.show();
     }
+    public void backtask_adđtask(View view){
+        finish();
+    }
 }

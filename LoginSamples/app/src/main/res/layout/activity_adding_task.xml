@@ -25,7 +25,9 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:padding="@dimen/_7sdp"
-                android:src="@drawable/ic_arrow_back" />
+                android:src="@drawable/ic_arrow_back"
+                android:onClick="backtask_adđtask"
+                />
 
             <TextView
                 android:id="@+id/toolbar_title"

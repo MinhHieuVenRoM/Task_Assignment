@@ -25,7 +25,8 @@
         <activity android:name=".attendance.AttendanceActivity" />
         <activity android:name=".personal_information.ProfileActivity" />
         <activity android:name=".task.TaskActivity" />
-        <activity android:name=".project.ProjectActivity" />
+        <activity android:name=".project.ProjectActivity"
+            android:theme="@style/Material"/>
         <activity
             android:name=".chat.ChatActivity"
             android:theme="@style/Material" />

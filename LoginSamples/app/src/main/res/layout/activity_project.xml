@@ -43,6 +43,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:focusable="auto"
         android:visibility="visible"
-        app:srcCompat="@drawable/ic_library_add_black_24dp" />
+        app:srcCompat="@drawable/ic_library_add_black_24dp"
+        />
 
 </RelativeLayout>

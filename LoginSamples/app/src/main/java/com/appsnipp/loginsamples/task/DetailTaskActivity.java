@@ -217,5 +217,8 @@ public class DetailTaskActivity extends AppCompatActivity  implements View.OnCli
         }
 
     }
+    public void backtask_detailtask(View view){
+        finish();
+    }
 }
 
