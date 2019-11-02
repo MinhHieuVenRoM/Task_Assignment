@@ -120,3 +120,20 @@ exports.createProject = (name,endDate,user_id) =>
             }
         })
     })
+
+exports.editProjectById = (updates,body_val) =>
+    new Promise((resolve,reject)=>{
+        project.find({_id:body_val["_id"]})
+        .then((projects)=>{
+          let project = projects[0]
+          updates.forEach((update) => project[update] = body_val[update])
+          project.save();
+          return project
+        })
+        //updates.forEach((update) => pro[update] = body_val[update])
+        //pro["name"] = body_val["name"]
+        //pro.save()
+        .then((project)=>resolve({status: 201,message: 'New project has been updated successfully!',data: project }))
+
+        .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
+    })
