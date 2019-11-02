@@ -28,7 +28,7 @@ require('./routes/routes')(router);
 app.use('/api/v1', router);
 
 
-app.listen(port);
+//app.listen(port);
 
 // listen on port 3000
 // app.listen(3000, () => {

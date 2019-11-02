@@ -1,73 +1,76 @@
 'use strict'
 
-const auth = require('basic-auth')
+//const auth = require('basic-auth')
 const jwt = require('jsonwebtoken')
 
-const register = require('../functions/register')
-const login = require('../functions/login')
-const profile = require('../functions/profile')
-const password = require('../functions/password')
+const user = require('../controllers/userController')
+const password = require('../controllers/password')
 const config = require('../config/config.json')
-const project = require('../functions/project')
-const task = require('../functions/task')
+const project = require('../controllers/projectContronller')
+const task = require('../controllers/taskController')
+const authenticate  = require('../middleware/authenticate')
 
 module.exports = router =>{
     router.get('/',(req,res)=> res.end('Welcome to task assignment apps'))
 
     router.post('/authenticate',(req,res)=>{
-        const credentials = auth(req)
+        // const credentials =  auth(req)
 
-        if(!credentials){
-            res.status(400).json({message: 'Invalid request!'})
-        }else{
-            login.loginUser(credentials.name, credentials.pass)
+        // if(!credentials){
+        //     res.status(400).json({message: 'Invalid request!'})
+        // }else{
+            user.loginUser(req.body.email, req.body.pass)
             .then(result =>{
-                const token = jwt.sign(result,'Welcome :))',{expiresIn: 1440})
-                res.status(result.status).json({message: result.message,token: token})
+				
+				res.status(result.status).json({success: true ,message: result.message,data: result.data})
             })
-            .catch(err=>res.status(err.status).json({message: err.message}))
-        }
+            .catch(err=>res.status(err.status).json({success: false,message: err.message,data: {} }))
+        //}
         
-    })
+	})
+	
+    router.post('/users',authenticate, (req, res) => {
 
-    router.post('/users', (req, res) => {
-
-		const name = req.body.name;
-		const email = req.body.email;
-		const password = req.body.password;
+		const name = req.body.name
+		const email = req.body.email
+		const password = req.body.password
+		const sex = req.body.sex
+		const phone = req.body.phone
+		const dob = req.body.dob
 
 		if (!name || !email || !password || !name.trim() || !email.trim() || !password.trim()) {
 
-			res.status(400).json({message: 'Invalid Request !'});
+			res.status(400).json({success: false,message: 'Invalid Request !',data:{}});
 
 		} else {
 
-			register.registerUser(name, email, password)
+			user.registerUser(name, email, password,sex,phone,dob)
 
 			.then(result => {
 
 				res.setHeader('Location', '/users/'+email);
-				res.status(result.status).json({ message: result.message })
+				res.status(result.status).json({ success:true,message:result.message,data: result.data })
 			})
 
-			.catch(err => res.status(err.status).json({ message: err.message }));
+			.catch(err => res.status(err.status).json({success:false, message: err.message, data: {}}));
 		}
 	})
-    
-    router.get('/users/:id', (req,res) => {
 
-		//if (checkToken(req)) {
+    router.get('/users/listUsers',authenticate,(req,res)=>{
+		user.getListUser()
+		.then(result => res.json({success: true,message:"get users successfully",data: result}))
 
-			profile.getProfile(req.params.id)
+		.catch(err => res.status(err.status).json({success:false, message: err.message,data: {} }));
+	})
 
-			.then(result => res.json(result))
+    router.get('/users/:id',authenticate ,(req,res) => {
 
-			.catch(err => res.status(err.status).json({ message: err.message }));
+			user.getProfile(req.params.id)
 
-		//} else {
+			.then(result => res.json({success: true,message:"get profile user successfully",data: result}))
 
-		//	res.status(401).json({ message: 'Invalid Token !' });
-		//}
+			.catch(err => res.status(err.status).json({success: false, message: err.message,data: {} }));
+
     })
     
     router.put('/users/:id', (req,res) => {
@@ -79,7 +82,7 @@ module.exports = router =>{
 
 			if (!oldPassword || !newPassword || !oldPassword.trim() || !newPassword.trim()) {
 
-				res.status(400).json({ message: 'Invalid Request !' });
+				res.status(400).json({ success:false, message: 'Invalid Request !' ,data: {}});
 
 			} else {
 
@@ -146,33 +149,90 @@ module.exports = router =>{
 
 	//Project route
 
-	router.get('/project', (req,res) => {
+	router.get('/project',authenticate ,(req,res) => {
+		const user = req.user
+		project.getAllProjects(user)
 
-		project.getAllProjects()
+		.then(result => res.json({success:true,message:"Get list project successfully",data_project:result}))
 
-		.then(result => res.json(result))
-
-		.catch(err => res.status(err.status).json({ message: err.message }));
+		.catch(err => res.status(err.status).json({success: false, message: err.message, data_project: {} }));
 	})
 	
-	router.get('/project/:id', (req,res) => {
+	router.get('/project/:id',authenticate ,(req,res) => {
 
 
 		project.getProjectById(req.params.id)
 
-		.then(result => res.json(result))
+		.then(result => res.json({success:true,message: "get project successfully",data_project:result}))
 
-		.catch(err => res.status(err.status).json({ message: err.message }));
+		.catch(err => res.status(err.status).json({success:false, message: err.message,data_project: {}}));
 	})
 	
+	router.post('/create_project',authenticate, (req, res) => {
+
+		const name = req.body.name;
+		const endDate = req.body.endDate;
+		const user_id = req.user._id
+		if (!name || !endDate) {
+
+			res.status(400).json({success:false, message: 'Invalid Request !',data_project: {}});
+
+		} else {
+
+			project.createProject(name, endDate,user_id)
+
+			.then(result => {
+
+				res.setHeader('Location', '/create_project/'+name);
+				res.status(result.status).json({success:true, message: result.message,data_project: result.data })
+			})
+
+			.catch(err => res.status(err.status).json({success:false, message: err.message,data_project: {} }));
+		}
+	})
 	//Task route
-	router.get('/task', (req,res) => {
+	router.get('/task', authenticate,(req,res) => {
 
 		task.getAllTask()
 
-		.then(result => res.json(result))
+		.then(result => res.json({success:true,message:"successfully" ,data_task:result}))
 
-		.catch(err => res.status(err.status).json({ message: err.message }));
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data_task: {} }));
+	})
+
+	router.post('/task/get_project_tasks', authenticate,(req,res) => {
+		const project_id = req.body.project_id
+		task.getTaskOfProject(project_id)
+
+		.then(result => res.json({success:true,message:"successfully" ,data_task:result}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data_task: {} }));
+	})
+
+	router.post('/task/create_task',authenticate, (req, res) => {
+
+		const name = req.body.name
+		const end_date = req.body.end_date
+		const project_id = req.body.project_id
+		const content = req.body.content
+		const created_by = req.user._id
+		const user_id = req.body.user_id
+		if (!name || !end_date) {
+
+			res.status(400).json({success:false, message: 'Invalid Request !',data_task: {}});
+
+		} else {
+
+			task.createTask(name,content,project_id,user_id,end_date,created_by)
+
+			.then(result => {
+
+				res.setHeader('Location', '/create_task/'+name);
+				res.status(result.status).json({success:true, message: result.message,data_task: result.data })
+			})
+
+			.catch(err => res.status(err.status).json({success:false, message: err.message,data_task: {} }));
+		}
 	})
 
 }

@@ -5,7 +5,7 @@ var ProjectSchema = new mongoose.Schema({
   created_date: { type: Date, default: Date.now() },
   end_date: Date,
   status: Number,
-  created_by: []
+  created_by: String
 });
 
 module.exports = mongoose.model('project', ProjectSchema,'project');
