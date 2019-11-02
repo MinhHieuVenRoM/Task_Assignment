@@ -60,6 +60,7 @@ exports.registerUser = (name,email,password,sex,phone,dob) =>
         });
 
         newUser.save()
+        //delete newUser.hashed_password
 
         .then(()=>resolve({status: 201,message: 'User registered successfully!',data: newUser}))
 

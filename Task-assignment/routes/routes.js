@@ -29,7 +29,7 @@ module.exports = router =>{
         
 	})
 	
-    router.post('/users',authenticate, (req, res) => {
+    router.post('/users', (req, res) => {
 
 		const name = req.body.name
 		const email = req.body.email
@@ -189,6 +189,16 @@ module.exports = router =>{
 
 			.catch(err => res.status(err.status).json({success:false, message: err.message,data_project: {} }));
 		}
+	})
+
+	router.put('/project/edit_project',authenticate,(req,res)=>{
+		const updates = Object.keys(req.body)
+		const body_val = req.body
+		project.editProjectById(updates,body_val)
+
+		.then(result => res.json({success:true,message:result.message ,data_project:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data_project: {} }));
 	})
 	//Task route
 	router.get('/task', authenticate,(req,res) => {
