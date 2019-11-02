@@ -1,5 +1,6 @@
 package com.appsnipp.loginsamples.model.API;
 
+import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.Task_model.TaskaddResponse;
@@ -61,5 +62,14 @@ public interface  RequestAPI {
             @Header("Authorization") String token
     );
 
-
+    @POST("users")
+    @FormUrlEncoded
+    Call<Register> adduser(
+            @Field("email") String email,
+            @Field("name") String name,
+            @Field("password") String password,
+            @Field("sex") int sex,
+            @Field("dob") String dob,
+            @Field("phone") String phone
+    );
 }

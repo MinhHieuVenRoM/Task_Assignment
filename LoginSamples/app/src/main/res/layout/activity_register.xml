@@ -39,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:orientation="vertical"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp">
 
@@ -49,8 +49,9 @@
                     android:layout_gravity="center"
                     android:text="App G4 UIT"
                     android:textSize="30sp"
-                    android:layout_marginTop="30dp"/>
+                    android:layout_marginTop="@dimen/_10sdp"/>
                 <include
+
                     android:id="@+id/layout_resigter"
                     layout="@layout/layout_register"/>
 
