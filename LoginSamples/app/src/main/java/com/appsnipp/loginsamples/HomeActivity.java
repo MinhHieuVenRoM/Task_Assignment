@@ -17,6 +17,7 @@ import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.personal_information.ProfileActivity;
 import com.appsnipp.loginsamples.project.ProjectActivity;
+import com.appsnipp.loginsamples.user.UserActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.navigation.NavigationView;
 
@@ -60,6 +61,11 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     }
     public void ConcludeClicked(View view){
         Intent intent = new Intent(this, ConcludeActivity.class);
+        startActivity(intent);
+    }
+
+    public void AdminClicked(View view){
+        Intent intent = new Intent(this, UserActivity.class);
         startActivity(intent);
     }
     @Override

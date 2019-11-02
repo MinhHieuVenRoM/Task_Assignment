@@ -47,7 +47,7 @@
                 <TextView
                     style="@style/headerText"
                     android:layout_gravity="center"
-                    android:text="App GESO"
+                    android:text="App G4 UIT"
                     android:textSize="30sp"
                     android:layout_marginTop="30dp"/>
                 <include

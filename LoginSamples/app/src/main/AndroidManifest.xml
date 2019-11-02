@@ -12,11 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".user.DetailUserAdminActivity"></activity>
         <activity
             android:name=".user.UserActivity"
             android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"></activity>
-        <activity android:name=".attendance.AttendanceReportActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity android:name=".attendance.AttendanceReportActivity" />
         <activity android:name=".conclude.ConcludeActivity" />
         <activity
             android:name=".task.DetailTaskActivity"
@@ -29,8 +30,9 @@
         <activity android:name=".attendance.AttendanceActivity" />
         <activity android:name=".personal_information.ProfileActivity" />
         <activity android:name=".task.TaskActivity" />
-        <activity android:name=".project.ProjectActivity"
-            android:theme="@style/Material"/>
+        <activity
+            android:name=".project.ProjectActivity"
+            android:theme="@style/Material" />
         <activity
             android:name=".chat.ChatActivity"
             android:theme="@style/Material" />
@@ -44,7 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity" />
     </application>
 
 </manifest>

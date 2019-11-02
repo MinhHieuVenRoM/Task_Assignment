@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avatar"/>
+                android:src="@drawable/avataruser"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -44,11 +44,12 @@
         <!--            tools:text="100%"-->
         <!--            android:fontFamily="@font/nunito"/>-->
         <LinearLayout
+            android:id="@+id/ln_trangthaiuser"
             android:layout_width="350dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="40dp"
-            android:background="@drawable/user_background_shape_status"
+            android:background="@drawable/user_background_shape_status_active"
             android:orientation="vertical">
 
             <LinearLayout
@@ -60,7 +61,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/emp_name"
+                    android:id="@+id/tv_emp_name"
                     android:layout_width="214dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
@@ -71,7 +72,7 @@
                     tools:text="Nguyễn Minh Khuê" />
 
                 <TextView
-                    android:id="@+id/user_name"
+                    android:id="@+id/tv_role"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
@@ -79,7 +80,7 @@
                     android:singleLine="true"
                     android:textColor="#FCFCFC"
                     android:textSize="@dimen/_12ssp"
-                    tools:text="khuegay" />
+                    tools:text="admin" />
                 <!--            <TextView-->
                 <!--                android:id="@+id/tv_userCreate"-->
                 <!--                android:layout_width="wrap_content"-->

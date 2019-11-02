@@ -3,7 +3,9 @@ package com.appsnipp.loginsamples.model.User_model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserModelDetail {
+import java.io.Serializable;
+
+public class UserModelDetail  implements Serializable {
     @SerializedName("role")
     @Expose
     private Integer role;

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.UserActivity">
+    tools:context=".user.UserActivity"
+    android:focusableInTouchMode="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -54,6 +55,7 @@
 
     <include
         layout="@layout/recyclerview_layout"
+        android:id="@+id/rv_managementuser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/_85sdp"
@@ -69,6 +71,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:focusable="auto"
         android:visibility="visible"
-        app:srcCompat="@drawable/ic_library_add_black_24dp" />
+        app:srcCompat="@drawable/ic_library_add_black_24dp"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -46,7 +46,7 @@ tools:context="com.appsnipp.loginsamples.login.LoginActivity">
             <TextView
                 style="@style/headerText"
                 android:layout_gravity="center"
-                android:text="App GESO"
+                android:text="App G4 UIT"
                 android:layout_marginTop="40dp"/>
 
             <include
