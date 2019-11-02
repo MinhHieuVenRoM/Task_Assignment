@@ -227,7 +227,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
         String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.addproject(token, name, end_Date)
+        service.addproject(token, name,setendate(end_Date) )
                 .enqueue(new Callback<ProjectAddResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ProjectAddResponse> call, @NonNull Response<ProjectAddResponse> response) {
@@ -246,5 +246,9 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                     }
                 });
     }
-
+    private String setendate(String trim) {
+        String []date=trim.split("-");
+        String dob=date[2]+"-"+date[1]+"-"+date[0];
+        return dob;
+    }
 }

@@ -164,7 +164,7 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
 
 
             RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-            service.addtask(token,task_name.getText().toString(),task_deadline.getText().toString(),modelproject.getId(),task_detail.getText().toString(),iduser[0])
+            service.addtask(token,task_name.getText().toString(),setendate(task_deadline.getText().toString()),modelproject.getId(),task_detail.getText().toString(),iduser[0])
                     .enqueue(new Callback<TaskaddResponse>() {
                         @Override
                         public void onResponse(@NonNull Call<TaskaddResponse> call, @NonNull Response<TaskaddResponse> response) {
@@ -202,5 +202,10 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
     }
     public void backtask_adđtask(View view){
         finish();
+    }
+    private String setendate(String trim) {
+        String []date=trim.split("-");
+        String dob=date[2]+"-"+date[1]+"-"+date[0];
+        return dob;
     }
 }
