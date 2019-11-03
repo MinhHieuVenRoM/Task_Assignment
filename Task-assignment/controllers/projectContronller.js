@@ -130,9 +130,7 @@ exports.editProjectById = (updates,body_val) =>
           project.save();
           return project
         })
-        //updates.forEach((update) => pro[update] = body_val[update])
-        //pro["name"] = body_val["name"]
-        //pro.save()
+
         .then((project)=>resolve({status: 201,message: 'New project has been updated successfully!',data: project }))
 
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))

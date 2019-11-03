@@ -82,17 +82,32 @@ exports.getListUser = () =>
 
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })
-    exports.editUserById = (updates,body_val) =>
+
+exports.editUserById = (updates,body_val) =>
     new Promise((resolve,reject)=>{
-        task.find({_id:body_val["_id"]})
+        user.find({_id:body_val["_id"]})
         .then((users)=>{
           let user = users[0]
           updates.forEach((update) => user[update] = body_val[update])
+
+          if(body_val["password"] && body_val["new_password"]){
+
+            if(bcrypt.compareSync(body_val["password"],user.hashed_password)){
+                const salt = bcrypt.genSaltSync(10);
+                const hash = bcrypt.hashSync(body_val["new_password"],salt)
+                user.hashed_password = hash
+    
+                //return user.save()
+            }else{
+                reject({ status: 401, message: 'Invalid Old Password !' })
+            }
+          }
+          
           user.save();
           return user
         })
 
-        .then((users)=>resolve({status: 201,message: 'New Task has been updated successfully!',data: users }))
+        .then((user)=>resolve({status: 201,message: 'User has been updated successfully!',data: user }))
 
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })

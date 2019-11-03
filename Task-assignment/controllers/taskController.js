@@ -98,7 +98,8 @@ exports.createTask = (name,content,project_id,user_id,end_date,created_by) =>
             }
         })
     })
-    exports.editTaskById = (updates,body_val) =>
+
+exports.editTaskById = (updates,body_val) =>
     new Promise((resolve,reject)=>{
         task.find({_id:body_val["_id"]})
         .then((tasks)=>{
@@ -108,7 +109,7 @@ exports.createTask = (name,content,project_id,user_id,end_date,created_by) =>
           return task
         })
 
-        .then((task)=>resolve({status: 201,message: 'New Task has been updated successfully!',data: task }))
+        .then((task)=>resolve({status: 201,message: 'The task has been updated successfully!',data: task }))
 
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })

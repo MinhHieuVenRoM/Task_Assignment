@@ -73,79 +73,89 @@ module.exports = router =>{
 
     })
     
-    router.put('/users/:id', (req,res) => {
+    // router.put('/users/:id', (req,res) => {
 
-		if (checkToken(req)) {
+	// 	if (checkToken(req)) {
 
-			const oldPassword = req.body.password;
-			const newPassword = req.body.newPassword;
+	// 		const oldPassword = req.body.password;
+	// 		const newPassword = req.body.newPassword;
 
-			if (!oldPassword || !newPassword || !oldPassword.trim() || !newPassword.trim()) {
+	// 		if (!oldPassword || !newPassword || !oldPassword.trim() || !newPassword.trim()) {
 
-				res.status(400).json({ success:false, message: 'Invalid Request !' ,data: {}});
+	// 			res.status(400).json({ success:false, message: 'Invalid Request !' ,data: {}});
 
-			} else {
+	// 		} else {
 
-				password.changePassword(req.params.id, oldPassword, newPassword)
+	// 			password.changePassword(req.params.id, oldPassword, newPassword)
 
-				.then(result => res.status(result.status).json({ message: result.message }))
+	// 			.then(result => res.status(result.status).json({ message: result.message }))
 
-				.catch(err => res.status(err.status).json({ message: err.message }));
+	// 			.catch(err => res.status(err.status).json({ message: err.message }));
 
-			}
-		} else {
+	// 		}
+	// 	} else {
 
-			res.status(401).json({ message: 'Invalid Token !' });
-		}
-    })
+	// 		res.status(401).json({ message: 'Invalid Token !' });
+	// 	}
+    // })
     
-    router.post('/users/:id/password', (req,res) => {
+    // router.post('/users/:id/password', (req,res) => {
 
-		const email = req.params.id;
-		const token = req.body.token;
-		const newPassword = req.body.password;
+	// 	const email = req.params.id;
+	// 	const token = req.body.token;
+	// 	const newPassword = req.body.password;
 
-		if (!token || !newPassword || !token.trim() || !newPassword.trim()) {
+	// 	if (!token || !newPassword || !token.trim() || !newPassword.trim()) {
 
-			password.resetPasswordInit(email)
+	// 		password.resetPasswordInit(email)
 
-			.then(result => res.status(result.status).json({ message: result.message }))
+	// 		.then(result => res.status(result.status).json({ message: result.message }))
 
-			.catch(err => res.status(err.status).json({ message: err.message }));
+	// 		.catch(err => res.status(err.status).json({ message: err.message }));
 
-		} else {
+	// 	} else {
 
-			password.resetPasswordFinish(email, token, newPassword)
+	// 		password.resetPasswordFinish(email, token, newPassword)
 
-			.then(result => res.status(result.status).json({ message: result.message }))
+	// 		.then(result => res.status(result.status).json({ message: result.message }))
 
-			.catch(err => res.status(err.status).json({ message: err.message }));
-		}
-	});
+	// 		.catch(err => res.status(err.status).json({ message: err.message }));
+	// 	}
+	// });
 
 
-    function checkToken(req) {
+    // function checkToken(req) {
 
-		const token = req.headers['x-access-token'];
+	// 	const token = req.headers['x-access-token'];
 
-		if (token) {
+	// 	if (token) {
 
-			try {
+	// 		try {
 
-  				var decoded = jwt.verify(token, config.secret);
+  	// 			var decoded = jwt.verify(token, config.secret);
 
-  				return decoded.message === req.params.id;
+  	// 			return decoded.message === req.params.id;
 
-			} catch(err) {
+	// 		} catch(err) {
 
-				return false;
-			}
+	// 			return false;
+	// 		}
 
-		} else {
+	// 	} else {
 
-			return false;
-		}
-	}
+	// 		return false;
+	// 	}
+	// }
+
+	router.put('/users/edit_user',authenticate,(req,res)=>{
+		const updates = Object.keys(req.body)
+		const body_val = req.body
+		user.editUserById(updates,body_val)
+
+		.then(result => res.json({success:true,message:result.message ,data_users:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data_users: {} }));
+	})
 
 	//Project route
 
@@ -210,15 +220,7 @@ module.exports = router =>{
 
 		.catch(err => res.status(err.status).json({success:false, message: err.message, data_task: {} }));
 	})
-	router.put('/users/edit_users',authenticate,(req,res)=>{
-		const updates = Object.keys(req.body)
-		const body_val = req.body
-		user.editUserById(updates,body_val)
-
-		.then(result => res.json({success:true,message:result.message ,data_users:result.data}))
-
-		.catch(err => res.status(err.status).json({success:false, message: err.message, data_users: {} }));
-	})
+	
 	router.get('/task', authenticate,(req,res) => {
 
 		task.getAllTask()
