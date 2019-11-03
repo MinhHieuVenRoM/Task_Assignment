@@ -98,3 +98,17 @@ exports.createTask = (name,content,project_id,user_id,end_date,created_by) =>
             }
         })
     })
+    exports.editTaskById = (updates,body_val) =>
+    new Promise((resolve,reject)=>{
+        task.find({_id:body_val["_id"]})
+        .then((tasks)=>{
+          let task = tasks[0]
+          updates.forEach((update) => task[update] = body_val[update])
+          task.save();
+          return task
+        })
+
+        .then((task)=>resolve({status: 201,message: 'New Task has been updated successfully!',data: task }))
+
+        .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
+    })

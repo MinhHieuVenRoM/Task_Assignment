@@ -82,3 +82,17 @@ exports.getListUser = () =>
 
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })
+    exports.editUserById = (updates,body_val) =>
+    new Promise((resolve,reject)=>{
+        task.find({_id:body_val["_id"]})
+        .then((users)=>{
+          let user = users[0]
+          updates.forEach((update) => user[update] = body_val[update])
+          user.save();
+          return user
+        })
+
+        .then((users)=>resolve({status: 201,message: 'New Task has been updated successfully!',data: users }))
+
+        .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
+    })

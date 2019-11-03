@@ -201,6 +201,24 @@ module.exports = router =>{
 		.catch(err => res.status(err.status).json({success:false, message: err.message, data_project: {} }));
 	})
 	//Task route
+	router.put('/task/edit_task',authenticate,(req,res)=>{
+		const updates = Object.keys(req.body)
+		const body_val = req.body
+		task.editTaskById(updates,body_val)
+
+		.then(result => res.json({success:true,message:result.message ,data_task:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data_task: {} }));
+	})
+	router.put('/users/edit_users',authenticate,(req,res)=>{
+		const updates = Object.keys(req.body)
+		const body_val = req.body
+		user.editUserById(updates,body_val)
+
+		.then(result => res.json({success:true,message:result.message ,data_users:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data_users: {} }));
+	})
 	router.get('/task', authenticate,(req,res) => {
 
 		task.getAllTask()
