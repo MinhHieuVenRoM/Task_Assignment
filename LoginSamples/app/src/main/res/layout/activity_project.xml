@@ -16,7 +16,8 @@
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:padding="@dimen/_7sdp"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_back"
+            android:onClick="back_home_project"/>
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -58,8 +59,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:focusable="auto"
-        android:visibility="visible"
+        android:visibility="gone"
         app:srcCompat="@drawable/ic_library_add_black_24dp"
+
         />
 
 </RelativeLayout>

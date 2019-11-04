@@ -24,10 +24,24 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void getdatauser() {
         tv_full_name.setText(modeluser.getName());
-        tv_userrole.setText(modeluser.getRole().toString());
+
+        if(modeluser.getRole()==0)
+        {
+            tv_userrole.setText("Admin");
+        }else {
+            tv_userrole.setText("User");
+        }
         tv_email.setText(modeluser.getEmail());
-        tv_sex.setText(modeluser.getSex().toString());
-        tv_birthday.setText(modeluser.getDob());
+
+        if(modeluser.getSex()==0)
+        {
+
+            tv_sex.setText("Male");
+        }else {
+
+            tv_sex.setText("Female");
+        }
+        tv_birthday.setText(setendate(modeluser.getDob()));
         tv_mobile.setText((modeluser.getPhone()));
 
     }
@@ -46,5 +60,10 @@ public class ProfileActivity extends AppCompatActivity {
     private void getDataIntent() {
         Intent intent = getIntent();
         modeluser = (User) intent.getSerializableExtra("usermodel");
+    }
+    private String setendate(String trim) {
+        String[] date = trim.split("-");
+        String dob = date[2] + "-" + date[1] + "-" + date[0];
+        return dob;
     }
 }

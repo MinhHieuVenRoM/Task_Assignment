@@ -1,6 +1,5 @@
 package com.appsnipp.loginsamples.task;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -22,10 +21,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
+import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
 import com.appsnipp.loginsamples.model.Task_model.TaskaddResponse;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
-import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
@@ -149,45 +148,43 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
         }
         if (v == btnadd) {
             showLoading();
-            String s=task_name.getText().toString();
-            if(task_name.getText().toString().equals("")    ||task_deadline.getText().toString().equals("")  ||task_detail.getText().toString().equals("")  ||iduser[0].equals("") )
-            {
+            String s = task_name.getText().toString();
+            if (task_name.getText().toString().equals("") || task_deadline.getText().toString().equals("") || task_detail.getText().toString().equals("") || iduser[0].equals("")) {
 
                 Toast.makeText(AddingTaskActivity.this, "Error Input !", Toast.LENGTH_SHORT).show();
 
 
-            }else{
+            } else {
 
 
-            String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
 
+                RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+                service.addtask(token, task_name.getText().toString(), setendate(task_deadline.getText().toString()), modelproject.getId(), task_detail.getText().toString(), iduser[0])
+                        .enqueue(new Callback<TaskaddResponse>() {
+                            @Override
+                            public void onResponse(@NonNull Call<TaskaddResponse> call, @NonNull Response<TaskaddResponse> response) {
+                                progressDialog.dismiss();
+                                TaskaddResponse models = response.body();
+                                if (models != null) {
 
-            RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-            service.addtask(token,task_name.getText().toString(),setendate(task_deadline.getText().toString()),modelproject.getId(),task_detail.getText().toString(),iduser[0])
-                    .enqueue(new Callback<TaskaddResponse>() {
-                        @Override
-                        public void onResponse(@NonNull Call<TaskaddResponse> call, @NonNull Response<TaskaddResponse> response) {
-                            progressDialog.dismiss();
-                            TaskaddResponse models = response.body();
-                            if (models != null) {
+                                    Toast.makeText(AddingTaskActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                                    if (models.getSuccess() == true) {
+                                        finish();
+                                    }
 
-                                Toast.makeText(AddingTaskActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
-                                if(models.getSuccess()==true){
-                                    finish();
                                 }
-
                             }
-                        }
 
-                        @Override
-                        public void onFailure(@NonNull Call<TaskaddResponse> call, @NonNull Throwable t) {
-                            Toast.makeText(AddingTaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(@NonNull Call<TaskaddResponse> call, @NonNull Throwable t) {
+                                Toast.makeText(AddingTaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
 
-}
+            }
         }
 
     }

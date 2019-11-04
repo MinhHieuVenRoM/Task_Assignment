@@ -45,7 +45,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
 
 
         public void initData(final ProjectModel projectModel) {
-            if (projectModel.getStatus() == 1) {
+            if (projectModel.getStatus() == 0) {
                 tv_project_state.setText("OPEN");
             } else {
                 tv_project_state.setText("DONE");

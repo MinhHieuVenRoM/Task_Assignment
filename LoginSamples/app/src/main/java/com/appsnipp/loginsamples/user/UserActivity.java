@@ -115,4 +115,14 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
         intent.putExtra("usermodel", model);
         startActivity(intent);
     }
+    @Override
+    public void onResume() {  // After a pause OR at startup
+        super.onResume();
+
+        setupRecyclerView();
+        getlistuser();
+
+
+        //Refresh your stuff here
+    }
 }

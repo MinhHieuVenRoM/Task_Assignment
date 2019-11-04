@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".user.DetailUserAdminActivity"></activity>
+        <activity android:name=".user.EditUserAdminActivity"></activity>
+        <activity android:name=".user.DetailUserAdminActivity" />
         <activity
             android:name=".user.UserActivity"
             android:label="@string/title_activity_user"
@@ -29,7 +30,8 @@
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity android:name=".attendance.AttendanceActivity" />
         <activity android:name=".personal_information.ProfileActivity" />
-        <activity android:name=".task.TaskActivity" />
+        <activity android:name=".task.TaskActivity"
+            android:theme="@style/Material"/>
         <activity
             android:name=".project.ProjectActivity"
             android:theme="@style/Material" />

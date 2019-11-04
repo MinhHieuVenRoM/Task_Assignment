@@ -57,6 +57,13 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
+        btn_add = findViewById(R.id.btn_add_project);
+        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
+        if(role==0){
+
+            btn_add.setVisibility(View.VISIBLE);
+
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Danh sách Project");
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
@@ -71,7 +78,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
 
         showLoading();
 
-        btn_add = findViewById(R.id.btn_add_project);
+
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,7 +234,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
         String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.addproject(token, name,setendate(end_Date) )
+        service.addproject(token, name, setendate(end_Date))
                 .enqueue(new Callback<ProjectAddResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ProjectAddResponse> call, @NonNull Response<ProjectAddResponse> response) {
@@ -246,9 +253,28 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                     }
                 });
     }
+
     private String setendate(String trim) {
-        String []date=trim.split("-");
-        String dob=date[2]+"-"+date[1]+"-"+date[0];
+        String[] date = trim.split("-");
+        String dob = date[2] + "-" + date[1] + "-" + date[0];
         return dob;
+    }
+
+    public void back_home_project(View view) {
+
+        finish();
+
+
+    }
+
+    @Override
+    public void onResume() {  // After a pause OR at startup
+        super.onResume();
+
+        setupRecyclerView();
+        getProjectListData();
+
+
+        //Refresh your stuff here
     }
 }

@@ -1,11 +1,8 @@
 package com.appsnipp.loginsamples.model.Task_model;
-
         import com.google.gson.annotations.Expose;
         import com.google.gson.annotations.SerializedName;
 
-        import java.io.Serializable;
-
-public class TaskaddResponse implements Serializable {
+public class EditTaskModel {
 
     @SerializedName("success")
     @Expose

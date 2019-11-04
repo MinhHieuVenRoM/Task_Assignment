@@ -21,7 +21,7 @@ import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import java.util.Calendar;
 
 public class DetailUserAdminActivity extends AppCompatActivity implements View.OnClickListener {
-    String[] status_item = { "Inactive","Active"};
+    String[] status_item = {"Active", "Inactive"};
     String[] role_item = {"Admin", "User"};
     Spinner spinner;
     ArrayAdapter<String> spinnerAdapter;
@@ -29,7 +29,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
     ArrayAdapter<String> spinnerAdapterstatus;
     UserModelDetail modeluser;
     private int mYear, mMonth, mDay;
-    private AppCompatTextView  tv_full_name,tv_birthday,tv_email,tv_sex,tv_mobile;
+    private AppCompatTextView  tv_full_name,tv_birthday,tv_email,tv_sex,tv_mobile,tv_role_detail_admin,tv_detail_status_admin,tv_edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,68 +39,45 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         getDataIntent();
         getbyid();
         tv_birthday.setOnClickListener(this);
-        setOptionSpinnerrole(modeluser.getRole());
-        setOptionSpinnerstatus(modeluser.getStatus());
+        tv_edit.setOnClickListener(this);
         Setdatauser();
 
     }
 
     private void Setdatauser() {
         tv_full_name.setText(modeluser.getName());
-        tv_birthday.setText(modeluser.getDob());
+        tv_birthday.setText(getdate(modeluser.getDob()));
         tv_email.setText(modeluser.getEmail());
         tv_mobile.setText(modeluser.getPhone());
-        tv_sex.setText(modeluser.getSex().toString());
+        if(modeluser.getSex()==0){
+            tv_sex.setText("Male");
+        }else {
+            tv_sex.setText("Female");
+        }
+        if(modeluser.getRole()==0){
+            tv_role_detail_admin.setText("Admin");
+        }else {
+            tv_role_detail_admin.setText("User");
+        }
+        if(modeluser.getStatus()==1){
+            tv_detail_status_admin.setText("Active");
+        }else {
+            tv_detail_status_admin.setText("InActive");
+        }
+
     }
 
     private void getbyid() {
-        tv_full_name=findViewById(R.id.tv_full_name_detail);
-        tv_birthday=findViewById(R.id.tv_birthday_detail);
-        tv_email=findViewById(R.id.tv_email_detail);
-        tv_mobile=findViewById(R.id.tv_mobile_detail);
+        tv_full_name=findViewById(R.id.tv_full_name_detail_admin);
+        tv_birthday=findViewById(R.id.tv_birthday_detail_admin);
+        tv_email=findViewById(R.id.tv_email_detail_admin);
+        tv_mobile=findViewById(R.id.tv_mobile_detail_admin);
         tv_sex=findViewById(R.id.tv_sex_detail);
-
+        tv_role_detail_admin=findViewById(R.id.tv_role_detail_admin);
+        tv_detail_status_admin=findViewById(R.id.tv_detail_status_admin_);
+        tv_edit=findViewById(R.id.tv_edit_admin);
     }
 
-
-    private void setOptionSpinnerrole(int position) {
-        spinner = (Spinner) findViewById(R.id.spinner_user_role);
-        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,role_item );
-
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
-        spinner.setSelection(position);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-    private void setOptionSpinnerstatus(int position) {
-        spinnerstatus = (Spinner) findViewById(R.id.spinner_user_status);
-        spinnerAdapterstatus = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,status_item );
-
-        spinnerAdapterstatus.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerstatus.setAdapter(spinnerAdapterstatus);
-        spinnerstatus.setSelection(position);
-        spinnerstatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
     private void getDataIntent() {
 
         Intent intent = getIntent();
@@ -131,5 +108,18 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
+        if(v==tv_edit){
+
+            Intent intent = new Intent(this, EditUserAdminActivity.class);
+            intent.putExtra("usermodel", modeluser);
+            startActivity(intent);
+
+
+        }
+    }
+    private String getdate(String trim) {
+        String[] date = trim.split("-");
+        String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
+        return dob;
     }
 }

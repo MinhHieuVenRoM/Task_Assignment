@@ -32,8 +32,8 @@
     <string name="task">Task</string>
     <string name="create_project_success">Bạn đã tạo project thành công</string>
     <string name="creae_new_project">Create new project</string>
-    <string name="end_date">Ngày kết thúc</string>
-    <string name="project_name">Tên project</string>
+    <string name="end_date">End Date</string>
+    <string name="project_name">Project Name</string>
     <string name="title_activity_user">UserActivity</string>
     <string name="status">Status</string>
 </resources>

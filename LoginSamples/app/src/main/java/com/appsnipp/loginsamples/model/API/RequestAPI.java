@@ -1,13 +1,18 @@
 package com.appsnipp.loginsamples.model.API;
 
+import android.text.Editable;
+
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
+import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
+import com.appsnipp.loginsamples.model.Task_model.EditTaskModel;
 import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.Task_model.TaskaddResponse;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.Login.Login;
 import com.appsnipp.loginsamples.model.Project_model.ProjectListResponse;
 import com.appsnipp.loginsamples.model.Task_model.TaskListResponse;
+import com.appsnipp.loginsamples.model.User_model.UserEditModel;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -15,6 +20,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface  RequestAPI {
 
@@ -72,4 +78,41 @@ public interface  RequestAPI {
             @Field("dob") String dob,
             @Field("phone") String phone
     );
+
+    @PUT("project/edit_project")
+    @FormUrlEncoded
+    Call<Project_edit_model> editproject(
+            @Header("Authorization") String token,
+            @Field("_id") String _id,
+            @Field("name") String name,
+            @Field("end_date") String end_date,
+            @Field("status") int status
+    );
+
+
+    @PUT("users/edit_user")
+    @FormUrlEncoded
+    Call<UserEditModel> edituser(
+            @Header("Authorization") String token,
+            @Field("_id") String _id,
+            @Field("phone") String phone,
+            @Field("dob") String dob ,
+            @Field("sex") int sex,
+            @Field("role") int role,
+            @Field("status") int status
+    );
+
+    @PUT("task/edit_task")
+    @FormUrlEncoded
+    Call<EditTaskModel> edittask(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id,
+            @Field("end_date") String end_date,
+            @Field("_id") String _id ,
+            @Field("content") Editable content,
+            @Field("status") int status,
+            @Field("name") String name
+    );
+
+
 }

@@ -41,12 +41,12 @@
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
-            android:id="@+id/rl_edit_profile"
+            android:id="@+id/rl_edit_profile_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_background"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="13dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -61,12 +61,12 @@
                 android:tint="@color/colorPrimaryDark" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_edit_admin"
+                android:id="@+id/tv_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_edit"
                 android:gravity="center"
-                android:text="Edit\nprofile"
+                android:text="Save \n Information"
                 android:textColor="#B3000000"
                 android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
@@ -117,20 +117,20 @@
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_full_name_detail_admin"
+            android:id="@+id/tv_full_name_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_upload"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_12ssp"
+            android:text="Nguyễn Minh Khuê"
             android:textColor="#000"
-            android:textSize="30sp"
-            tools:text="Nguyễn Minh Khuê" />
+            android:textSize="30sp" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tv_full_name_detail_admin">
+            android:layout_below="@id/tv_full_name_edit">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -142,10 +142,11 @@
                     style="@style/TextViewTitle"
                     android:text="Role" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_role_detail_admin"
-                    style="@style/TextViewContent"
-                    tools:text="admin" />
+                <Spinner
+                    android:id="@+id/spinner_user_role_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
@@ -153,29 +154,30 @@
                     android:text="@string/action_email" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_email_detail_admin"
+                    android:id="@+id/tv_email_edit_admin"
                     style="@style/TextViewContent"
-                    android:text="MinhKhue@gmail.com" />
+                    tools:text="MinhKhue@gmail.com" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/mobile" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_mobile_detail_admin"
+                <EditText
+                    android:id="@+id/tv_mobile_edit_admin"
                     style="@style/TextViewContent"
-                    tools:text="0123456789" />
+                    android:text="0123456789" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/sex" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_sex_detail"
-                    style="@style/TextViewContent"
-                    tools:text="Male" />
+
+                <Spinner
+                    android:id="@+id/spinner_user_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
@@ -184,21 +186,22 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
 
-                    android:id="@+id/tv_birthday_detail_admin"
+                    android:id="@+id/tv_birthday_edit_admin"
                     style="@style/TextViewContent"
                     tools:text="01/10/1997" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="@string/status" />
-                <androidx.appcompat.widget.AppCompatTextView
 
-                    android:id="@+id/tv_detail_status_admin_"
-                    style="@style/TextViewContent"
-                    tools:text="01/10/1997" />
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextViewTitle"
-                    />
+                <Spinner
+                    android:id="@+id/spinner_user_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp" />
+
+                <androidx.appcompat.widget.AppCompatTextView style="@style/TextViewTitle" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </ScrollView>
