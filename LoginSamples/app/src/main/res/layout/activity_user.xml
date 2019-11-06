@@ -21,7 +21,8 @@
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:padding="@dimen/_10sdp"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_back"
+            android:onClick="back_home_list_user"/>
 
         <TextView
             android:id="@+id/toolbar_title_task"

@@ -125,4 +125,8 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
 
         //Refresh your stuff here
     }
+
+    public void back_home_list_user(View view) {
+        finish();
+    }
 }

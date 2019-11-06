@@ -77,6 +77,8 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         deadline = deadline.replace("-", "/");
         tv_hancuoitask.setText(getdate(deadline));
 
+
+
         et_task_detail = findViewById(R.id.et_task_detail);
         et_task_detail.setText(model.getContent());
         tv_hancuoitask.setOnClickListener(this);
@@ -301,7 +303,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         return dob;
     }
     private String getdate(String trim) {
-        String[] date = trim.split("-");
+        String[] date = trim.split("/");
         String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
         return dob;
     }

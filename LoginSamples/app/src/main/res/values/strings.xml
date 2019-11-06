@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UIT</string>
+    <string name="app_name">App quản lý thực tập</string>
     <string name="register">REGISTER</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
@@ -36,4 +36,5 @@
     <string name="project_name">Project Name</string>
     <string name="title_activity_user">UserActivity</string>
     <string name="status">Status</string>
+    <string name="summary">Summary</string>
 </resources>
