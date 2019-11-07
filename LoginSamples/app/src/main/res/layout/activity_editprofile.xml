@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/profile_tool_bar"
@@ -20,7 +21,7 @@
         <View
             android:id="@+id/rl_background"
             android:layout_width="match_parent"
-            android:layout_height="146dp"
+            android:layout_height="@dimen/_100sdp"
             android:background="@color/colorPrimary" />
 
         <androidx.cardview.widget.CardView
@@ -40,12 +41,12 @@
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
-            android:id="@+id/rl_edit_profile"
+            android:id="@+id/rl_edit_profile_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_background"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="13dp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -60,12 +61,12 @@
                 android:tint="@color/colorPrimaryDark" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/btn_edit_user"
+                android:id="@+id/tv_edit_save_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_edit"
                 android:gravity="center"
-                android:text="Edit\nprofile"
+                android:text="Save \n Information"
                 android:textColor="#B3000000"
                 android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
@@ -84,20 +85,20 @@
             android:padding="@dimen/_5sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_change_password"
+                android:id="@+id/iv_cancel_edit"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/icon_update"
-                android:tint="@color/colorPrimaryDark" />
+                android:src="@drawable/icon_cancel"
+             />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_change_password"
+                android:id="@+id/tv_change_password_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_change_password"
+                android:layout_below="@id/iv_cancel_edit"
                 android:gravity="center"
-                android:text="Change\npassword"
+                android:text="Cancel \nEdit"
                 android:textColor="#B3000000"
                 android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
@@ -116,24 +117,24 @@
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_full_name_user_edit"
+            android:id="@+id/tv_full_name_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_upload"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_12ssp"
+            android:text="Nguyễn Minh Khuê"
             android:textColor="#000"
-            android:textSize="30sp"
-            android:text="Nguyễn Minh Khuê" />
+            android:textSize="30sp" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tv_full_name_user_edit">
+            android:layout_below="@id/tv_full_name_edit">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="@dimen/_15sdp"
                 android:orientation="vertical">
 
@@ -142,7 +143,7 @@
                     android:text="Role" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_userrole"
+                    android:id="@+id/tv_userrole_edituser"
                     style="@style/TextViewContent"
                     tools:text="Admin" />
 
@@ -152,17 +153,17 @@
                     android:text="@string/action_email" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_email"
+                    android:id="@+id/tv_email_edit_user"
                     style="@style/TextViewContent"
-                    android:text="MinhKhue@gmail.com" />
+                    tools:text="MinhKhue@gmail.com" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/mobile" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_mobile"
+                <EditText
+                    android:id="@+id/et_mobile_edit_user"
                     style="@style/TextViewContent"
                     android:text="0123456789" />
 
@@ -171,10 +172,11 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/sex" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_sex"
-                    style="@style/TextViewContent"
-                    android:text="Male" />
+
+                <Spinner
+                    android:id="@+id/spinner_user_sex_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
@@ -182,9 +184,13 @@
                     android:text="@string/birthday" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_birthday"
+
+                    android:id="@+id/tv_birthday_edit_user"
                     style="@style/TextViewContent"
-                    android:text="01/10/1997" />
+                    tools:text="01/10/1997" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView style="@style/TextViewTitle" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </ScrollView>
