@@ -2,11 +2,11 @@ package com.appsnipp.loginsamples.model.API;
 
 import android.text.Editable;
 
+import com.appsnipp.loginsamples.model.Attendance.Attendance;
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
 import com.appsnipp.loginsamples.model.Task_model.EditTaskModel;
-import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.Task_model.TaskaddResponse;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.Login.Login;
@@ -101,6 +101,15 @@ public interface  RequestAPI {
             @Field("role") int role,
             @Field("status") int status
     );
+    @PUT("users/edit_user")
+    @FormUrlEncoded
+    Call<UserEditModel> changepassword(
+            @Header("Authorization") String token,
+            @Field("_id") String _id,
+            @Field("name") String name,
+            @Field("password") String password ,
+            @Field("new_password") String new_password
+    );
 
     @PUT("task/edit_task")
     @FormUrlEncoded
@@ -114,5 +123,17 @@ public interface  RequestAPI {
             @Field("name") String name
     );
 
+    @PUT("attendance/check_in")
+    @FormUrlEncoded
+    Call<Attendance> Attendance(
+            @Header("Authorization") String token,
+            @Field("date") String date
+    );
+    @PUT("attendance/check_out")
+    @FormUrlEncoded
+    Call<Attendance> Attendancecheckout(
+            @Header("Authorization") String token,
+            @Field("date") String date
+    );
 
 }
