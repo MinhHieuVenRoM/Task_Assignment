@@ -38,19 +38,19 @@
 
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/tv_percent"
-            android:layout_width="32dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="47dp"
-            android:layout_marginTop="64dp"
-            android:background="@drawable/background_completion_project"
-            android:singleLine="true"
-            android:textSize="10dp"
-            android:gravity="center"
-            android:elevation="2dp"
-            tools:text="100%"
-            android:fontFamily="@font/nunito"/>
+<!--        <TextView-->
+<!--            android:id="@+id/tv_percent"-->
+<!--            android:layout_width="32dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="47dp"-->
+<!--            android:layout_marginTop="64dp"-->
+<!--            android:background="@drawable/background_completion_project"-->
+<!--            android:singleLine="true"-->
+<!--            android:textSize="10dp"-->
+<!--            android:gravity="center"-->
+<!--            android:elevation="2dp"-->
+<!--            tools:text="100%"-->
+<!--            android:fontFamily="@font/nunito"/>-->
 
         <LinearLayout
             android:layout_width="wrap_content"

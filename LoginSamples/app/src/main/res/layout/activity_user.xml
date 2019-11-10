@@ -62,17 +62,17 @@
         android:layout_marginTop="@dimen/_85sdp"
         android:layout_below="@id/search_bar" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:focusable="auto"
-        android:visibility="visible"
-        app:srcCompat="@drawable/ic_library_add_black_24dp"
-        />
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/btn_add_user"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_gravity="bottom|end"-->
+<!--        android:layout_margin="@dimen/fab_margin"-->
+<!--        android:focusable="auto"-->
+<!--        android:visibility="visible"-->
+<!--        app:srcCompat="@drawable/ic_library_add_black_24dp"-->
+<!--        />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
