@@ -64,12 +64,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }else {
             tv_userrole_edituser.setText("User");
         }
-        if(modeluser.getStatus()==1){
-            tv_userrole_edituser.setText("Active");
-        }else {
-            tv_userrole_edituser.setText("InActive");
-        }
-
     }
 
     private void setOptionSpinnerSex(int position) {

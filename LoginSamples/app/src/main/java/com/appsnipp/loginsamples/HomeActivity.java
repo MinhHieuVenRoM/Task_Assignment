@@ -24,14 +24,20 @@ import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Attendance.Attendance;
+import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Attendance.Data;
+import com.appsnipp.loginsamples.model.Attendance.Datacheckout;
 import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.model.User_model.UserEditModel;
 import com.appsnipp.loginsamples.personal_information.ProfileActivity;
 import com.appsnipp.loginsamples.project.ProjectActivity;
 import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.user.UserActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -73,9 +79,9 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
-        carview_checkin_out=findViewById(R.id.carview_checkin_out);
+//        carview_checkin_out=findViewById(R.id.carview_checkin_out);
         admin_home=findViewById(R.id.admin_home);
-        tv_checkin_out =findViewById(R.id.tv_checkin_out);
+//        tv_checkin_out =findViewById(R.id.tv_checkin_out);
         int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
         if(role!=0){
             carview_checkin_out.setVisibility(View.VISIBLE);
@@ -102,15 +108,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 Attendance models = response.body();
                 if (models != null) {
                     modelAttendance=models.getData();
-                    if(modelAttendance.getCheckOut()==true){
-                        tv_checkin_out.setText("CheckIn");
-                        carview_checkin_out.setVisibility(View.GONE);
-                    }else{
-                        tv_checkin_out.setText("CheckOut");
-
-                    }
                     Toast.makeText(HomeActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
-
                 }
             }
 
@@ -133,26 +131,30 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         String date = dateFormatter.format(today);
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<Attendance> call = service.Attendancecheckout(token,date);
-        call.enqueue(new Callback<Attendance>() {
+        Call<Attendance_checkout> call = service.Attendancecheckout(token,date);
+        call.enqueue(new Callback<Attendance_checkout>() {
             @Override
-            public void onResponse(@NonNull Call<Attendance> call, @NonNull Response<Attendance> response) {
+            public void onResponse(@NonNull Call<Attendance_checkout> call, @NonNull Response<Attendance_checkout> response) {
                 progressDialog.dismiss();
-                Attendance models = response.body();
+                Attendance_checkout models = response.body();
                 if (models != null) {
-                    modelAttendance=models.getData();
-                    if(modelAttendance.getCheckOut()==false){
-                        tv_checkin_out.setText("CheckIn");
-                    }else{
-                        tv_checkin_out.setText("CheckOut");
-                    }
                     Toast.makeText(HomeActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
 
+                }else {
+                    try {
+                        Gson gson = new Gson();
+                        JSONObject object = new JSONObject(response.errorBody().string());
+                        Attendance_checkout model = gson.fromJson(object.toString(), Attendance_checkout.class);
+                        Toast.makeText(HomeActivity.this, model.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Attendance> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<Attendance_checkout> call, @NonNull Throwable t) {
                 Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -160,30 +162,30 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
 
     }
-    public void CheckInClicked(View view){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
-        alertDialog.setTitle("Confirm ...");
-        alertDialog.setMessage("Do you really want to check out attendance?");
-        alertDialog.setIcon(R.mipmap.ic_launcher);
-        alertDialog.setPositiveButton("YES",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        showLoading();
-                        checkoutAttendance();
-
-                    }
-                });
-        alertDialog.setNegativeButton("NO",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        dialog.cancel();
-                    }
-                });
-        alertDialog.show();
-
-
-    }
+//    public void CheckInClicked(View view){
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
+//        alertDialog.setTitle("Confirm ...");
+//        alertDialog.setMessage("Do you really want to check out attendance?");
+//        alertDialog.setIcon(R.mipmap.ic_launcher);
+//        alertDialog.setPositiveButton("YES",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        showLoading();
+//                        checkoutAttendance();
+//
+//                    }
+//                });
+//        alertDialog.setNegativeButton("NO",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                        dialog.cancel();
+//                    }
+//                });
+//        alertDialog.show();
+//
+//
+//    }
 
 
 
@@ -214,6 +216,56 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 startActivity(intent);
                 break;
             }
+            case R.id.nav_checkout: {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
+                alertDialog.setTitle("Confirm ...");
+                alertDialog.setMessage("You want to Check out");
+                alertDialog.setIcon(R.mipmap.ic_launcher);
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+//                                Toast.makeText(HomeActivity.this, "You have been check out", Toast.LENGTH_SHORT).show();
+                                showLoading();
+                                checkoutAttendance();
+                            }
+                        });
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog.show();
+
+                break;
+            }
+            case R.id.nav_logout: {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
+                alertDialog.setTitle("Confirm ...");
+                alertDialog.setMessage("You want to log out");
+                alertDialog.setIcon(R.mipmap.ic_launcher);
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                Toast.makeText(HomeActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog.show();
+                break;
+
+            }
+            default: return false;
         }
         //close navigation drawer
         drawer.closeDrawer(GravityCompat.START);

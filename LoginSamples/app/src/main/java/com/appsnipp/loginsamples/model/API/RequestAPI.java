@@ -3,6 +3,7 @@ package com.appsnipp.loginsamples.model.API;
 import android.text.Editable;
 
 import com.appsnipp.loginsamples.model.Attendance.Attendance;
+import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
@@ -131,7 +132,7 @@ public interface  RequestAPI {
     );
     @PUT("attendance/check_out")
     @FormUrlEncoded
-    Call<Attendance> Attendancecheckout(
+    Call<Attendance_checkout> Attendancecheckout(
             @Header("Authorization") String token,
             @Field("date") String date
     );

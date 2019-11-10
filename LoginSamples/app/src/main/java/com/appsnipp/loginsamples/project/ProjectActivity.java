@@ -224,7 +224,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
     @Override
     public void onItemClickedProject(int position, ProjectModel model) {
 
-        Toast.makeText(ProjectActivity.this, model.getId(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProjectActivity.this, model.getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra("projectModel", model);
         startActivity(intent);
