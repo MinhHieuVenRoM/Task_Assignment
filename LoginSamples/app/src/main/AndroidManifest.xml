@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".personal_information.EditProfileActivity"></activity>
+        <activity
+            android:name=".personal_information.EditProfileActivity"
+            android:theme="@style/Material"/>
         <activity android:name=".user.EditUserAdminActivity" />
         <activity android:name=".user.DetailUserAdminActivity" />
         <activity
@@ -30,7 +32,10 @@
             android:label="@string/title_activity_adding_task"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity android:name=".attendance.AttendanceActivity" />
-        <activity android:name=".personal_information.ProfileActivity" />
+        <activity
+            android:name=".personal_information.ProfileActivity"
+            android:theme="@style/Material"
+            />
         <activity
             android:name=".task.TaskActivity"
             android:theme="@style/Material" />
