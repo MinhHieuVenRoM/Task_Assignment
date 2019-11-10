@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_search_black_24dp"
-        android:hint="  Tìm kiếm"
+        android:hint="Search"
         android:layout_marginTop="@dimen/_48sdp"
         android:layout_marginRight="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_5sdp"

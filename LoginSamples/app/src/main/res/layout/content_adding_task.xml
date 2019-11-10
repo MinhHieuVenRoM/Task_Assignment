@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tên task:"
+                android:text="Name Task:"
                 android:textSize="@dimen/_14ssp"
                 android:fontFamily="@font/nunito"/>
             <EditText
@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ngày kết thúc:"
+                android:text="End Date:"
                 android:textSize="@dimen/_14ssp"
                 android:fontFamily="@font/nunito"/>
 
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Người được giao:"
+                android:text="Task by user:"
                 android:textSize="@dimen/_14ssp"
                 android:fontFamily="@font/nunito"/>
             <Spinner
@@ -77,7 +77,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nội dung:"
+                android:text="Content:"
                 android:textSize="@dimen/_14ssp"
                 android:fontFamily="@font/nunito"/>
         </LinearLayout>
@@ -110,7 +110,7 @@
                 android:id="@+id/addtask_detail"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Tạo"
+                android:text="Create"
                 style="@style/loginButton"
                 android:textSize="18dp"
                 android:fontFamily="@font/nunitobold"

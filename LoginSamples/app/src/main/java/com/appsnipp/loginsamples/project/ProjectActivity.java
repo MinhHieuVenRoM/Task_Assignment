@@ -65,12 +65,12 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
 
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Danh sách Project");
+        toolbar.setTitle("List Project");
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("Danh sách Project");
+        mTitle.setText("List Project");
         getProjectListData();
 
         //getlistuser();
