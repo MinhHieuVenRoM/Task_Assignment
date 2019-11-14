@@ -1,7 +1,9 @@
 package com.appsnipp.loginsamples.user;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -196,29 +198,47 @@ public class EditUserAdminActivity extends AppCompatActivity implements View.OnC
 
 
             } else {
-                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-                RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-                service.edituser(token, modeluser.getId(), tv_mobile_edit_admin.getText().toString(), setendate(tv_birthday.getText().toString()),sex_id,role_id,status_id)
-                        .enqueue(new Callback<UserEditModel>() {
-                            @Override
-                            public void onResponse(@NonNull Call<UserEditModel> call, @NonNull Response<UserEditModel> response) {
-                                progressDialog.dismiss();
-                                UserEditModel models = response.body();
-                                if (models != null) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditUserAdminActivity.this);
+                alertDialog.setTitle("Confirm ...");
+                alertDialog.setMessage("You want to save");
+                alertDialog.setIcon(R.mipmap.ic_launcher);
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+                                RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+                                service.edituser(token, modeluser.getId(), tv_mobile_edit_admin.getText().toString(), setendate(tv_birthday.getText().toString()), sex_id, role_id, status_id)
+                                        .enqueue(new Callback<UserEditModel>() {
+                                            @Override
+                                            public void onResponse(@NonNull Call<UserEditModel> call, @NonNull Response<UserEditModel> response) {
+                                                progressDialog.dismiss();
+                                                UserEditModel models = response.body();
+                                                if (models != null) {
 
-                                    Toast.makeText(EditUserAdminActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
-                                    if (models.getSuccess() == true) {
-                                        finish();
-                                    }
+                                                    Toast.makeText(EditUserAdminActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    if (models.getSuccess() == true) {
+                                                        finish();
+                                                    }
 
-                                }
-                            }
+                                                }
+                                            }
 
-                            @Override
-                            public void onFailure(@NonNull Call<UserEditModel> call, @NonNull Throwable t) {
-                                Toast.makeText(EditUserAdminActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                            @Override
+                                            public void onFailure(@NonNull Call<UserEditModel> call, @NonNull Throwable t) {
+                                                Toast.makeText(EditUserAdminActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
                         });
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.dismiss();
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog.show();
 
 
             }
@@ -232,9 +252,10 @@ public class EditUserAdminActivity extends AppCompatActivity implements View.OnC
         String dob = date[2] + "-" + date[1] + "-" + date[0];
         return dob;
     }
+
     private String getdate(String trim) {
         String[] date = trim.split("-");
-        String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
+        String dob = date[2].substring(0, 2) + "-" + date[1] + "-" + date[0];
         return dob;
     }
 

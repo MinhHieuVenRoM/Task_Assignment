@@ -28,4 +28,8 @@ public class ConcludeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TaskManagementActivity.class);
         startActivity(intent);
     }
+
+    public void Conlude_back_home(View view) {
+        finish();
+    }
 }

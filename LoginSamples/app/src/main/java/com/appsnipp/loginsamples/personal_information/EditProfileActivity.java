@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appsnipp.loginsamples.HomeActivity;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
@@ -151,31 +154,54 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
 
             } else {
-                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-                int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
-                int status = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getStatus();
-                RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-                service.edituser(token, modeluser.getId(),et_mobile_edit_user.getText().toString(),setendate(tv_birthday_edit_user.getText().toString()),sex_id,role,status)
-                        .enqueue(new Callback<UserEditModel>() {
-                            @Override
-                            public void onResponse(@NonNull Call<UserEditModel> call, @NonNull Response<UserEditModel> response) {
-                                progressDialog.dismiss();
-                                UserEditModel models = response.body();
-                                if (models != null) {
 
-                                    Toast.makeText(EditProfileActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
-                                    if (models.getSuccess() == true) {
-                                        finish();
-                                    }
 
-                                }
-                            }
 
-                            @Override
-                            public void onFailure(@NonNull Call<UserEditModel> call, @NonNull Throwable t) {
-                                Toast.makeText(EditProfileActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditProfileActivity.this);
+                alertDialog.setTitle("Confirm ...");
+                alertDialog.setMessage("You want to log out");
+                alertDialog.setIcon(R.mipmap.ic_launcher);
+                alertDialog.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+                                int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
+                                int status = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getStatus();
+                                RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+                                service.edituser(token, modeluser.getId(),et_mobile_edit_user.getText().toString(),setendate(tv_birthday_edit_user.getText().toString()),sex_id,role,status)
+                                        .enqueue(new Callback<UserEditModel>() {
+                                            @Override
+                                            public void onResponse(@NonNull Call<UserEditModel> call, @NonNull Response<UserEditModel> response) {
+                                                progressDialog.dismiss();
+                                                UserEditModel models = response.body();
+                                                if (models != null) {
+
+                                                    Toast.makeText(EditProfileActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    if (models.getSuccess() == true) {
+                                                        finish();
+                                                    }
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(@NonNull Call<UserEditModel> call, @NonNull Throwable t) {
+                                                Toast.makeText(EditProfileActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
                             }
                         });
+                alertDialog.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.dismiss();
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog.show();
 
 
             }
