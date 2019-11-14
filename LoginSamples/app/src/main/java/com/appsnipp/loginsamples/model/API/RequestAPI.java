@@ -3,7 +3,9 @@ package com.appsnipp.loginsamples.model.API;
 import android.text.Editable;
 
 import com.appsnipp.loginsamples.model.Attendance.Attendance;
+import com.appsnipp.loginsamples.model.Attendance.Attendance_List;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
+import com.appsnipp.loginsamples.model.Attendance.Attendance_list_detail;
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
@@ -42,6 +44,13 @@ public interface  RequestAPI {
     Call<TaskListResponse> gettaskofproject(
             @Header("Authorization") String token,
             @Field("project_id") String project_id
+    );
+
+    @POST("task/get_task_by_date")
+    @FormUrlEncoded
+    Call<TaskListResponse> gettask_date(
+            @Header("Authorization") String token,
+            @Field("date") String date
     );
 
     @POST("task/create_task")
@@ -136,5 +145,32 @@ public interface  RequestAPI {
             @Header("Authorization") String token,
             @Field("date") String date
     );
+    @POST("attendance/get_list_attendance")
+    @FormUrlEncoded
+    Call<Attendance_List> Attendance_list(
+            @Header("Authorization") String token,
+            @Field("date") String date
+    );
+    @POST("attendance/ad/get_attendance_by_user")
+    @FormUrlEncoded
+    Call<Attendance_list_detail> Attendance_list_detail(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id
+    );
+    @POST("attendance/ad/get_attendance_user_by_month")
+    @FormUrlEncoded
+    Call<Attendance_list_detail> Attendance_list_detail_user_month(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id,
+            @Field("date") String date
+    );
+    @POST("attendance/ad/get_attendance_user_by_year")
+    @FormUrlEncoded
+    Call<Attendance_list_detail> Attendance_list_detail_user_year(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id,
+            @Field("date") String date
+    );
+
 
 }

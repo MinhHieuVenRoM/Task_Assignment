@@ -122,4 +122,8 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
         return dob;
     }
+
+    public void back_home_profile(View view) {
+        finish();
+    }
 }

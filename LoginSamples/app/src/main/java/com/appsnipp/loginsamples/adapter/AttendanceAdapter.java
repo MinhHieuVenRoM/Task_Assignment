@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.model.Attendance.DataAttendanceRespose;
+import com.appsnipp.loginsamples.model.Attendance.DataDetailAttendance;
 import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
 
 import java.text.ParseException;
@@ -20,8 +21,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class DiemDanhAdapter extends RecyclerView.Adapter<DiemDanhAdapter.MyViewHolder>{
-    public ArrayList<DataAttendanceRespose> diemdanhArrayList;
+public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder>{
+    public ArrayList<DataDetailAttendance> diemdanhArrayList;
     public ProjectItemClicked itemClicked;
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -38,8 +39,8 @@ public class DiemDanhAdapter extends RecyclerView.Adapter<DiemDanhAdapter.MyView
 
         }
 
-        public void initData(final DataAttendanceRespose diemdanhmode) {
-            nameuser.setText(diemdanhmode.getUserDetail().getName());
+        public void initData(final DataDetailAttendance diemdanhmode) {
+
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -71,7 +72,11 @@ public class DiemDanhAdapter extends RecyclerView.Adapter<DiemDanhAdapter.MyView
             }
 
             ngaydiemdanh.setText("Start "+formattedDate+" End "+formattedDateout);
-
+            try {
+                nameuser.setText(getdate(ResetTime(diemdanhmode.getAttendanceDate())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -81,7 +86,7 @@ public class DiemDanhAdapter extends RecyclerView.Adapter<DiemDanhAdapter.MyView
         }
     }
 
-    public DiemDanhAdapter(ArrayList<DataAttendanceRespose> diemdanhs) {
+    public AttendanceAdapter(ArrayList<DataDetailAttendance> diemdanhs) {
         this.diemdanhArrayList = diemdanhs;
     }
 
@@ -92,17 +97,17 @@ public class DiemDanhAdapter extends RecyclerView.Adapter<DiemDanhAdapter.MyView
 
     @NonNull
     @Override
-    public DiemDanhAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AttendanceAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_lichdiemdanh_admin, parent, false);
-        return new DiemDanhAdapter.MyViewHolder(itemView);
+        return new AttendanceAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final DiemDanhAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final AttendanceAdapter.MyViewHolder holder, final int position) {
 
-        DataAttendanceRespose projectModel = diemdanhArrayList.get(position);
-        holder.initData(projectModel);
+        DataDetailAttendance attendance = diemdanhArrayList.get(position);
+        holder.initData(attendance);
 
         //  holder.setOnItemClicked();
     }
@@ -134,5 +139,10 @@ public class DiemDanhAdapter extends RecyclerView.Adapter<DiemDanhAdapter.MyView
             time = localFormatter.format(gpsUTCDate.getTime());
         }
         return time;
+    }
+    private String getdate(String trim) {
+        String[] date = trim.split("-");
+        String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
+        return dob;
     }
 }

@@ -21,11 +21,43 @@
             android:orientation="vertical"
             android:weightSum="12">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                android:theme="@style/AppTheme.AppBarOverlay"
+                android:background="@color/backgroundNull"
+                app:elevation="3dp">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@color/colorAccent"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:padding="@dimen/_7sdp"
+                        android:src="@drawable/ic_arrow_back"
+                        android:onClick="Conlude_back_home"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        style="@style/TitleToolbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16dp"
+                        android:text="Conlude"
+                        />
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
 
             <GridLayout
                 android:layout_width="match_parent"
@@ -83,7 +115,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        android:onClick="Managetment_task">
 
                         <TextView
                             android:layout_width="wrap_content"

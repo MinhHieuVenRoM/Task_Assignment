@@ -46,7 +46,7 @@ tools:context="com.appsnipp.loginsamples.login.LoginActivity">
             <TextView
                 style="@style/headerText"
                 android:layout_gravity="center"
-                android:text="App Management trainee"
+                android:text="App Trainee Management"
                 android:layout_marginTop="40dp"/>
 
             <include
@@ -54,14 +54,14 @@ tools:context="com.appsnipp.loginsamples.login.LoginActivity">
                 layout="@layout/layout_login" />
 
         </LinearLayout>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel" />
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentLeft="true"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:src="@android:drawable/ic_menu_close_clear_cancel" />-->
     </RelativeLayout>
 
 </ScrollView>

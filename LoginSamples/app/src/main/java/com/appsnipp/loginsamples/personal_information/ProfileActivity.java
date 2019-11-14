@@ -151,6 +151,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 Toast.makeText(ProfileActivity.this, "The Confirm password new is different from the new password", Toast.LENGTH_SHORT).show();
 
                             }
+                             else if(tv_newpass.getText().toString().equals("")==true||tv_newpass_again.getText().toString().equals("")==true||tv_pass_current.getText().toString().equals("")==true)
+                            {
+                                Toast.makeText(ProfileActivity.this, "Do not leave any data input fields blank", Toast.LENGTH_SHORT).show();
+
+
+                            }
                             else {
 
                                 showLoading();
@@ -208,5 +214,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         progressDialog = new ProgressDialog(ProfileActivity.this);
         progressDialog.setMessage("Loading....");
         progressDialog.show();
+    }
+
+    public void back_home_profile(View view) {
+        finish();
     }
 }

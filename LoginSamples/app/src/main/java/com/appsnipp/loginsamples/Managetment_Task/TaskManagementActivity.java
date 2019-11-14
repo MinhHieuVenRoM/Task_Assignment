@@ -1,4 +1,4 @@
-package com.appsnipp.loginsamples.attendance;
+package com.appsnipp.loginsamples.Managetment_Task;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +14,20 @@ import android.widget.Toast;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.DiemDanhAdapter;
+import com.appsnipp.loginsamples.adapter.TaskAdapter;
+import com.appsnipp.loginsamples.adapter.TaskItemClicked;
+import com.appsnipp.loginsamples.attendance.AttendanceActivity;
+import com.appsnipp.loginsamples.attendance.AttendanceReportActivity;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_List;
 import com.appsnipp.loginsamples.model.Attendance.DataAttendanceRespose;
+import com.appsnipp.loginsamples.model.Task_model.TaskListResponse;
+import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.task.DetailTaskActivity;
+import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -28,19 +36,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AttendanceActivity extends AppCompatActivity {
+public class TaskManagementActivity extends AppCompatActivity implements TaskItemClicked {
+
 
     CalendarView calendarView;
     ProgressDialog progressDialog;
-    private DiemDanhAdapter mAdapter;
-    private ArrayList<DataAttendanceRespose> mDiemdanhModelList;
+    private TaskAdapter mAdapter;
+    private ArrayList<TaskModel> mDiemdanhModelList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendance);
-        calendarView=findViewById(R.id.calenderView);
+        setContentView(R.layout.activity_task_management);
+        calendarView=findViewById(R.id.calenderView_taskmanagement);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @Override
@@ -49,7 +58,7 @@ public class AttendanceActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
 
                 String selectedDate="Date is : " + dayOfMonth +" / " + (month+1) + " / " + year;
-                Toast.makeText(AttendanceActivity.this, selectedDate, Toast.LENGTH_SHORT).show();
+                Toast.makeText(TaskManagementActivity.this, selectedDate, Toast.LENGTH_SHORT).show();
                 String date=year+"-"+(month+1)+"-"+dayOfMonth;
                 setupRecyclerView();
 
@@ -60,53 +69,60 @@ public class AttendanceActivity extends AppCompatActivity {
 //        final int flags =  View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 //        getWindow().getDecorView().setSystemUiVisibility(flags);
     }
-   private void getAttendanceListData(String date) {
+    private void getAttendanceListData(String date) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-       String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
 
-       Call<Attendance_List> call = service.Attendance_list(token,date);
-        ((Call) call).enqueue(new Callback<Attendance_List>() {
+        Call<TaskListResponse> call = service.gettask_date(token,date);
+        ((Call) call).enqueue(new Callback<TaskListResponse>() {
             @Override
-            public void onResponse(@NonNull Call<Attendance_List> call, @NonNull Response<Attendance_List> response) {
+            public void onResponse(@NonNull Call<TaskListResponse> call, @NonNull Response<TaskListResponse> response) {
                 progressDialog.dismiss();
 //                generateDataList(response.body());
-                Attendance_List models = response.body();
+                TaskListResponse models = response.body();
                 if (models != null){
-                    mDiemdanhModelList = models.getData();
-                    mAdapter.diemdanhArrayList = mDiemdanhModelList;
+                    mDiemdanhModelList = models.getDataTask();
+                    mAdapter.taskModelList = mDiemdanhModelList;
                     mAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<Attendance_List> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<TaskListResponse> call, @NonNull Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(AttendanceActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TaskManagementActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void showLoading() {
-        progressDialog = new ProgressDialog(AttendanceActivity.this);
+        progressDialog = new ProgressDialog(TaskManagementActivity.this);
         progressDialog.setMessage("Loading....");
         progressDialog.show();
     }
 
     private void setupRecyclerView() {
-        RecyclerView mRecyclerView = findViewById(R.id.rv_Diemdanh);
+        RecyclerView mRecyclerView = findViewById(R.id.rv_Task_date);
         mRecyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter= new DiemDanhAdapter(new ArrayList<DataAttendanceRespose>());
+        mAdapter = new TaskAdapter(new ArrayList<TaskModel>());
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.itemClicked = this;
     }
-    public void backfromAttendanceAdmin(View view) {
-            finish();
+    public void back_home_taskmanagetment(View view) {
+        finish();
     }
     public void AttendanceClicked(View view) {
         Intent intent = new Intent(this, AttendanceReportActivity.class);
         startActivity(intent);
     }
 
+    @Override
+    public void onItemClickedTask(int position, TaskModel model) {
+        Intent intent = new Intent(this, DetailTaskActivity.class);
+        intent.putExtra("taskmodel", model);
+        startActivity(intent);
+    }
 }

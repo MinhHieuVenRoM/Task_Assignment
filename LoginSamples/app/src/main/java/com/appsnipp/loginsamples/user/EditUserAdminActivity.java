@@ -237,4 +237,12 @@ public class EditUserAdminActivity extends AppCompatActivity implements View.OnC
         String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
         return dob;
     }
+
+    public void back_home_profile_admin(View view) {
+        finish();
+    }
+
+    public void Back_edit_user_admin(View view) {
+        finish();
+    }
 }

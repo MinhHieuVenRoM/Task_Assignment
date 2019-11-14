@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     DrawerLayout drawer;
     User userModel;
-    CardView carview_checkin_out,admin_home;
+    CardView car_summary,admin_home;
     TextView tv_checkin_out;
     Data modelAttendance;
     private ProgressDialog progressDialog;
@@ -79,14 +79,15 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
-//        carview_checkin_out=findViewById(R.id.carview_checkin_out);
+        car_summary=findViewById(R.id.car_summary);
         admin_home=findViewById(R.id.admin_home);
 //        tv_checkin_out =findViewById(R.id.tv_checkin_out);
         int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
         if(role!=0){
-            carview_checkin_out.setVisibility(View.VISIBLE);
+//            carview_checkin_out.setVisibility(View.VISIBLE);
         }else{
             admin_home.setVisibility(View.VISIBLE);
+            car_summary.setVisibility(View.VISIBLE);
         }
         showLoading();
     }
@@ -162,32 +163,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
 
     }
-//    public void CheckInClicked(View view){
-//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
-//        alertDialog.setTitle("Confirm ...");
-//        alertDialog.setMessage("Do you really want to check out attendance?");
-//        alertDialog.setIcon(R.mipmap.ic_launcher);
-//        alertDialog.setPositiveButton("YES",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        showLoading();
-//                        checkoutAttendance();
-//
-//                    }
-//                });
-//        alertDialog.setNegativeButton("NO",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                        dialog.cancel();
-//                    }
-//                });
-//        alertDialog.show();
-//
-//
-//    }
-
-
 
     public void chatClicked(View view){
         Intent intent = new Intent(this, ChatActivity.class);

@@ -14,12 +14,12 @@
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/backfromAttendanceAdmin"
+            android:id="@+id/back_home_taskmanagetment"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:padding="@dimen/_7sdp"
             android:src="@drawable/ic_arrow_back"
-            android:onClick="backfromAttendanceAdmin"
+            android:onClick="back_home_taskmanagetment"
             />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            android:text="Attendance management"
+            android:text="Task management"
 
             />
         <androidx.appcompat.widget.AppCompatImageView
@@ -43,19 +43,19 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_Diemdanh"
+        android:id="@+id/rv_Task_date"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_270sdp"
         app:layout_constraintBottom_toTopOf="@+id/calenderView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_below="@id/calenderView"
+        android:layout_below="@id/calenderView_taskmanagement"
         android:layout_alignParentEnd="true"
         />
 
     <CalendarView
-        android:id="@+id/calenderView"
+        android:id="@+id/calenderView_taskmanagement"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_250sdp"
         android:layout_below="@id/toolbar"

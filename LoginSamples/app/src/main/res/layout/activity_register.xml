@@ -47,7 +47,7 @@
                 <TextView
                     style="@style/headerText"
                     android:layout_gravity="center"
-                    android:text="App Management trainee"
+                    android:text="App Trainee Management"
                     android:textSize="30sp"
                     android:layout_marginTop="@dimen/_10sdp"/>
                 <include

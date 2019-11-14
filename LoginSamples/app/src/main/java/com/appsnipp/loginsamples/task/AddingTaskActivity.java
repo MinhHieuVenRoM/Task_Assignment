@@ -63,12 +63,12 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Thông tin task mới");
+        toolbar.setTitle("Create Task");
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("Thông tin task mới");
+        mTitle.setText("Create Task");
         getListUsers();
         setOptionSpinner();
 

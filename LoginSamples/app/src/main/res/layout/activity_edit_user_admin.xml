@@ -11,7 +11,13 @@
         android:id="@+id/profile_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/_2sdp" />
+        android:elevation="@dimen/_2sdp" >
+        <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/ic_arrow_back"
+        android:onClick="back_home_profile_admin"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -72,7 +78,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_change_password"
+            android:id="@+id/rl_cancel_edit_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_background"
@@ -82,23 +88,24 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:padding="@dimen/_5sdp">
+            android:padding="@dimen/_5sdp"
+            android:onClick="Back_edit_user_admin">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_change_password"
+                android:id="@+id/iv_cancel_edit"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/icon_update"
-                android:tint="@color/colorPrimaryDark" />
+                android:src="@drawable/icon_cancel"
+                />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_change_password"
+                android:id="@+id/tv_change_password_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_change_password"
+                android:layout_below="@id/iv_cancel_edit"
                 android:gravity="center"
-                android:text="Change\npassword"
+                android:text="Cancel \nEdit"
                 android:textColor="#B3000000"
                 android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
