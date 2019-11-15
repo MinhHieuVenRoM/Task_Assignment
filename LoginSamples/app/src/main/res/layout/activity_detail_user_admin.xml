@@ -161,7 +161,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_email_detail_admin"
                     style="@style/TextViewContent"
-                    android:text="MinhKhue@gmail.com" />
+                    tools:text="MinhKhue@gmail.com" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
@@ -201,7 +201,7 @@
 
                     android:id="@+id/tv_detail_status_admin_"
                     style="@style/TextViewContent"
-                    tools:text="01/10/1997" />
+                    tools:text="Active" />
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
                     />

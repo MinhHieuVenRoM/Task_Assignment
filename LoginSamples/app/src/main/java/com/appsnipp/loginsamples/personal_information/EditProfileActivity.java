@@ -43,7 +43,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private AppCompatTextView tv_userrole_edituser,tv_birthday_edit_user,tv_email_edit_user,tv_full_name_user_edit;
     private EditText et_mobile_edit_user;
     private int mYear, mMonth, mDay;
-    User modeluser;
+    UserModelDetail modeluser;
     String[] sex_item = {"Male", "Female"};
     Spinner spinnersex;
     ArrayAdapter<String> spinnerAdaptersex;
@@ -113,7 +113,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     private void getDataIntent() {
         Intent intent = getIntent();
-        modeluser = (User) intent.getSerializableExtra("usermodel");
+        modeluser = (UserModelDetail) intent.getSerializableExtra("usermodel");
     }
     private void showLoading() {
         progressDialog = new ProgressDialog(EditProfileActivity.this);

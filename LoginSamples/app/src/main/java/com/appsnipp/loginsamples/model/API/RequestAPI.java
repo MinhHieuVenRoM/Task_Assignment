@@ -78,6 +78,13 @@ public interface  RequestAPI {
             @Header("Authorization") String token
     );
 
+    @POST("users/profile")
+    @FormUrlEncoded
+    Call<ListUserModel> viewprofile(
+            @Header("Authorization") String token,
+            @Field("email") String email
+
+    );
     @POST("users")
     @FormUrlEncoded
     Call<Register> adduser(

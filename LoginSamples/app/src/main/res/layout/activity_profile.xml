@@ -131,7 +131,7 @@
             android:layout_marginTop="@dimen/_12ssp"
             android:textColor="#000"
             android:textSize="30sp"
-            android:text="Nguyễn Minh Khuê" />
+            tools:text="Nguyễn Minh Khuê" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -161,7 +161,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_email"
                     style="@style/TextViewContent"
-                    android:text="MinhKhue@gmail.com" />
+                    tools:text="MinhKhue@gmail.com" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
@@ -171,7 +171,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_mobile"
                     style="@style/TextViewContent"
-                    android:text="0123456789" />
+                    tools:text="0123456789" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
@@ -181,7 +181,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_sex"
                     style="@style/TextViewContent"
-                    android:text="Male" />
+                    tools:text="Male" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
@@ -191,7 +191,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_birthday"
                     style="@style/TextViewContent"
-                    android:text="01/10/1997" />
+                    tools:text="01/10/1997" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </ScrollView>
