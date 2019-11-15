@@ -20,7 +20,6 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:padding="@dimen/_10sdp"
             android:src="@drawable/ic_arrow_back"
             android:onClick="back_home_list_user"/>
 
@@ -29,7 +28,7 @@
             style="@style/TitleToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User"
+            android:text="List of user"
             android:layout_gravity="center"/>
 
         <!--        <androidx.appcompat.widget.AppCompatImageView-->

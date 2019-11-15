@@ -95,7 +95,7 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/icon_update"
+                android:src="@drawable/key"
                 android:tint="@color/colorPrimaryDark" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_change_password"
                 android:gravity="center"
-                android:text="Change\npassword"
+                android:text="Reset\npassword"
                 android:textColor="#B3000000"
                 android:textSize="@dimen/_12sdp" />
         </RelativeLayout>

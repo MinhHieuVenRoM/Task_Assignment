@@ -30,10 +30,7 @@ import com.appsnipp.loginsamples.model.Task_model.EditTaskModel;
 import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
-import com.appsnipp.loginsamples.model.User_model.UserEditModel;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
-import com.appsnipp.loginsamples.user.DetailUserAdminActivity;
-import com.appsnipp.loginsamples.user.EditUserAdminActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 
 import java.util.ArrayList;
@@ -48,7 +45,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     String[] status_item = {"Open", "Fixing", "Fixed", "Done"};
     ArrayList listUsers = new ArrayList<String>();
     private TaskModel model;
-    private EditText tv_nguoiduocgiaotask, et_task_detail,et_task_detail_name;
+    private EditText tv_nguoiduocgiaotask, et_task_detail, et_task_detail_name;
     private AppCompatTextView tv_hancuoitask;
     private ArrayList<UserModelDetail> mUsermodelDetails;
     Spinner spinner;
@@ -78,12 +75,11 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         tv_hancuoitask.setText(getdate(deadline));
 
 
-
         et_task_detail = findViewById(R.id.et_task_detail);
         et_task_detail.setText(model.getContent());
         tv_hancuoitask.setOnClickListener(this);
 
-        btn_edit_task=findViewById(R.id.btn_edit_task);
+        btn_edit_task = findViewById(R.id.btn_edit_task);
         btn_edit_task.setOnClickListener(this);
 
 
@@ -93,11 +89,11 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
         int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
 
-        if(role==0){
+        if (role == 0) {
 
             et_task_detail.setFocusable(true);
             et_task_detail_name.setFocusable(true);
-        }else {
+        } else {
 
             et_task_detail.setFocusable(false);
             et_task_detail_name.setFocusable(false);
@@ -111,7 +107,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         mTitle.setText("Chi tiết task");
 
         setOptionSpinner(model.getStatus());
-        status_id=model.getStatus();
+        status_id = model.getStatus();
         getlistuser();
 
 
@@ -139,7 +135,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                status_id=position;
+                status_id = position;
             }
 
             @Override
@@ -266,7 +262,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
                 showLoading();
                 String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
                 RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-                service.edittask(token,  iduser[0] ,setendate(tv_hancuoitask.getText().toString()),model.getId(),et_task_detail.getText(),status_id,et_task_detail_name.getText().toString())
+                service.edittask(token, iduser[0], setendate(tv_hancuoitask.getText().toString()), model.getId(), et_task_detail.getText(), status_id, et_task_detail_name.getText().toString())
                         .enqueue(new Callback<EditTaskModel>() {
                             @Override
                             public void onResponse(@NonNull Call<EditTaskModel> call, @NonNull Response<EditTaskModel> response) {
@@ -290,23 +286,75 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
 
             }
+        } else {
+
+            if (v == btn_edit_task) {
+                if (status_id == 3) {
+
+                    AlertDialog alertDialog = new AlertDialog.Builder(DetailTaskActivity.this).create();
+                    alertDialog.setTitle("Warning");
+                    alertDialog.setMessage("Only admin has been selecte done");
+                    alertDialog.setIcon(R.mipmap.ic_launcher);
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "OK",
+                            new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    alertDialog.show();
+                }
+                else {
+
+
+                    showLoading();
+                    String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+                    RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+                    service.edittask(token, iduser[0], setendate(tv_hancuoitask.getText().toString()), model.getId(), et_task_detail.getText(), status_id, et_task_detail_name.getText().toString())
+                            .enqueue(new Callback<EditTaskModel>() {
+                                @Override
+                                public void onResponse(@NonNull Call<EditTaskModel> call, @NonNull Response<EditTaskModel> response) {
+                                    progressDialog.dismiss();
+                                    EditTaskModel models = response.body();
+                                    if (models != null) {
+
+                                        Toast.makeText(DetailTaskActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                                        if (models.getSuccess() == true) {
+                                            finish();
+                                        }
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<EditTaskModel> call, @NonNull Throwable t) {
+                                    Toast.makeText(DetailTaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+
+            }
+
         }
     }
+
     private void showLoading() {
         progressDialog = new ProgressDialog(DetailTaskActivity.this);
         progressDialog.setMessage("Loading....");
         progressDialog.show();
     }
+
     private String setendate(String trim) {
         String[] date = trim.split("-");
         String dob = date[2] + "-" + date[1] + "-" + date[0];
         return dob;
     }
+
     private String getdate(String trim) {
         String[] date = trim.split("/");
-        String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
+        String dob = date[2].substring(0, 2) + "-" + date[1] + "-" + date[0];
         return dob;
     }
+
     public void backtask_detailtask(View view) {
         finish();
     }

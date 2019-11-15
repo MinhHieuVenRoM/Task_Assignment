@@ -11,7 +11,14 @@
         android:id="@+id/profile_tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/_2sdp" />
+        android:elevation="@dimen/_2sdp" >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_arrow_back"
+            android:onClick="back_home_profile_admin"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
