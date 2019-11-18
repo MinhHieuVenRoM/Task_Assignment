@@ -243,6 +243,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                         if (models != null) {
                             Toast.makeText(ProjectActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
+                            onResume();
                         }
                     }
 
@@ -269,10 +270,11 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
 
     @Override
     public void onResume() {  // After a pause OR at startup
-        super.onResume();
-
         setupRecyclerView();
         getProjectListData();
+
+        super.onResume();
+
 
 
         //Refresh your stuff here

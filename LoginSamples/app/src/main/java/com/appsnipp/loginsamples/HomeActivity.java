@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     DrawerLayout drawer;
     User userModel;
     CardView car_summary,admin_home;
-    TextView tv_checkin_out;
+    TextView tv_checkin_out,tv_username_main,tv_gmail_main;
     Data modelAttendance;
     private ProgressDialog progressDialog;
 
@@ -76,8 +76,14 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 drawer.openDrawer(GravityCompat.START);
             }
         });
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header = navigationView.getHeaderView(0);
+        tv_username_main=header.findViewById(R.id.tv_username_main);
+        tv_username_main.setText(userModel.getName());
+        tv_gmail_main=header.findViewById(R.id.tv_gmail_main);
+        tv_gmail_main.setText(userModel.getEmail());
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
         car_summary=findViewById(R.id.car_summary);
         admin_home=findViewById(R.id.admin_home);
