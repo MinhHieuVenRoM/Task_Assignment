@@ -131,11 +131,11 @@
             android:layout_marginTop="@dimen/_12ssp"
             android:textColor="#000"
             android:textSize="30sp"
-            tools:text="Nguyễn Minh Khuê" />
+            tools:text="Nguyễn Minh Hiếu" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_full_name_user_edit">
 
             <androidx.appcompat.widget.LinearLayoutCompat

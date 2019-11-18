@@ -45,18 +45,17 @@
         <!--            android:fontFamily="@font/nunito"/>-->
         <LinearLayout
             android:id="@+id/ln_trangthaiuser"
-            android:layout_width="350dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/_350sdp"
+            android:layout_height="@dimen/_47sdp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="@dimen/_40sdp"
             android:background="@drawable/user_background_shape_status_active"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="338dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/_248sdp"
+                android:layout_height="@dimen/_47sdp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
                 android:background="@drawable/user_background_shape"
                 android:orientation="vertical">
 
