@@ -85,6 +85,15 @@ public interface  RequestAPI {
             @Field("email") String email
 
     );
+
+    @PUT("users/ad/reset_password")
+    @FormUrlEncoded
+    Call<Login> resetpassword(
+            @Header("Authorization") String token,
+            @Field("email") String email
+
+    );
+
     @POST("users")
     @FormUrlEncoded
     Call<Register> adduser(

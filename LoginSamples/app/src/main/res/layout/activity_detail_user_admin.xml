@@ -99,7 +99,7 @@
                 android:tint="@color/colorPrimaryDark" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_change_password"
+                android:id="@+id/tv_reset_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_change_password"

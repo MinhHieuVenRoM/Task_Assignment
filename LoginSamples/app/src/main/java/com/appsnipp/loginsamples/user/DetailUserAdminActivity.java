@@ -1,7 +1,9 @@
 package com.appsnipp.loginsamples.user;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +16,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import com.appsnipp.loginsamples.HomeActivity;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
+import com.appsnipp.loginsamples.model.Login.Login;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.model.User_model.UserEditModel;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,7 +47,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
     ArrayAdapter<String> spinnerAdapterstatus;
     UserModelDetail modeluser;
     private int mYear, mMonth, mDay;
-    private AppCompatTextView tv_full_name, tv_birthday, tv_email, tv_sex, tv_mobile, tv_role_detail_admin, tv_detail_status_admin, tv_edit;
+    private AppCompatTextView tv_full_name, tv_birthday, tv_email, tv_sex, tv_mobile, tv_role_detail_admin, tv_detail_status_admin, tv_edit, tv_reset;
     private ArrayList<UserModelDetail> mUsermodelDetails;
 
     ProgressDialog progressDialog;
@@ -51,6 +59,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         getbyid();
         tv_birthday.setOnClickListener(this);
         tv_edit.setOnClickListener(this);
+        tv_reset.setOnClickListener(this);
         getDataIntent();
         showLoading();
         getprofileuser();
@@ -100,6 +109,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         tv_role_detail_admin = findViewById(R.id.tv_role_detail_admin);
         tv_detail_status_admin = findViewById(R.id.tv_detail_status_admin_);
         tv_edit = findViewById(R.id.tv_edit_admin);
+        tv_reset=findViewById(R.id.tv_reset_password);
     }
 
     private void getprofileuser() {
@@ -160,8 +170,66 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
 
 
         }
-    }
+        if (v == tv_reset) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(DetailUserAdminActivity.this);
+            alertDialog.setTitle("Confirm ...");
+            alertDialog.setMessage("You want to save");
+            alertDialog.setIcon(R.mipmap.ic_launcher);
+            alertDialog.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            showLoading();
+                            reset_password();
+                        }
+                    });
+            alertDialog.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            progressDialog.dismiss();
+                            dialog.cancel();
+                        }
+                    });
+            alertDialog.show();
 
+
+
+        }
+
+    }
+    private void reset_password() {
+        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+
+        Call<Login> call = service.resetpassword(token, modeluser.getEmail());
+        call.enqueue(new Callback<Login>() {
+            @Override
+            public void onResponse(@NonNull Call<Login> call, @NonNull Response<Login> response) {
+                progressDialog.dismiss();
+                Login models = response.body();
+                if (models != null) {
+
+                        Toast.makeText(DetailUserAdminActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    try {
+                        Gson gson = new Gson();
+                        JSONObject object = new JSONObject(response.errorBody().string());
+                        models = gson.fromJson(object.toString(), Login.class);
+                        Toast.makeText(DetailUserAdminActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(DetailUserAdminActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Login> call, @NonNull Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(DetailUserAdminActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     @Override
     protected void onResume() {
         getprofileuser();
