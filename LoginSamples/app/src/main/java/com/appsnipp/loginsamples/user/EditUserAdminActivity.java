@@ -238,6 +238,7 @@ public class EditUserAdminActivity extends AppCompatActivity implements View.OnC
                                 dialog.cancel();
                             }
                         });
+                progressDialog.dismiss();
                 alertDialog.show();
 
 

@@ -201,6 +201,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                 dialog.cancel();
                             }
                         });
+                progressDialog.dismiss();
                 alertDialog.show();
 
 

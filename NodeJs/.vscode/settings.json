@@ -1,0 +1,13 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/2faaa413-0d97-419e-83d0-be475c3b89ff/resourceGroups/Chatrealtimeapi/providers/Microsoft.Web/sites/DemoChatrealtime",
+    "appService.deploySubpath": "node_modules\\util-deprecate",
+    "azureFunctions.deploySubpath": ".",
+    "azureFunctions.projectLanguage": "JavaScript",
+    "azureFunctions.projectRuntime": "~2",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "npm prune"
+}

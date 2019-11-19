@@ -13,24 +13,20 @@ import android.widget.CalendarView;
 import android.widget.Toast;
 
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.adapter.DiemDanhAdapter;
 import com.appsnipp.loginsamples.adapter.TaskAdapter;
 import com.appsnipp.loginsamples.adapter.TaskItemClicked;
-import com.appsnipp.loginsamples.attendance.AttendanceActivity;
 import com.appsnipp.loginsamples.attendance.AttendanceReportActivity;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
-import com.appsnipp.loginsamples.model.Attendance.Attendance_List;
-import com.appsnipp.loginsamples.model.Attendance.DataAttendanceRespose;
 import com.appsnipp.loginsamples.model.Task_model.TaskListResponse;
 import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.task.DetailTaskActivity;
-import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,6 +45,7 @@ public class TaskManagementActivity extends AppCompatActivity implements TaskIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_management);
+        setupfisrtView();
         calendarView=findViewById(R.id.calenderView_taskmanagement);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -62,14 +59,14 @@ public class TaskManagementActivity extends AppCompatActivity implements TaskIte
                 String date=year+"-"+(month+1)+"-"+dayOfMonth;
                 setupRecyclerView();
 
-                getAttendanceListData(date);
+                getTaskListData(date);
                 showLoading();
             }
         });
 //        final int flags =  View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 //        getWindow().getDecorView().setSystemUiVisibility(flags);
     }
-    private void getAttendanceListData(String date) {
+    private void getTaskListData(String date) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
@@ -124,5 +121,17 @@ public class TaskManagementActivity extends AppCompatActivity implements TaskIte
         Intent intent = new Intent(this, DetailTaskActivity.class);
         intent.putExtra("taskmodel", model);
         startActivity(intent);
+    }
+    private void setupfisrtView(){
+        Calendar cal = Calendar.getInstance();
+
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        String date = year + "-" + (month + 1) + "-" + dayOfMonth;
+        setupRecyclerView();
+
+        getTaskListData(date);
+        showLoading();
     }
 }

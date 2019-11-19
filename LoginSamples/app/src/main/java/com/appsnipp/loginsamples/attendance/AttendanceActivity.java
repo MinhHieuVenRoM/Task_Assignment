@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.Toast;
@@ -22,7 +23,10 @@ import com.appsnipp.loginsamples.model.Attendance.DataAttendanceRespose;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +44,10 @@ public class AttendanceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
-        calendarView=findViewById(R.id.calenderView);
+        setupfisrtView();
+
+
+        calendarView = findViewById(R.id.calenderView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @Override
@@ -48,9 +55,9 @@ public class AttendanceActivity extends AppCompatActivity {
                                             int dayOfMonth) {
                 // TODO Auto-generated method stub
 
-                String selectedDate="Date is : " + dayOfMonth +" / " + (month+1) + " / " + year;
+                String selectedDate = "Date is : " + dayOfMonth + " / " + (month + 1) + " / " + year;
                 Toast.makeText(AttendanceActivity.this, selectedDate, Toast.LENGTH_SHORT).show();
-                String date=year+"-"+(month+1)+"-"+dayOfMonth;
+                String date = year + "-" + (month + 1) + "-" + dayOfMonth;
                 setupRecyclerView();
 
                 getAttendanceListData(date);
@@ -60,7 +67,21 @@ public class AttendanceActivity extends AppCompatActivity {
 //        final int flags =  View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 //        getWindow().getDecorView().setSystemUiVisibility(flags);
     }
-   private void getAttendanceListData(String date) {
+
+    private void setupfisrtView(){
+        Calendar cal = Calendar.getInstance();
+
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        String date = year + "-" + (month + 1) + "-" + dayOfMonth;
+        setupRecyclerView();
+
+        getAttendanceListData(date);
+        showLoading();
+}
+
+    private void getAttendanceListData(String date) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
