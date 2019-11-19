@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.ProjectAdapter;
@@ -51,7 +52,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
     ProgressDialog progressDialog;
     private int mYear, mMonth, mDay;
     private TextView tv_enddate_addproject, tv_full_name_project_addproject;
-
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,18 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
         setupRecyclerView();
 
         showLoading();
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showLoading();
+                getProjectListData();
+                setupRecyclerView();
+                swipeContainer.setRefreshing(false);
 
+            }
+        });
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +255,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                         if (models != null) {
                             Toast.makeText(ProjectActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
-                            onResume();
+
                         }
                     }
 
@@ -270,8 +282,8 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
 
     @Override
     public void onResume() {  // After a pause OR at startup
-        setupRecyclerView();
-        getProjectListData();
+//        setupRecyclerView();
+//        getProjectListData();
 
         super.onResume();
 

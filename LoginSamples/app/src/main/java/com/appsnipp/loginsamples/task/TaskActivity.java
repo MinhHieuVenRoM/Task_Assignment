@@ -24,6 +24,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.TaskAdapter;
@@ -65,6 +66,8 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
     private int mYear, mMonth, mDay;
     ArrayAdapter<String> spinnerAdapter;
     int status_id = 0;
+    private SwipeRefreshLayout swipeContainer;
+
 
     public TaskActivity() {
     }
@@ -105,7 +108,18 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
             }
         });
 
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showLoading();
+                getTaskListData();
+                setupRecyclerView();
+                swipeContainer.setRefreshing(false);
 
+            }
+        });
     }
 
     public void goToAddingTaskActivity() {
@@ -192,8 +206,8 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
     public void onResume() {  // After a pause OR at startup
         super.onResume();
         title.setText(model.getName());
-        setupRecyclerView();
-        getTaskListData();
+//        setupRecyclerView();
+//        getTaskListData();
 
 
         //Refresh your stuff here
@@ -299,6 +313,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
                             model.setName(name);
 
                             model.setEndDate(models.getDataProject().getEndDate());
+
                             onResume();
                         }else {
                             Toast.makeText(TaskActivity.this,"Error edit project", Toast.LENGTH_SHORT).show();
