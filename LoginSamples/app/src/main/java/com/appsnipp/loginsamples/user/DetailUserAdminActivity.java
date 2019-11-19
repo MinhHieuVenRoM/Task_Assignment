@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -51,7 +52,8 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
     ArrayAdapter<String> spinnerAdapterstatus;
     UserModelDetail modeluser;
     private int mYear, mMonth, mDay;
-    private AppCompatTextView tv_full_name, tv_birthday, tv_email, tv_sex, tv_mobile, tv_role_detail_admin, tv_detail_status_admin, tv_edit, tv_reset;
+    private AppCompatTextView tv_full_name, tv_birthday, tv_email, tv_sex, tv_mobile, tv_role_detail_admin, tv_detail_status_admin, tv_reset;
+    private RelativeLayout rl_edit_profile;
     private ArrayList<UserModelDetail> mUsermodelDetails;
 
     ProgressDialog progressDialog;
@@ -62,7 +64,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_detail_user_admin);
         getbyid();
         tv_birthday.setOnClickListener(this);
-        tv_edit.setOnClickListener(this);
+        rl_edit_profile.setOnClickListener(this);
         tv_reset.setOnClickListener(this);
         getDataIntent();
         showLoading();
@@ -112,7 +114,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         tv_sex = findViewById(R.id.tv_sex_detail);
         tv_role_detail_admin = findViewById(R.id.tv_role_detail_admin);
         tv_detail_status_admin = findViewById(R.id.tv_detail_status_admin_);
-        tv_edit = findViewById(R.id.tv_edit_admin);
+        rl_edit_profile = findViewById(R.id.rl_edit_profile);
         tv_reset=findViewById(R.id.tv_reset_password);
     }
 
@@ -166,7 +168,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if (v == tv_edit) {
+        if (v == rl_edit_profile) {
 
             Intent intent = new Intent(this, EditUserAdminActivity.class);
             intent.putExtra("usermodel", modeluser);
