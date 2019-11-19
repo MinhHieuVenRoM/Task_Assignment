@@ -54,8 +54,8 @@
         android:textColorHint="#868686"/>
 
     <include
-        layout="@layout/recyclerview_layout"
-        android:id="@+id/rv_managementuser"
+        layout="@layout/recyclerview_user"
+        android:id="@+id/rv_userlist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/_85sdp"

@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.View;
 import android.widget.Toast;
@@ -40,6 +41,8 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
 
     private ArrayList<UserModelDetail> mUsermodelDetails;
     private ManagementUserAdapter mAdapter;
+    private SwipeRefreshLayout swipeContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +62,6 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
 //                        .setAction("Action", null).show();
 //            }
 //        });
-
         getlistuser();
         setupRecyclerView();
 
@@ -67,7 +69,7 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
     }
 
     private void setupRecyclerView() {
-        RecyclerView mRecyclerView = findViewById(R.id.rv_managementuser);
+        RecyclerView mRecyclerView = findViewById(R.id.rv_userlist);
         mRecyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
