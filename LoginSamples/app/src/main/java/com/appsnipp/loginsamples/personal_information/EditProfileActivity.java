@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.user.EditUserAdminActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 
+import java.text.ParseException;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -159,12 +161,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditProfileActivity.this);
                 alertDialog.setTitle("Confirm ...");
-                alertDialog.setMessage("You want to log out");
+                alertDialog.setMessage("You want to save ");
                 alertDialog.setIcon(R.mipmap.ic_launcher);
                 alertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
+                                if(checkvalidate()==0){
                                 String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
                                 int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
                                 int status = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getStatus();
@@ -190,6 +192,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                                 Toast.makeText(EditProfileActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                                             }
                                         });
+                                }
 
                             }
                         });
@@ -213,7 +216,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
+    public int checkvalidate(){
+        String phone = et_mobile_edit_user.getText().toString().trim();
+        int kq=0;
+        if (TextUtils.isEmpty(phone)) {
+            Toast.makeText(getApplicationContext(), "Enter Phone!", Toast.LENGTH_SHORT).show();
+            kq=1;
+        }
 
+        if (phone.length() != 10) {
+            Toast.makeText(getApplicationContext(), "phone have 10 number!", Toast.LENGTH_SHORT).show();
+            kq=1;
+        }
+return kq;
+    }
 
     private String setendate(String trim) {
         String[] date = trim.split("-");

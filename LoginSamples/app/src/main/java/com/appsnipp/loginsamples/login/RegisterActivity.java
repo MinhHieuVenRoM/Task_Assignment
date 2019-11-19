@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!isValidPhone(et_phone_register.getText().toString())) {
-                    inputEmail.setError("Enter a valid phone number");
+                    et_phone_register.setError("Enter a valid phone number");
                 }
             }
 
@@ -197,6 +197,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
         if (password.length() < 6) {
             Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (phone.length() != 10) {
+            Toast.makeText(getApplicationContext(), "phone have 10 number!", Toast.LENGTH_SHORT).show();
             return;
         }
         showLoading();

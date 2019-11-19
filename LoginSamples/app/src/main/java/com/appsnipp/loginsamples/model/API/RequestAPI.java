@@ -38,7 +38,7 @@ public interface  RequestAPI {
             @Header("Authorization") String token,
             @Field("user_id") String user_id
     );
-    @POST("project/task/get_user_project_tasks")
+    @POST("task/get_user_project_tasks")
     @FormUrlEncoded
     Call<TaskListResponse>  getTasktofUser(
             @Header("Authorization") String token,

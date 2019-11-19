@@ -141,6 +141,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         @Override
                         public void onClick(View view) {
                             // TODO Do something
+                            if(tv_newpass.getText().toString().length()<6){
+
+                                Toast.makeText(ProfileActivity.this, "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+
+                            }
                             if(tv_newpass.getText().toString().equals(tv_newpass_again.getText().toString())==false){
 
                                 Toast.makeText(ProfileActivity.this, "The Confirm password new is different from the new password", Toast.LENGTH_SHORT).show();
@@ -153,7 +158,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                             }
                             else {
-
                                 showLoading();
                                 changepasswped(tv_pass_current.getText().toString(),tv_newpass.getText().toString(),dialog);
 

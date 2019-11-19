@@ -172,6 +172,7 @@
                 <EditText
                     android:id="@+id/et_mobile_edit_user"
                     style="@style/TextViewContent"
+                    android:inputType="phone"
                     tools:text="0123456789" />
 
                 <androidx.appcompat.widget.AppCompatTextView

@@ -104,7 +104,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("Chi tiết task");
+        mTitle.setText("Detail task");
 
         setOptionSpinner(model.getStatus());
         status_id = model.getStatus();
