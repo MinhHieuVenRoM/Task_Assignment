@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.appsnipp.loginsamples.attendance.AttendanceDetailActivity;
 import com.appsnipp.loginsamples.chat.ChatActivity;
 import com.appsnipp.loginsamples.conclude.ConcludeActivity;
 import com.appsnipp.loginsamples.login.LoginActivity;
@@ -27,8 +28,10 @@ import com.appsnipp.loginsamples.model.Attendance.Attendance;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Attendance.Data;
 import com.appsnipp.loginsamples.model.Attendance.Datacheckout;
+import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserEditModel;
+import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.personal_information.ProfileActivity;
 import com.appsnipp.loginsamples.project.ProjectActivity;
 import com.appsnipp.loginsamples.task.TaskActivity;
@@ -42,6 +45,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -52,10 +56,13 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     DrawerLayout drawer;
     User userModel;
+    UserModelDetail modeluser;
     CardView car_summary,admin_home;
     TextView tv_checkin_out,tv_username_main,tv_gmail_main;
     Data modelAttendance;
     private ProgressDialog progressDialog;
+    private ArrayList<UserModelDetail> mUsermodelDetails;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +70,9 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         setContentView(R.layout.activity_home);
 
         getDataIntent();
-        checkAttendance();
+        showdialogCheckin();
 
+        getprofileuser();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -98,6 +106,32 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         showLoading();
     }
 
+  private void showdialogCheckin(){
+
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
+        alertDialog.setTitle("Confirm ...");
+        alertDialog.setMessage("You want to check in");
+        alertDialog.setIcon(R.mipmap.ic_launcher);
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        checkAttendance();
+
+                    }
+                });
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
+
+
+    }
+
     private void checkAttendance() {
         String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -129,7 +163,30 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     }
 
+    private void getprofileuser() {
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String email = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getEmail();
+        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+        service.viewprofile(token,email)
+                .enqueue(new Callback<ListUserModel>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ListUserModel> call, @NonNull Response<ListUserModel> response) {
+                        progressDialog.dismiss();
+                        ListUserModel models = response.body();
+                        if (models != null) {
+                            mUsermodelDetails = models.getData();
+                            // Toast.makeText(ProfileActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                            modeluser = mUsermodelDetails.get(0);
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(@NonNull Call<ListUserModel> call, @NonNull Throwable t) {
+                        progressDialog.dismiss();
+                        Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     private void checkoutAttendance() {
         String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -153,6 +210,11 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                         JSONObject object = new JSONObject(response.errorBody().string());
                         Attendance_checkout model = gson.fromJson(object.toString(), Attendance_checkout.class);
                         Toast.makeText(HomeActivity.this, model.getMessage(), Toast.LENGTH_SHORT).show();
+                        if(!model.getMessage().equals("user already checkout")){
+                            showdialogCheckin();
+
+                        }
+
                     } catch (Exception e) {
                         Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
@@ -194,6 +256,12 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             case R.id.nav_profile: {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 intent.putExtra("usermodel", (Serializable) userModel);
+                startActivity(intent);
+                break;
+            }
+            case R.id.nav_attendance: {
+                Intent intent = new Intent(HomeActivity.this, AttendanceDetailActivity.class);
+                intent.putExtra("usermodel", (Serializable) modeluser);
                 startActivity(intent);
                 break;
             }
