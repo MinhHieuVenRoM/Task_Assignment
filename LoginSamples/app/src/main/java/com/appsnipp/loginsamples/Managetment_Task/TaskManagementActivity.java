@@ -112,7 +112,7 @@ public class TaskManagementActivity extends AppCompatActivity implements TaskIte
         finish();
     }
     public void AttendanceClicked(View view) {
-        Intent intent = new Intent(this, AttendanceReportActivity.class);
+        Intent intent = new Intent(this, UserManagentTaskActivity.class);
         startActivity(intent);
     }
 

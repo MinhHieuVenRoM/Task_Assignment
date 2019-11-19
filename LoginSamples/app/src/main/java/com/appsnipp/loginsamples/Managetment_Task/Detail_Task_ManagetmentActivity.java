@@ -1,4 +1,13 @@
-package com.appsnipp.loginsamples.task;
+package com.appsnipp.loginsamples.Managetment_Task;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,15 +26,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.TaskAdapter;
 import com.appsnipp.loginsamples.adapter.TaskItemClicked;
@@ -37,7 +37,10 @@ import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
 import com.appsnipp.loginsamples.model.Task_model.TaskListResponse;
 import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.User_model.User;
-import com.appsnipp.loginsamples.project.ProjectActivity;
+import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
+import com.appsnipp.loginsamples.task.AddingTaskActivity;
+import com.appsnipp.loginsamples.task.DetailTaskActivity;
+import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -49,7 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
+public class Detail_Task_ManagetmentActivity extends AppCompatActivity implements TaskItemClicked {
     private TaskAdapter mAdapter;
     private RecyclerView recyclerView;
     private TaskListResponse mTaskModelList;
@@ -65,16 +68,13 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
     ArrayAdapter<String> spinnerAdapter;
     int status_id = 0;
     private SwipeRefreshLayout swipeContainer;
+    UserModelDetail modeluser;
 
-
-    public TaskActivity() {
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
-
         getDataIntent();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -126,7 +126,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
 
     public void goToAddingTaskActivity() {
 
-        Intent intent = new Intent(TaskActivity.this, AddingTaskActivity.class);
+        Intent intent = new Intent(Detail_Task_ManagetmentActivity.this, AddingTaskActivity.class);
         intent.putExtra("projectModel", model);
         startActivity(intent);
     }
@@ -134,6 +134,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
     private void getDataIntent() {
         Intent intent = getIntent();
         model = (ProjectModel) intent.getSerializableExtra("projectModel");
+        modeluser = (UserModelDetail) intent.getSerializableExtra("usermodel");
     }
 
     private void getTaskListData() {
@@ -141,7 +142,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
 
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<TaskListResponse> call = service.gettaskofproject(token, model.getId());
+        Call<TaskListResponse> call = service.getTasktofUser(token, model.getId(),model.getId());
         call.enqueue(new Callback<TaskListResponse>() {
             @Override
             public void onResponse(@NonNull Call<TaskListResponse> call, @NonNull Response<TaskListResponse> response) {
@@ -157,13 +158,13 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
             @Override
             public void onFailure(@NonNull Call<TaskListResponse> call, @NonNull Throwable t) {
                 progressDialog.dismiss();
-                Toast.makeText(TaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Detail_Task_ManagetmentActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void showLoading() {
-        progressDialog = new ProgressDialog(TaskActivity.this);
+        progressDialog = new ProgressDialog(Detail_Task_ManagetmentActivity.this);
         progressDialog.setMessage("Loading....");
         progressDialog.show();
     }
@@ -179,22 +180,11 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT && resultCode == Activity.RESULT_OK) {
-            assert data != null;
-            String temp = data.getStringExtra("taskmodel");
-            assert temp != null;
-            if (temp.equals("what do you want")) {
 
-            }
-        }
-    }
 
     @Override
     public void onItemClickedTask(int position, TaskModel modeltask) {
-        Toast.makeText(TaskActivity.this, modeltask.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(Detail_Task_ManagetmentActivity.this, modeltask.getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailTaskActivity.class);
         intent.putExtra("taskmodel", modeltask);
         startActivityForResult(intent, RESULT);
@@ -217,7 +207,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
 
     public void Editproject(View view) {
 
-        LayoutInflater inflater = LayoutInflater.from(TaskActivity.this);
+        LayoutInflater inflater = LayoutInflater.from(Detail_Task_ManagetmentActivity.this);
         View dialogVieEditProject = inflater.inflate(R.layout.dialog_edit_project, null);
         tv_full_name_project_addproject = dialogVieEditProject.findViewById(R.id.tv_full_name_project_edit_project);
         tv_enddate_addproject = dialogVieEditProject.findViewById(R.id.tv_end_date_edit_project);
@@ -251,7 +241,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
                 mMonth = c.get(Calendar.MONTH);
                 mDay = c.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(TaskActivity.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Detail_Task_ManagetmentActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -265,7 +255,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
         });
 
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TaskActivity.this);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Detail_Task_ManagetmentActivity.this);
         alertDialogBuilder.setView(dialogVieEditProject);
         alertDialogBuilder.setTitle("Edit Project"+model.getName().toString());
         alertDialogBuilder.setPositiveButton("Edit", null)
@@ -310,7 +300,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
                         progressDialog.dismiss();
                         Project_edit_model models = response.body();
                         if (models != null) {
-                            Toast.makeText(TaskActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Detail_Task_ManagetmentActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                             model.setName(name);
 
@@ -318,7 +308,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
 
                             onResume();
                         }else {
-                            Toast.makeText(TaskActivity.this,"Error edit project", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Detail_Task_ManagetmentActivity.this,"Error edit project", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
 
                         }
@@ -327,7 +317,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
                     @Override
                     public void onFailure(@NonNull Call<Project_edit_model> call, @NonNull Throwable t) {
                         progressDialog.dismiss();
-                        Toast.makeText(TaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Detail_Task_ManagetmentActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -348,6 +338,4 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
         finish();
     }
 
-
 }
-

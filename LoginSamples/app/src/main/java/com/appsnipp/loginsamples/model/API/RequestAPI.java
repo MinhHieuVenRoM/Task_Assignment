@@ -32,6 +32,20 @@ public interface  RequestAPI {
             @Header("Authorization") String token
     );
 
+    @POST("project/get_user_project")
+    @FormUrlEncoded
+    Call<ProjectListResponse>  getProjectofUser(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id
+    );
+    @POST("project/task/get_user_project_tasks")
+    @FormUrlEncoded
+    Call<TaskListResponse>  getTasktofUser(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id,
+            @Field("project_id") String project_id
+    );
+
 
     @POST("authenticate")
     @FormUrlEncoded

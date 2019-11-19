@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Managetment_Task.TaskManagementActivity"></activity>
+        <activity android:name=".Managetment_Task.Detail_Task_ManagetmentActivity"></activity>
+        <activity android:name=".Managetment_Task.ProjectManagetmentActivity" />
+        <activity android:name=".Managetment_Task.UserManagentTaskActivity" />
+        <activity android:name=".Managetment_Task.TaskManagementActivity" />
         <activity android:name=".attendance.AttendanceDetailActivity" />
         <activity
             android:name=".personal_information.EditProfileActivity"
