@@ -151,6 +151,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                                 if (!tv_full_name_project_addproject.getText().toString().equals("") && !tv_enddate_addproject.getText().toString().equals("")) {
                                     showLoading();
                                     add_project(tv_full_name_project_addproject.getText().toString(), tv_enddate_addproject.getText().toString(), dialog);
+
                                 }
 
 
@@ -258,8 +259,11 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                         ProjectAddResponse models = response.body();
                         if (models != null) {
                             Toast.makeText(ProjectActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
 
+                            dialog.dismiss();
+                            showLoading();
+                            getProjectListData();
+                            setupRecyclerView();
                         }
                     }
 
@@ -288,10 +292,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
     public void onResume() {  // After a pause OR at startup
 //        setupRecyclerView();
 //        getProjectListData();
-
         super.onResume();
-
-
 
         //Refresh your stuff here
     }

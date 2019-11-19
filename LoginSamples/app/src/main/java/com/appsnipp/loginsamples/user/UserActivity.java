@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +43,10 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
     private ArrayList<UserModelDetail> mUsermodelDetails;
     private ManagementUserAdapter mAdapter;
     private SwipeRefreshLayout swipeContainer;
+    public static String USER_MODEL_KEY = "USER_MODEL_KEY";
+    public static String UPDATE_USER_MODEL_KEY = "UPDATE_USER_MODEL_KEY";
+    public static String POSITION_LIST_USER_KEY = "POSITION_LIST_USER_KEY";
+    public static int REQUEST_CODE_USER_DETAIL = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,18 +119,25 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
     public void onItemClickeduser(int position, UserModelDetail model) {
         Toast.makeText(UserActivity.this, model.getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailUserAdminActivity.class);
-        intent.putExtra("usermodel", model);
-        startActivity(intent);
+        intent.putExtra(USER_MODEL_KEY, model);
+        intent.putExtra(POSITION_LIST_USER_KEY, position);
+//        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_USER_DETAIL);
     }
+
     @Override
-    public void onResume() {  // After a pause OR at startup
-        super.onResume();
-
-        setupRecyclerView();
-        getlistuser();
-
-
-        //Refresh your stuff here
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_USER_DETAIL && resultCode == RESULT_OK && data != null){
+            String dataCode = data.getStringExtra(UPDATE_USER_MODEL_KEY);
+            UserModelDetail userModelDetail = (UserModelDetail) data.getSerializableExtra(USER_MODEL_KEY);
+            int position = data.getIntExtra(POSITION_LIST_USER_KEY, 0);
+            if (dataCode.equals("Update")){
+                getlistuser();
+                mAdapter.userModelList.set(position, userModelDetail);
+                mAdapter.notifyItemChanged(position);
+            }
+        }
     }
 
     public void back_home_list_user(View view) {

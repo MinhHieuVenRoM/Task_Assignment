@@ -38,6 +38,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.user.UserActivity.POSITION_LIST_USER_KEY;
+import static com.appsnipp.loginsamples.user.UserActivity.UPDATE_USER_MODEL_KEY;
+import static com.appsnipp.loginsamples.user.UserActivity.USER_MODEL_KEY;
+
 public class DetailUserAdminActivity extends AppCompatActivity implements View.OnClickListener {
     String[] status_item = {"Active", "Inactive"};
     String[] role_item = {"Admin", "User"};
@@ -68,7 +72,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
     private void getDataIntent() {
 
         Intent intent = getIntent();
-        modeluser = (UserModelDetail) intent.getSerializableExtra("usermodel");
+        modeluser = (UserModelDetail) intent.getSerializableExtra(USER_MODEL_KEY);
     }
 
     private void showLoading() {
@@ -190,11 +194,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
                         }
                     });
             alertDialog.show();
-
-
-
         }
-
     }
     private void reset_password() {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
@@ -243,7 +243,11 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
     }
 
     public void back_home_profile(View view) {
+        Intent intent = new Intent();
+        intent.putExtra(UPDATE_USER_MODEL_KEY, "Update");
+        intent.putExtra(POSITION_LIST_USER_KEY, getIntent().getIntExtra(POSITION_LIST_USER_KEY, 0));
+        intent.putExtra(USER_MODEL_KEY, modeluser);
+        setResult(RESULT_OK, intent);
         finish();
     }
-
 }

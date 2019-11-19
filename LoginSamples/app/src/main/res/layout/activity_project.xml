@@ -30,25 +30,25 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <EditText
-        android:id="@+id/search_project"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_search_black_24dp"
-        android:hint="Search"
-        android:layout_marginTop="@dimen/_48sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
-        android:fontFamily="@font/nunito"
-        android:textSize="@dimen/_13sdp"
-        android:textColorHint="#868686"
-       />
+<!--    <EditText-->
+<!--        android:id="@+id/search_project"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:drawableLeft="@drawable/ic_search_black_24dp"-->
+<!--        android:hint="Search"-->
+<!--        android:layout_marginTop="@dimen/_48sdp"-->
+<!--        android:layout_marginRight="@dimen/_5sdp"-->
+<!--        android:layout_marginLeft="@dimen/_5sdp"-->
+<!--        android:fontFamily="@font/nunito"-->
+<!--        android:textSize="@dimen/_13sdp"-->
+<!--        android:textColorHint="#868686"-->
+<!--       />-->
 
     <include
         layout="@layout/recyclerview_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_project"
+        android:layout_below="@id/toolbar"
        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -61,6 +61,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:focusable="auto"
         android:visibility="gone"
+        android:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/ic_library_add_black_24dp"
 
         />

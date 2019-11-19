@@ -4,7 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -63,10 +66,69 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         getbyid();
+        inputEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!isValidEmail(inputEmail.getText().toString())) {
+                    inputEmail.setError("Enter a valid address");
+                }
+            }
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (inputEmail.getText().toString().equals("")) {
+                    inputEmail.setError("Please enter your email.");
+                }
+                if (inputEmail.getText().toString().contains(".*[^a-z^0-9].*")) {
+                    inputEmail.setError("Enter a valid address");
+                }
+            }
+        });
+        et_phone_register.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!isValidPhone(et_phone_register.getText().toString())) {
+                    inputEmail.setError("Enter a valid phone number");
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (et_phone_register.getText().toString().equals("")) {
+                    et_phone_register.setError("Please enter your phone number.");
+                }
+                if (et_phone_register.getText().toString().contains(".*[^a-z].*")) {
+                    et_phone_register.setError("Enter a valid phone number");
+                }
+            }
+        });
     }
-
+    public static boolean isValidEmail(String target) {
+        if (target == null) {
+            return false;
+        } else {
+            //android Regex to check the email address Validation
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+    public static boolean isValidPhone(String target) {
+        if (target == null) {
+            return false;
+        } else {
+            //android Regex to check the email address Validation
+            return Patterns.PHONE.matcher(target).matches();
+        }
+    }
     private void getbyid() {
         inputEmail = (EditText) findViewById(R.id.editTextEmail_register);
         inputPassword = (EditText) findViewById(R.id.textpasswordregister);

@@ -110,14 +110,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if(v==btn_edit_user){
-
-            Intent intent = new Intent(this, EditProfileActivity.class);
-            intent.putExtra("usermodel", modeluser);
-            startActivity(intent);
-
-
-        }
         if(v==rl_change_password){
             LayoutInflater li = LayoutInflater.from(ProfileActivity.this);
             View dialogViewAddProject = li.inflate(R.layout.dialog_change_password, null);
@@ -255,5 +247,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onResume() {
         getprofileuser();
         super.onResume();
+    }
+
+    public void EditProfile(View view) {
+        Intent intent = new Intent(this, EditProfileActivity.class);
+        intent.putExtra("usermodel", modeluser);
+        startActivity(intent);
     }
 }
