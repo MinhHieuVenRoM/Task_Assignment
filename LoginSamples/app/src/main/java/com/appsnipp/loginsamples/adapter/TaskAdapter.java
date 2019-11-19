@@ -70,11 +70,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
                 status="OPEN";
             }else  if(m.getStatus()==1)
             {
-                status="Fixing";
+                status="FIXING";
             }else if(m.getStatus()==2){
-                status="Fixed";
+                status="FIXED";
             }else{
-                status="Done";
+                status="DONE";
 
             }
             trangthai.setText(status);
