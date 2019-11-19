@@ -333,6 +333,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
                                 Toast.makeText(HomeActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
                                 finish();
+                                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                                startActivity(intent);
                             }
                         });
                 alertDialog.setNegativeButton("NO",
