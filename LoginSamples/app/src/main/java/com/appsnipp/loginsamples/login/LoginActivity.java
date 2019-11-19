@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
 //                        intent.putExtra("usermodel", usermodel);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(LoginActivity.this, mModelLogin.getMessage(), Toast.LENGTH_SHORT).show();
                     }

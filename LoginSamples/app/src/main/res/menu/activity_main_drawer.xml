@@ -10,6 +10,10 @@
             android:icon="@drawable/icon_update"
             android:title="@string/profile" />
         <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/bookmark"
+            android:title="Attendance History" />
+        <item
             android:id="@+id/nav_checkout"
             android:icon="@drawable/ic_menu_send"
             android:title="Check Out" />
