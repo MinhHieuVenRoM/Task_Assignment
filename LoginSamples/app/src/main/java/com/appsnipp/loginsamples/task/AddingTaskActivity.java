@@ -144,6 +144,7 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
 
                         }
                     }, mYear, mMonth, mDay);
+            datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
             datePickerDialog.show();
         }
         if (v == btnadd) {

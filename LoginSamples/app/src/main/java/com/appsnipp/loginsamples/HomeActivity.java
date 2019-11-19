@@ -26,6 +26,7 @@ import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Attendance.Attendance;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
+import com.appsnipp.loginsamples.model.Attendance.Check;
 import com.appsnipp.loginsamples.model.Attendance.Data;
 import com.appsnipp.loginsamples.model.Attendance.Datacheckout;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
@@ -63,14 +64,14 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     private ProgressDialog progressDialog;
     private ArrayList<UserModelDetail> mUsermodelDetails;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         getDataIntent();
-        showdialogCheckin();
+        check();
+
 
         getprofileuser();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -231,7 +232,37 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
 
     }
+    private void check() {
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormatter.setLenient(false);
+        Date today = new Date();
+        String date = dateFormatter.format(today);
 
+        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+        Call<Check> call = service.checkin(token,date);
+        call.enqueue(new Callback<Check>() {
+            @Override
+            public void onResponse(@NonNull Call<Check> call, @NonNull Response<Check> response) {
+                progressDialog.dismiss();
+                Check models = response.body();
+                if (models != null && !models.getMessage().toString().equals("True")) {
+                        showdialogCheckin();
+
+                }else {
+                    Toast.makeText(HomeActivity.this,"user already checkin", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Check> call, @NonNull Throwable t) {
+                Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
     public void chatClicked(View view){
         Intent intent = new Intent(this, ChatActivity.class);
         startActivity(intent);

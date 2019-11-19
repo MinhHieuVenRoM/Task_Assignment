@@ -67,9 +67,10 @@
             <EditText
                 style="@style/modifiedEditText"
                 android:id="@+id/et_dob_register"
-                android:inputType="textEmailAddress"
+                android:inputType="date"
                 android:maxLines="1"
                 android:hint="Date of birth"
+                android:text="1/1/2001"
                 android:focusable="false"/>
         </com.google.android.material.textfield.TextInputLayout>
 

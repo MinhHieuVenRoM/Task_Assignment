@@ -6,6 +6,7 @@ import com.appsnipp.loginsamples.model.Attendance.Attendance;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_List;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_list_detail;
+import com.appsnipp.loginsamples.model.Attendance.Check;
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
@@ -46,6 +47,12 @@ public interface  RequestAPI {
             @Field("project_id") String project_id
     );
 
+    @POST("attendance/check_attendance")
+    @FormUrlEncoded
+    Call<Check>  checkin(
+            @Header("Authorization") String token,
+            @Field("date") String date
+    );
 
     @POST("authenticate")
     @FormUrlEncoded

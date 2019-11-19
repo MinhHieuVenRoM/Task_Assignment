@@ -120,6 +120,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
                                         updateDateUI(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                                     }
                                 }, mYear, mMonth, mDay);
+                        datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                         datePickerDialog.show();
                     }
                 });
