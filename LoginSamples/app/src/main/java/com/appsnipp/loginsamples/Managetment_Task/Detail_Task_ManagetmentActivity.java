@@ -92,7 +92,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         if (role == 0) {
 
             img_editproject.setVisibility(View.VISIBLE);
-            btn_add_task.setVisibility(View.VISIBLE);
+           // btn_add_task.setVisibility(View.VISIBLE);
         }
 
         findViewById(R.id.btn_add_task).setOnClickListener(new View.OnClickListener() {
