@@ -85,10 +85,21 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
 
                         ListUserModel models = response.body();
                         if (models != null) {
-                            mUsermodelDetails = models.getData();
-                            int i = 0;
+                           // mUsermodelDetails = models.getData();
+                            ArrayList<UserModelDetail> modelDetails = models.getData();
+                            mUsermodelDetails=new ArrayList<UserModelDetail>();
+                            int i=0;
+                            for (UserModelDetail item : modelDetails) {
+                                if(item.getStatus()==1){
+
+                                    mUsermodelDetails.add(item);
+                                }
+                                i++;
+                            }
                             for (UserModelDetail item : mUsermodelDetails) {
-                                listUsers.add(item.getName());
+                                if(item.getStatus()==1){
+                                    listUsers.add(item.getName());
+                                }
                             }
                             spinnerAdapter.notifyDataSetChanged();
                         }
