@@ -2,5 +2,6 @@
     "name" : "KhueNguyen",
     "email" : "star.itachi@gmail.com",
     "password" : "Sakuraclone",
-    "secret" : "mySerectKey"
+    "secret" : "mySerectKey",
+    "default_password": "user1234"
 }

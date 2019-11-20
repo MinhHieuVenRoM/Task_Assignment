@@ -39,9 +39,9 @@ exports.loginUser = (email,password) =>
 exports.getProfile = email =>
     new Promise((resolve,reject)=>{
         //set 0 to exclude _id
-        user.find({email: email},{_id: 0})
+        user.find({email: email},{hashed_password:0,token:0})
 
-        .then(users=> resolve(users[0]))
+        .then(users=> resolve(users))
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })
 exports.registerUser = (name,email,password,sex,phone,dob) =>
@@ -103,11 +103,27 @@ exports.editUserById = (updates,body_val) =>
             }
           }
           
-          user.save();
-          return user
+          
+          return user.save()
         })
 
         .then((user)=>resolve({status: 201,message: 'User has been updated successfully!',data: user }))
 
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
+    })
+
+exports.resetPassword = (email) =>
+    new Promise((resolve,reject)=>{
+        user.find({email:email})
+        .then((users)=>{
+            let user = users[0]
+            const salt = bcrypt.genSaltSync(10);
+            const hash = bcrypt.hashSync(config.default_password,salt)
+            user.hashed_password = hash
+            return user.save()
+        })
+
+        .then((user)=>resolve({status: 201,message: 'Password has been reseted successfully!',data: user }))
+
+        .catch(err=> reject({status: 500, message: 'Internal Server Error!'}))
     })
