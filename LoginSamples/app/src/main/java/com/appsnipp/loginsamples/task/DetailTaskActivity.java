@@ -256,6 +256,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
                             }
                         }, mYear, mMonth, mDay);
+                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }
             if (v == btn_edit_task) {

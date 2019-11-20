@@ -1,10 +1,5 @@
 package com.appsnipp.loginsamples.Managetment_Task;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +7,14 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.TaskAdapter;
 import com.appsnipp.loginsamples.adapter.TaskItemClicked;
-import com.appsnipp.loginsamples.attendance.AttendanceReportActivity;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;

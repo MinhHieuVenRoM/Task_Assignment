@@ -14,6 +14,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
+
+            android:padding="@dimen/_5sdp"
             android:src="@drawable/ic_arrow_back"
             android:onClick="back_home_profile"/>
 
@@ -53,6 +55,7 @@
             android:layout_below="@id/rl_background"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_15sdp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -73,7 +76,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_edit"
                 android:gravity="center"
-                android:text="Edit\nprofile"
+
+                android:text="    Edit\n    Profile"
                 android:textColor="#B3000000"
                 android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
@@ -105,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_change_password"
                 android:gravity="center"
-                android:text="Change\npassword"
+                android:text="Change\nPassword"
                 android:textColor="#B3000000"
                 android:textSize="@dimen/_12sdp" />
         </RelativeLayout>
@@ -129,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_upload"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_12ssp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:textColor="#000"
             android:textSize="30sp"
             tools:text="Nguyễn Minh Hiếu" />

@@ -17,7 +17,9 @@
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:src="@drawable/ic_arrow_back"
-            android:onClick="back_home_profile_admin"/>
+
+            android:padding="@dimen/_5sdp"
+            android:onClick="back_home_profile_user"/>
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
@@ -123,8 +125,8 @@
             android:textColor="@color/colorPrimary"
             android:visibility="gone" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_full_name_edit"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tv_full_name_edit_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_upload"
@@ -137,7 +139,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tv_full_name_edit">
+            android:layout_below="@id/tv_full_name_edit_user">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -173,6 +175,8 @@
                     android:id="@+id/et_mobile_edit_user"
                     style="@style/TextViewContent"
                     android:inputType="phone"
+                    app:counterMaxLength="10"
+                    android:maxLength="10"
                     tools:text="0123456789" />
 
                 <androidx.appcompat.widget.AppCompatTextView

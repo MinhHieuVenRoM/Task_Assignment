@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.appsnipp.loginsamples.R;
@@ -46,7 +47,8 @@ public class EditUserAdminActivity extends AppCompatActivity implements View.OnC
     Spinner spinnersex;
     ArrayAdapter<String> spinnerAdaptersex;
     private int mYear, mMonth, mDay;
-    private AppCompatTextView tv_full_name, tv_birthday, tv_email_detail_edit;
+    private AppCompatTextView  tv_birthday, tv_email_detail_edit;
+    private AppCompatEditText tv_full_name;
     private EditText tv_mobile_edit_admin;
     RelativeLayout btn_edit;
     private ProgressDialog progressDialog;
@@ -207,7 +209,7 @@ public class EditUserAdminActivity extends AppCompatActivity implements View.OnC
                             public void onClick(DialogInterface dialog, int which) {
                                 String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
                                 RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-                                service.edituser(token, modeluser.getId(), tv_mobile_edit_admin.getText().toString(), setendate(tv_birthday.getText().toString()), sex_id, role_id, status_id)
+                                service.edituser(token, modeluser.getId(),tv_full_name.getText().toString(), tv_mobile_edit_admin.getText().toString(), setendate(tv_birthday.getText().toString()), sex_id, role_id, status_id)
                                         .enqueue(new Callback<UserEditModel>() {
                                             @Override
                                             public void onResponse(@NonNull Call<UserEditModel> call, @NonNull Response<UserEditModel> response) {

@@ -1,4 +1,5 @@
 package com.appsnipp.loginsamples.model.Task_model;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -95,7 +96,7 @@ public class TaskModel implements Serializable {
     }
 }
 
-class UserDetailname  implements Serializable{
+class UserDetailname implements Serializable {
 
     @SerializedName("name")
     @Expose

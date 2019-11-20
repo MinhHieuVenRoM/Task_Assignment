@@ -1,15 +1,5 @@
 package com.appsnipp.loginsamples.Managetment_Task;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -26,9 +16,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.adapter.TaskAdapter;
 import com.appsnipp.loginsamples.adapter.TaskItemClicked;
+import com.appsnipp.loginsamples.adapter.TaskbyUserAdapter;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
@@ -40,7 +38,6 @@ import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.task.AddingTaskActivity;
 import com.appsnipp.loginsamples.task.DetailTaskActivity;
-import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -53,7 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Detail_Task_ManagetmentActivity extends AppCompatActivity implements TaskItemClicked {
-    private TaskAdapter mAdapter;
+    private TaskbyUserAdapter mAdapter;
     private RecyclerView recyclerView;
     private TaskListResponse mTaskModelList;
     private TaskModel taskModel;
@@ -89,10 +86,10 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
 
         getTaskListData();
         showLoading();
-        AppCompatImageView img_editproject=findViewById(R.id.img_editproject);
-        FloatingActionButton btn_add_task=findViewById(R.id.btn_add_task);
+        AppCompatImageView img_editproject = findViewById(R.id.img_editproject);
+        FloatingActionButton btn_add_task = findViewById(R.id.btn_add_task);
         int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
-        if(role==0){
+        if (role == 0) {
 
             img_editproject.setVisibility(View.VISIBLE);
             btn_add_task.setVisibility(View.VISIBLE);
@@ -142,7 +139,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
 
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<TaskListResponse> call = service.getTasktofUser(token, model.getId(),model.getId());
+        Call<TaskListResponse> call = service.getTasktofUser(token, modeluser.getId(), model.getId());
         call.enqueue(new Callback<TaskListResponse>() {
             @Override
             public void onResponse(@NonNull Call<TaskListResponse> call, @NonNull Response<TaskListResponse> response) {
@@ -174,12 +171,10 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         //mRecyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new TaskAdapter(new ArrayList<TaskModel>());
+        mAdapter = new TaskbyUserAdapter(new ArrayList<TaskModel>(), modeluser.getName());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.itemClicked = this;
     }
-
-
 
 
     @Override
@@ -211,7 +206,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         View dialogVieEditProject = inflater.inflate(R.layout.dialog_edit_project, null);
         tv_full_name_project_addproject = dialogVieEditProject.findViewById(R.id.tv_full_name_project_edit_project);
         tv_enddate_addproject = dialogVieEditProject.findViewById(R.id.tv_end_date_edit_project);
-        status_id=model.getStatus();
+        status_id = model.getStatus();
         tv_full_name_project_addproject.setText(model.getName());
         tv_enddate_addproject.setText(getdate(model.getEndDate()));
 
@@ -223,7 +218,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                status_id= position;
+                status_id = position;
             }
 
             @Override
@@ -257,7 +252,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Detail_Task_ManagetmentActivity.this);
         alertDialogBuilder.setView(dialogVieEditProject);
-        alertDialogBuilder.setTitle("Edit Project"+model.getName().toString());
+        alertDialogBuilder.setTitle("Edit Project" + model.getName().toString());
         alertDialogBuilder.setPositiveButton("Edit", null)
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
@@ -280,7 +275,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
                         // TODO Do something
                         if (!tv_full_name_project_addproject.getText().toString().equals("") && !tv_enddate_addproject.getText().toString().equals("")) {
                             showLoading();
-                            edit_project(tv_full_name_project_addproject.getText().toString(), tv_enddate_addproject.getText().toString(),status_id, dialog);
+                            edit_project(tv_full_name_project_addproject.getText().toString(), tv_enddate_addproject.getText().toString(), status_id, dialog);
                         }
                     }
                 });
@@ -293,7 +288,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.editproject(token, model.getId(),name, setendate(end_Date),status_id)
+        service.editproject(token, model.getId(), name, setendate(end_Date), status_id)
                 .enqueue(new Callback<Project_edit_model>() {
                     @Override
                     public void onResponse(@NonNull Call<Project_edit_model> call, @NonNull Response<Project_edit_model> response) {
@@ -307,8 +302,8 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
                             model.setEndDate(models.getDataProject().getEndDate());
 
                             onResume();
-                        }else {
-                            Toast.makeText(Detail_Task_ManagetmentActivity.this,"Error edit project", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Detail_Task_ManagetmentActivity.this, "Error edit project", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
 
                         }
@@ -327,9 +322,10 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         String dob = date[2] + "-" + date[1] + "-" + date[0];
         return dob;
     }
+
     private String getdate(String trim) {
         String[] date = trim.split("-");
-        String dob = date[2].substring(0,2) + "-" + date[1] + "-" + date[0];
+        String dob = date[2].substring(0, 2) + "-" + date[1] + "-" + date[0];
         return dob;
     }
 

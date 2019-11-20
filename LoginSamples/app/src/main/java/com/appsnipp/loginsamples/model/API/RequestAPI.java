@@ -142,6 +142,7 @@ public interface  RequestAPI {
     Call<UserEditModel> edituser(
             @Header("Authorization") String token,
             @Field("_id") String _id,
+            @Field("name") String name,
             @Field("phone") String phone,
             @Field("dob") String dob ,
             @Field("sex") int sex,

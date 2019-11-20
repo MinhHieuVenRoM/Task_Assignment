@@ -57,7 +57,9 @@
                 android:id="@+id/et_phone_register"
                 style="@style/modifiedEditText"
                 android:inputType="phone"
-                android:maxLines="1"
+                android:maxLines="10"
+                app:counterMaxLength="10"
+                android:maxLength="10"
                 android:hint="Mobile Number"/>
         </com.google.android.material.textfield.TextInputLayout>
 

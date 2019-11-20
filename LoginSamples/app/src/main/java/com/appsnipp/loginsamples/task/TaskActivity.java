@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.appsnipp.loginsamples.Managetment_Task.Detail_Task_ManagetmentActivity;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.TaskAdapter;
 import com.appsnipp.loginsamples.adapter.TaskItemClicked;
@@ -86,12 +87,19 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
         setSupportActionBar(toolbar);
 
         setupRecyclerView();
+        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
 
-        getTaskListData();
+        if(role==0){
+
+            getTaskListData();
+        }else {
+            getTaskListDatauser();
+        }
+
+
         showLoading();
         AppCompatImageView img_editproject=findViewById(R.id.img_editproject);
         FloatingActionButton btn_add_task=findViewById(R.id.btn_add_task);
-        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
         if(role==0){
 
             img_editproject.setVisibility(View.VISIBLE);
@@ -135,7 +143,31 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
         Intent intent = getIntent();
         model = (ProjectModel) intent.getSerializableExtra("projectModel");
     }
+    private void getTaskListDatauser() {
+        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String id = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getId();
 
+        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+        Call<TaskListResponse> call = service.getTasktofUser(token, model.getId(),id);
+        call.enqueue(new Callback<TaskListResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<TaskListResponse> call, @NonNull Response<TaskListResponse> response) {
+                progressDialog.dismiss();
+                TaskListResponse models = response.body();
+                if (models != null) {
+                    mTaskModelList = models;
+                    mAdapter.taskModelList = mTaskModelList.getDataTask();
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TaskListResponse> call, @NonNull Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(TaskActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void getTaskListData() {
         String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
 
@@ -260,6 +292,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
                                 tv_enddate_addproject.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                             }
                         }, mYear, mMonth, mDay);
+                datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
                 datePickerDialog.show();
             }
         });

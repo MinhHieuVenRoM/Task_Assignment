@@ -123,14 +123,14 @@
             android:textColor="@color/colorPrimary"
             android:visibility="gone" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/tv_full_name_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_upload"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_12ssp"
-            android:text="Nguyễn Minh Khuê"
+            tools:text="Nguyễn Minh Khuê"
             android:textColor="#000"
             android:textSize="30sp" />
 
@@ -174,7 +174,9 @@
                     android:id="@+id/tv_mobile_edit_admin"
                     style="@style/TextViewContent"
                     android:inputType="phone"
-                    android:text="0123456789" />
+                    app:counterMaxLength="10"
+                    android:maxLength="10"
+                    tools:text="0123456789" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/TextViewTitle"
