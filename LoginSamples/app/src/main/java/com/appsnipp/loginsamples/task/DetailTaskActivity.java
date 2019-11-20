@@ -156,11 +156,20 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
                         ListUserModel models = response.body();
                         if (models != null) {
-                            mUsermodelDetails = models.getData();
-                            int i = 0;
-                            for (UserModelDetail item : mUsermodelDetails) {
-                                listUsers.add(item.getName());
+                            ArrayList<UserModelDetail> modelDetails = models.getData();
+                            mUsermodelDetails=new ArrayList<UserModelDetail>();
+                            int i=0;
+                            for (UserModelDetail item : modelDetails) {
+                                if(item.getStatus()==1){
 
+                                    mUsermodelDetails.add(item);
+                                }
+                                i++;
+                            }
+                            for (UserModelDetail item : mUsermodelDetails) {
+                                if(item.getStatus()==1){
+                                    listUsers.add(item.getName());
+                                }
                             }
                             spinnerAdapter.notifyDataSetChanged();
                         }
