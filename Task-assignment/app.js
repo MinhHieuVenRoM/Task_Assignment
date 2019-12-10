@@ -9,10 +9,10 @@ const bodyParser = require('body-parser');
 // db instance connection
 require('./server');
 
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-
-var app = express();
+var app = express(),
+http = require('http'),
+server = http.createServer(app),
+io = require('socket.io').listen(server)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,16 +28,15 @@ require('./routes/routes')(router);
 app.use('/api/v1', router);
 
 
-//app.listen(port);
+//handle chat
+// io.on("connection", socket => {
+//   console.log("user connected")
+// })
 
 // listen on port 3000
 // app.listen(3000, () => {
 //     console.log("Server is listening on port 3000");
 // });
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
 
 
 // catch 404 and forward to error handler

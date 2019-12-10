@@ -12,7 +12,7 @@ const authenticate  = require('../middleware/authenticate')
 const attendance = require('../controllers/attendanceContronller')
 
 module.exports = router =>{
-    router.get('/',(req,res)=> res.end('Welcome to task assignment apps'))
+    router.get('/',(req,res)=>  res.sendFile('F://Android/Android-project/Task_Assignment_Git/Task-assignment' + '/index.html')) //res.end('Welcome to task assignment apps'))
 
     router.post('/authenticate',(req,res)=>{
         // const credentials =  auth(req)
