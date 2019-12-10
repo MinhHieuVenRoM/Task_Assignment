@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Managetment_Task.TaskManagementActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorAccent"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/back_home_taskmanagetment"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_7sdp"
+            android:src="@drawable/ic_arrow_back"
+            android:onClick="back_home_taskmanagetment"
+            />
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/TitleToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="Task management"
+
+            />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_7sdp"
+            android:src="@drawable/list"
+            android:layout_gravity="end"
+            android:onClick="AttendanceClicked"
+            android:tint="@color/whiteTextColor"
+            />
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_Task_date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_270sdp"
+        app:layout_constraintBottom_toTopOf="@+id/calenderView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/calenderView_taskmanagement"
+        android:layout_alignParentEnd="true"
+        />
+
+    <CalendarView
+        android:id="@+id/calenderView_taskmanagement"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250sdp"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/background_cn"
+        android:dateTextAppearance="@style/CalenderViewDateCustomText"
+        android:textColorPrimary="@color/whiteTextColor"
+        android:theme="@style/CalenderViewCustom"
+        android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+</RelativeLayout>

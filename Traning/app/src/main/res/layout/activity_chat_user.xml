@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user.UserActivity"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_arrow_back"
+            android:onClick="back_home_list_user"/>
+
+        <TextView
+            android:id="@+id/toolbar_title_task"
+            style="@style/TitleToolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chat"
+            android:layout_gravity="center"/>
+    </androidx.appcompat.widget.Toolbar>
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:hint="  Search"
+        android:layout_marginTop="@dimen/_47sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:fontFamily="@font/nunito"
+        android:textSize="@dimen/_13sdp"
+        android:textColorHint="#868686"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_user_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+</androidx.appcompat.widget.LinearLayoutCompat>

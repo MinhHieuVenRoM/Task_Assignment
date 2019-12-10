@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/loginCard"
+    app:cardCornerRadius="@dimen/loginCardRadius"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/loginViewsMargin"
+    android:layout_marginBottom="@dimen/loginViewsMargin"
+    android:background="@color/whiteCardColor">
+
+
+
+    <LinearLayout
+        style="@style/linearParent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="@dimen/loginViewsMargin"
+        >
+
+        <TextView
+            style="@style/headerTextPrimary2"
+            android:text="Chức năng"
+            android:textSize="30sp"
+            android:layout_marginBottom="35dp"
+            android:layout_marginTop="@dimen/loginViewsMargin"/>
+        <Button
+            android:id="@+id/cirLoginButtoncheckinout"
+            style="@style/loginButton"
+            android:text="Check in / out"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            />
+
+
+        <Button
+            android:id="@+id/cirLoginButtonManagement"
+            style="@style/loginButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="Quản lý Task" />
+
+
+        <Button
+            android:id="@+id/cirLoginButtonTimekeeping"
+            style="@style/loginButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:text="Chấm công" />
+        <Button
+            android:id="@+id/cirLoginButtonLogout"
+            style="@style/loginButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+
+            android:text="LOG out" />
+        <Button
+            android:id="@+id/cirLoginButtoncomingsoon"
+            style="@style/loginButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/loginViewsMargin"
+            android:layout_marginBottom="50dp"
+            android:text="Chat"
+            android:onClick="chatClicked"
+
+            />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
