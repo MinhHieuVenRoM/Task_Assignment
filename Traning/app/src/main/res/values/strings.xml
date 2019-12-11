@@ -20,7 +20,6 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-    <string name="login">Login</string>
     <string name="user_name">User Name</string>
     <string name="action_email">Email</string>
     <string name="mobile">Mobile</string>
@@ -37,4 +36,6 @@
     <string name="title_activity_user">UserActivity</string>
     <string name="status">Status</string>
     <string name="summary">Summary</string>
+    <string name="app_trainee_management">App Trainee Management</string>
+    <string name="login">Login</string>
 </resources>

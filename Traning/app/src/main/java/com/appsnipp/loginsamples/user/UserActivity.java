@@ -3,20 +3,8 @@ package com.appsnipp.loginsamples.user;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.appsnipp.loginsamples.adapter.ManagementUserAdapter;
-import com.appsnipp.loginsamples.adapter.ManagementUserItemClicked;
-import com.appsnipp.loginsamples.login.LoginActivity;
-import com.appsnipp.loginsamples.model.API.APIClient;
-import com.appsnipp.loginsamples.model.API.RequestAPI;
-import com.appsnipp.loginsamples.model.User_model.ListUserModel;
-import com.appsnipp.loginsamples.model.User_model.User;
-import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
-import com.appsnipp.loginsamples.project.ProjectActivity;
-import com.appsnipp.loginsamples.task.DetailTaskActivity;
-import com.appsnipp.loginsamples.utils.SharedPrefs;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,10 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.view.View;
-import android.widget.Toast;
-
 import com.appsnipp.loginsamples.R;
+import com.appsnipp.loginsamples.adapter.ManagementUserAdapter;
+import com.appsnipp.loginsamples.adapter.ManagementUserItemClicked;
+import com.appsnipp.loginsamples.model.API.APIClient;
+import com.appsnipp.loginsamples.model.API.RequestAPI;
+import com.appsnipp.loginsamples.model.User_model.ListUserModel;
+import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
+import com.appsnipp.loginsamples.utils.SharedPrefs;
 
 import java.util.ArrayList;
 
@@ -85,7 +78,7 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
 
 
     private void getlistuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.getListUser(token)
@@ -128,11 +121,11 @@ public class UserActivity extends AppCompatActivity implements ManagementUserIte
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_USER_DETAIL && resultCode == RESULT_OK && data != null){
+        if (requestCode == REQUEST_CODE_USER_DETAIL && resultCode == RESULT_OK && data != null) {
             String dataCode = data.getStringExtra(UPDATE_USER_MODEL_KEY);
             UserModelDetail userModelDetail = (UserModelDetail) data.getSerializableExtra(USER_MODEL_KEY);
             int position = data.getIntExtra(POSITION_LIST_USER_KEY, 0);
-            if (dataCode.equals("Update")){
+            if (dataCode.equals("Update")) {
                 getlistuser();
                 mAdapter.userModelList.set(position, userModelDetail);
                 mAdapter.notifyItemChanged(position);

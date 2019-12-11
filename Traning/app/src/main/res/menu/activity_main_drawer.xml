@@ -11,7 +11,7 @@
             android:title="@string/profile" />
         <item
             android:id="@+id/nav_attendance"
-            android:icon="@drawable/bookmark"
+            android:icon="@drawable/ic_perm_contact_calendar_black_24dp"
             android:title="Attendance History" />
         <item
             android:id="@+id/nav_checkout"

@@ -27,6 +27,8 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class ChatBoxActivity extends AppCompatActivity {
     private String nickname;
     public RecyclerView myRecylerView;
@@ -60,7 +62,7 @@ public class ChatBoxActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
 
 // get the nickame of the user
-        String name = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getName();
+        String name = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getName();
         nickname = name;
 //
         MessageList = new ArrayList<>();

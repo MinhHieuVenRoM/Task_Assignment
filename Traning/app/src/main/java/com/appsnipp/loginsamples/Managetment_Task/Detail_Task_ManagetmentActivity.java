@@ -49,6 +49,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class Detail_Task_ManagetmentActivity extends AppCompatActivity implements TaskItemClicked {
     private TaskbyUserAdapter mAdapter;
     private RecyclerView recyclerView;
@@ -88,7 +90,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         showLoading();
         AppCompatImageView img_editproject = findViewById(R.id.img_editproject);
         FloatingActionButton btn_add_task = findViewById(R.id.btn_add_task);
-        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
+        int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
         if (role == 0) {
 
             img_editproject.setVisibility(View.VISIBLE);
@@ -135,9 +137,8 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
     }
 
     private void getTaskListData() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-
-
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
+        
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         Call<TaskListResponse> call = service.getTasktofUser(token, modeluser.getId(), model.getId());
         call.enqueue(new Callback<TaskListResponse>() {
@@ -285,7 +286,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
     }
 
     private void edit_project(final String name, final String end_Date, int status_id, final AlertDialog dialog) {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.editproject(token, model.getId(), name, setendate(end_Date), status_id)

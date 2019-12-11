@@ -33,6 +33,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class UserManagentTaskActivity extends AppCompatActivity implements ManagementUserItemClicked {
 
     ProgressDialog progressDialog;
@@ -87,7 +89,7 @@ public class UserManagentTaskActivity extends AppCompatActivity implements Manag
         });
     }
     private void getlistuserspinner() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.getListUser(token)
@@ -125,7 +127,7 @@ public class UserManagentTaskActivity extends AppCompatActivity implements Manag
 
 
     private void getlistuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.getListUser(token)

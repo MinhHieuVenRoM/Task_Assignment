@@ -80,7 +80,7 @@ public class ChatUserActivity extends AppCompatActivity implements ManagementUse
 
 
     private void getlistuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.getListUser(token)

@@ -45,6 +45,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     UserModelDetail modeluser;
 
@@ -174,9 +176,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void changepasswped(String Pass_current, String New_pass, final Dialog changepass_dialog) {
 
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-        String name = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getName();
-        String id = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getId();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
+        String name = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getName();
+        String id = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getId();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.changepassword(token,id,name, Pass_current,New_pass)
@@ -212,8 +214,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void getprofileuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-        String email = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getEmail();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
+        String email = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getEmail();
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.viewprofile(token,email)
                 .enqueue(new Callback<ListUserModel>() {

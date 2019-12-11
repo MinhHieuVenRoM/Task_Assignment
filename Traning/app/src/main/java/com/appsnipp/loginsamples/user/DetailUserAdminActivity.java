@@ -17,15 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.appsnipp.loginsamples.HomeActivity;
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Login.Login;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
-import com.appsnipp.loginsamples.model.User_model.UserEditModel;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.gson.Gson;
@@ -71,6 +68,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         getprofileuser();
 
     }
+
     private void getDataIntent() {
 
         Intent intent = getIntent();
@@ -115,14 +113,14 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
         tv_role_detail_admin = findViewById(R.id.tv_role_detail_admin);
         tv_detail_status_admin = findViewById(R.id.tv_detail_status_admin_);
         rl_edit_profile = findViewById(R.id.rl_edit_profile);
-        tv_reset=findViewById(R.id.tv_reset_password);
+        tv_reset = findViewById(R.id.tv_reset_password);
     }
 
     private void getprofileuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.viewprofile(token,modeluser.getEmail())
+        service.viewprofile(token, modeluser.getEmail())
                 .enqueue(new Callback<ListUserModel>() {
                     @Override
                     public void onResponse(@NonNull Call<ListUserModel> call, @NonNull Response<ListUserModel> response) {
@@ -198,9 +196,10 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
             alertDialog.show();
         }
     }
+
     private void reset_password() {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         Call<Login> call = service.resetpassword(token, modeluser.getEmail());
         call.enqueue(new Callback<Login>() {
@@ -210,7 +209,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
                 Login models = response.body();
                 if (models != null) {
 
-                        Toast.makeText(DetailUserAdminActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailUserAdminActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     try {
@@ -232,6 +231,7 @@ public class DetailUserAdminActivity extends AppCompatActivity implements View.O
             }
         });
     }
+
     @Override
     protected void onResume() {
         getprofileuser();

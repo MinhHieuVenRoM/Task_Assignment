@@ -53,4 +53,8 @@ public class SharedPrefs {
             return (T) GlobalApplication.self().getGSon().fromJson(mSharedPreferences.getString(key, ""), anonymousClass);
         }
     }
+
+    public void clear() {
+        mSharedPreferences.edit().clear().apply();
+    }
 }

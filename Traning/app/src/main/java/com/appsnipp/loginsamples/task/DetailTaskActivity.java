@@ -23,7 +23,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Task_model.EditTaskModel;
@@ -39,6 +38,8 @@ import java.util.Calendar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 
 public class DetailTaskActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -84,13 +85,10 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
 
         et_task_detail_name = findViewById(R.id.et_task_detail_name);
-        final int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
+        final int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
 
-        if(role==0){
-            et_task_detail_name.setText(model.getName());
-        }else {
-            et_task_detail_name.setText(model.getName());
-        }
+        et_task_detail_name.setText(model.getName());
+
         if (role == 0) {
 
             et_task_detail.setFocusable(true);
@@ -113,10 +111,6 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
         getlistuser();
 
 
-    }
-
-    private void findViewByIds() {
-        //TODO add find view by id
     }
 
     private void getDataIntent() {
@@ -148,7 +142,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void getlistuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.getListUser(token)
@@ -159,17 +153,17 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
                         ListUserModel models = response.body();
                         if (models != null) {
                             ArrayList<UserModelDetail> modelDetails = models.getData();
-                            mUsermodelDetails=new ArrayList<UserModelDetail>();
-                            int i=0;
+                            mUsermodelDetails = new ArrayList<UserModelDetail>();
+                            int i = 0;
                             for (UserModelDetail item : modelDetails) {
-                                if(item.getStatus()==1){
+                                if (item.getStatus() == 1) {
 
                                     mUsermodelDetails.add(item);
                                 }
                                 i++;
                             }
                             for (UserModelDetail item : mUsermodelDetails) {
-                                if(item.getStatus()==1){
+                                if (item.getStatus() == 1) {
                                     listUsers.add(item.getName());
                                 }
                             }
@@ -186,7 +180,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
     public void onClickedAssigneeTask(View view) {
 
-        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
+        int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
         if (role == 0) {
             ArrayAdapter<String> spinnerAdapteruser;
             Spinner spinnerUser;
@@ -243,7 +237,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
 
-        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
+        int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
         if (role == 0) {
 
 
@@ -272,7 +266,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
             }
             if (v == btn_edit_task) {
                 showLoading();
-                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+                String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
                 RequestAPI service = APIClient.getClient().create(RequestAPI.class);
                 service.edittask(token, iduser[0], setendate(tv_hancuoitask.getText().toString()), model.getId(), et_task_detail.getText(), status_id, et_task_detail_name.getText().toString())
                         .enqueue(new Callback<EditTaskModel>() {
@@ -314,12 +308,11 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
                                 }
                             });
                     alertDialog.show();
-                }
-                else {
+                } else {
 
 
                     showLoading();
-                    String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+                    String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
                     RequestAPI service = APIClient.getClient().create(RequestAPI.class);
                     service.edittask(token, iduser[0], setendate(tv_hancuoitask.getText().toString()), model.getId(), et_task_detail.getText(), status_id, et_task_detail_name.getText().toString())
                             .enqueue(new Callback<EditTaskModel>() {

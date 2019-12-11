@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Project_model.ProjectModel;
@@ -35,6 +34,8 @@ import java.util.Calendar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 
 public class AddingTaskActivity extends AppCompatActivity  implements View.OnClickListener{
     ArrayList listUsers = new ArrayList<String>();
@@ -75,7 +76,7 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
     }
 
     private void getListUsers() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.getListUser(token)
@@ -164,13 +165,8 @@ public class AddingTaskActivity extends AppCompatActivity  implements View.OnCli
             if (task_name.getText().toString().equals("") || task_deadline.getText().toString().equals("") || task_detail.getText().toString().equals("") || iduser[0].equals("")) {
 
                 Toast.makeText(AddingTaskActivity.this, "Error Input !", Toast.LENGTH_SHORT).show();
-
-
             } else {
-
-
-                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-
+                String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
                 RequestAPI service = APIClient.getClient().create(RequestAPI.class);
                 service.addtask(token, task_name.getText().toString(), setendate(task_deadline.getText().toString()), modelproject.getId(), task_detail.getText().toString(), iduser[0])

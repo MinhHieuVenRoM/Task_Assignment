@@ -22,7 +22,6 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.User_model.User;
@@ -35,6 +34,8 @@ import java.util.Calendar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private AppCompatTextView tv_userrole_edituser, tv_birthday_edit_user, tv_email_edit_user;
@@ -165,11 +166,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (checkvalidate() == 0) {
-                                    String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-                                    int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
-                                    int status = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getStatus();
+                                    String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
+                                    int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
+                                    int status = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getStatus();
                                     RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-                                    service.edituser(token, modeluser.getId(),tv_full_name_edit_user.getText().toString(), et_mobile_edit_user.getText().toString(), setendate(tv_birthday_edit_user.getText().toString()), sex_id, role, status)
+                                    service.edituser(token, modeluser.getId(), tv_full_name_edit_user.getText().toString(), et_mobile_edit_user.getText().toString(), setendate(tv_birthday_edit_user.getText().toString()), sex_id, role, status)
                                             .enqueue(new Callback<UserEditModel>() {
                                                 @Override
                                                 public void onResponse(@NonNull Call<UserEditModel> call, @NonNull Response<UserEditModel> response) {

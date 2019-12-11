@@ -32,6 +32,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class AttendanceActivity extends AppCompatActivity {
 
     CalendarView calendarView;
@@ -83,7 +85,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
     private void getAttendanceListData(String date) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-       String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+       String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
 
        Call<Attendance_List> call = service.Attendance_list(token,date);

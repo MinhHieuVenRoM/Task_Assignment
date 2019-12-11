@@ -38,6 +38,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class AttendanceDetailActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     private AttendanceAdapter mAdapter;
@@ -134,7 +136,7 @@ public class AttendanceDetailActivity extends AppCompatActivity {
 
     private void getAttendanceListData(String id) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
 
         Call<Attendance_list_detail> call = service.Attendance_list_detail(token,id);
@@ -161,7 +163,7 @@ public class AttendanceDetailActivity extends AppCompatActivity {
 
     private void getAttendanceListDataMonth(String id,int month,int year) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         String date=(year+2018)+"-"+(month)+"-1";
 
         Call<Attendance_list_detail> call = service.Attendance_list_detail_user_month(token,id,date);
@@ -187,7 +189,7 @@ public class AttendanceDetailActivity extends AppCompatActivity {
     }
     private void getAttendanceListDataYear(String id,int year) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         String date=(year+2018)+"-1-1";
 
         Call<Attendance_list_detail> call = service.Attendance_list_detail_user_year(token,id,date);

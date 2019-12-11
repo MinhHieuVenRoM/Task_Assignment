@@ -34,6 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class ProjectManagetmentActivity extends AppCompatActivity implements ProjectItemClicked {
 
 
@@ -52,7 +54,7 @@ public class ProjectManagetmentActivity extends AppCompatActivity implements Pro
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
         btn_add = findViewById(R.id.btn_add_project);
-        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
+        int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
         if (role == 0) {
 
             btn_add.setVisibility(View.VISIBLE);
@@ -98,7 +100,7 @@ public class ProjectManagetmentActivity extends AppCompatActivity implements Pro
     }
     private void getProjectListData() {
 
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
 

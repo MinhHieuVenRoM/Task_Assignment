@@ -31,6 +31,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class TaskManagementActivity extends AppCompatActivity implements TaskItemClicked {
 
 
@@ -67,7 +69,7 @@ public class TaskManagementActivity extends AppCompatActivity implements TaskIte
     }
     private void getTaskListData(String date) {
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
 
         Call<TaskListResponse> call = service.gettask_date(token,date);

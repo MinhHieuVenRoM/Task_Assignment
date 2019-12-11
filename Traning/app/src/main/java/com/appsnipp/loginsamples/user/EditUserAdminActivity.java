@@ -21,7 +21,6 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.appsnipp.loginsamples.R;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.User_model.User;
@@ -34,6 +33,8 @@ import java.util.Calendar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 
 public class EditUserAdminActivity extends AppCompatActivity implements View.OnClickListener {
     String[] status_item = {"Inactive", "Active"};
@@ -207,7 +208,7 @@ public class EditUserAdminActivity extends AppCompatActivity implements View.OnC
                 alertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+                                String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
                                 RequestAPI service = APIClient.getClient().create(RequestAPI.class);
                                 service.edituser(token, modeluser.getId(),tv_full_name.getText().toString(), tv_mobile_edit_admin.getText().toString(), setendate(tv_birthday.getText().toString()), sex_id, role_id, status_id)
                                         .enqueue(new Callback<UserEditModel>() {

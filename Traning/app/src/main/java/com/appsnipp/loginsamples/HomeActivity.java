@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +23,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.appsnipp.loginsamples.attendance.AttendanceDetailActivity;
-import com.appsnipp.loginsamples.chat.ChatActivity;
 import com.appsnipp.loginsamples.chat.ChatUserActivity;
 import com.appsnipp.loginsamples.conclude.ConcludeActivity;
 import com.appsnipp.loginsamples.login.LoginActivity;
@@ -34,15 +32,13 @@ import com.appsnipp.loginsamples.model.Attendance.Attendance;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Attendance.Check;
 import com.appsnipp.loginsamples.model.Attendance.Data;
-import com.appsnipp.loginsamples.model.Attendance.Datacheckout;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
-import com.appsnipp.loginsamples.model.User_model.UserEditModel;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.personal_information.ProfileActivity;
 import com.appsnipp.loginsamples.project.ProjectActivity;
-import com.appsnipp.loginsamples.task.TaskActivity;
 import com.appsnipp.loginsamples.user.UserActivity;
+import com.appsnipp.loginsamples.utils.LoginUser;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -65,18 +61,24 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     User userModel;
     UserModelDetail modeluser;
     CardView car_summary,admin_home;
-    TextView tv_checkin_out,tv_username_main,tv_gmail_main;
+    TextView tv_username_main,tv_gmail_main;
     Data modelAttendance;
     private ProgressDialog progressDialog;
     private ArrayList<UserModelDetail> mUsermodelDetails;
+    public static final String USER_MODEL_KEY = "user_model";
+    public static final String USER_EMAIL_KEY = "USER_EMAIL_KEY";
+    public static final String USER_PASSWORD_KEY = "USER_PASSWORD_KEY";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        checkLogin();
+
         getDataIntent();
-        check();
+        checkInUser();
 
 
         getprofileuser();
@@ -103,12 +105,12 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         car_summary=findViewById(R.id.car_summary);
         admin_home=findViewById(R.id.admin_home);
 //        tv_checkin_out =findViewById(R.id.tv_checkin_out);
-        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
-        if(role!=0){
-//            carview_checkin_out.setVisibility(View.VISIBLE);
-        }else{
+        int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
+        if (role == 0) {
             admin_home.setVisibility(View.VISIBLE);
             car_summary.setVisibility(View.VISIBLE);
+        } else {
+//            carview_checkin_out.setVisibility(View.VISIBLE);
         }
         showLoading();
 
@@ -124,7 +126,23 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         String address1 = info.getMacAddress();
     }
 
-  private void showdialogCheckin(){
+    private void checkLogin() {
+        String email = SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class);
+        String password = SharedPrefs.getInstance().get(USER_PASSWORD_KEY, String.class);
+        if (email.isEmpty() || password.isEmpty()){
+            goToLogin();
+        }else {
+            new LoginUser(this).login(email, password, false);
+        }
+    }
+
+    private void goToLogin() {
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void showdialogCheckin(){
 
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
@@ -151,7 +169,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     }
 
     private void checkAttendance() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
         Date today = new Date();
@@ -176,14 +194,11 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
 
     private void getprofileuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
-        String email = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getEmail();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
+        String email = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getEmail();
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.viewprofile(token,email)
                 .enqueue(new Callback<ListUserModel>() {
@@ -206,7 +221,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 });
     }
     private void checkoutAttendance() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
         Date today = new Date();
@@ -249,8 +264,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
 
     }
-    private void check() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+    private void checkInUser() {
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
         Date today = new Date();
@@ -347,7 +362,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 alertDialog.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
+                                SharedPrefs.getInstance().clear();
                                 Toast.makeText(HomeActivity.this, "You have been logged out", Toast.LENGTH_SHORT).show();
                                 finish();
                                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
@@ -373,7 +388,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     private void getDataIntent() {
 //        Intent intent = getIntent();
 //        userModel = (User) intent.getSerializableExtra("usermodel");
-        userModel = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class);
+        userModel = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class);
     }
 
     private void showLoading() {

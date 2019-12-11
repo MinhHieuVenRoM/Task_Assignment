@@ -23,7 +23,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.ProjectAdapter;
 import com.appsnipp.loginsamples.adapter.ProjectItemClicked;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
@@ -43,6 +42,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class ProjectActivity extends AppCompatActivity implements ProjectItemClicked {
 
     private FloatingActionButton btn_add;
@@ -59,8 +60,8 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
         btn_add = findViewById(R.id.btn_add_project);
-        int role = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getRole();
-        if(role==0){
+        int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
+        if (role == 0) {
 
             btn_add.setVisibility(View.VISIBLE);
 
@@ -172,7 +173,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
 
     private void getProjectListData() {
 
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
 
@@ -200,7 +201,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
 
 
     private void getlistuser() {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.getListUser(token)
@@ -249,7 +250,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectItemCli
     }
 
     private void add_project(String name, String end_Date, final AlertDialog dialog) {
-        String token = SharedPrefs.getInstance().get(LoginActivity.USER_MODEL_KEY, User.class).getToken();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
         service.addproject(token, name, setendate(end_Date))
