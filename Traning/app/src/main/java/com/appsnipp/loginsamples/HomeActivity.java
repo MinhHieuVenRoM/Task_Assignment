@@ -154,8 +154,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
         if (locationTrack.canGetLocation()) {
 
-            double la=10.8734;
-            double  lon=106.7980;
+            double la=10.8814388;
+            double  lon=106.8094963;
 
             double longitude = locationTrack.getLongitude();
             double latitude = locationTrack.getLatitude();
@@ -175,7 +175,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             double d = R * c*1000; // Distance in k
 
-            if(d<40){
+            if(d<50){
 
                return true;
             }
