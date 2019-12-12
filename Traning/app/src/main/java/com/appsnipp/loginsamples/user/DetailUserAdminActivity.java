@@ -36,9 +36,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 import static com.appsnipp.loginsamples.user.UserActivity.POSITION_LIST_USER_KEY;
 import static com.appsnipp.loginsamples.user.UserActivity.UPDATE_USER_MODEL_KEY;
-import static com.appsnipp.loginsamples.user.UserActivity.USER_MODEL_KEY;
 
 public class DetailUserAdminActivity extends AppCompatActivity implements View.OnClickListener {
     String[] status_item = {"Active", "Inactive"};

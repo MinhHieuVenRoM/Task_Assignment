@@ -30,13 +30,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+
 public class UserActivity extends AppCompatActivity implements ManagementUserItemClicked {
     ProgressDialog progressDialog;
 
     private ArrayList<UserModelDetail> mUsermodelDetails;
     private ManagementUserAdapter mAdapter;
     private SwipeRefreshLayout swipeContainer;
-    public static String USER_MODEL_KEY = "USER_MODEL_KEY";
     public static String UPDATE_USER_MODEL_KEY = "UPDATE_USER_MODEL_KEY";
     public static String POSITION_LIST_USER_KEY = "POSITION_LIST_USER_KEY";
     public static int REQUEST_CODE_USER_DETAIL = 123;

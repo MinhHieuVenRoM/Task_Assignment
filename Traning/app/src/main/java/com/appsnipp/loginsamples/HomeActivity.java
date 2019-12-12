@@ -1,13 +1,16 @@
 package com.appsnipp.loginsamples;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.MenuItem;
@@ -38,6 +41,7 @@ import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.personal_information.ProfileActivity;
 import com.appsnipp.loginsamples.project.ProjectActivity;
 import com.appsnipp.loginsamples.user.UserActivity;
+import com.appsnipp.loginsamples.utils.LocationTrack;
 import com.appsnipp.loginsamples.utils.LoginUser;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.navigation.NavigationView;
@@ -55,6 +59,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+
 public class HomeActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawer;
@@ -63,11 +70,19 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     CardView car_summary,admin_home;
     TextView tv_username_main,tv_gmail_main;
     Data modelAttendance;
-    private ProgressDialog progressDialog;
+    public ProgressDialog progressDialog;
     private ArrayList<UserModelDetail> mUsermodelDetails;
     public static final String USER_MODEL_KEY = "user_model";
     public static final String USER_EMAIL_KEY = "USER_EMAIL_KEY";
     public static final String USER_PASSWORD_KEY = "USER_PASSWORD_KEY";
+
+    private ArrayList permissionsToRequest;
+    private ArrayList permissionsRejected = new ArrayList();
+    private ArrayList permissions = new ArrayList();
+
+    private final static int ALL_PERMISSIONS_RESULT = 101;
+    LocationTrack locationTrack;
+    public final static double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
 
 
     @Override
@@ -77,60 +92,189 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
         checkLogin();
 
-        getDataIntent();
-        checkInUser();
 
+        if(!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()){
+            getDataIntent();
 
-        getprofileuser();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        drawer = findViewById(R.id.drawer_layout);
-
-        toolbar.setNavigationIcon(R.drawable.ic_list_shit_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(GravityCompat.START);
+            if(getlocaltion()==true){
+                checkInUser();
             }
-        });
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
-        View header = navigationView.getHeaderView(0);
-        tv_username_main=header.findViewById(R.id.tv_username_main);
-        tv_username_main.setText(userModel.getName());
-        tv_gmail_main=header.findViewById(R.id.tv_gmail_main);
-        tv_gmail_main.setText(userModel.getEmail());
-        toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
-        car_summary=findViewById(R.id.car_summary);
-        admin_home=findViewById(R.id.admin_home);
-//        tv_checkin_out =findViewById(R.id.tv_checkin_out);
-        int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
-        if (role == 0) {
-            admin_home.setVisibility(View.VISIBLE);
-            car_summary.setVisibility(View.VISIBLE);
-        } else {
-//            carview_checkin_out.setVisibility(View.VISIBLE);
+
+            getprofileuser();
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            drawer = findViewById(R.id.drawer_layout);
+
+            toolbar.setNavigationIcon(R.drawable.ic_list_shit_24dp);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            });
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            View header = navigationView.getHeaderView(0);
+            tv_username_main=header.findViewById(R.id.tv_username_main);
+            tv_username_main.setText(userModel.getName());
+            tv_gmail_main=header.findViewById(R.id.tv_gmail_main);
+            tv_gmail_main.setText(userModel.getEmail());
+            toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
+            car_summary=findViewById(R.id.car_summary);
+            admin_home=findViewById(R.id.admin_home);
+            int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
+            if (role == 0) {
+                admin_home.setVisibility(View.VISIBLE);
+                car_summary.setVisibility(View.VISIBLE);
+            } else {
+            }
+
         }
-        showLoading();
+
+    }
+    private boolean getlocaltion() {
+        permissions.add(ACCESS_FINE_LOCATION);
+        permissions.add(ACCESS_COARSE_LOCATION);
+
+        permissionsToRequest = findUnAskedPermissions(permissions);
+        //get the permissions we have asked for before but are not granted..
+        //we will store this in a global list to access later.
 
 
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
-        String ipAddress = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
-        final WifiManager manager = (WifiManager) super.getApplicationContext().getSystemService(WIFI_SERVICE);
-        final DhcpInfo dhcp = manager.getDhcpInfo();
-        final String address = Formatter.formatIpAddress(dhcp.gateway);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-        WifiManager manager1 = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = manager1.getConnectionInfo();
-        String address1 = info.getMacAddress();
+
+            if (permissionsToRequest.size() > 0)
+                requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+        }
+        locationTrack = new LocationTrack(HomeActivity.this);
+
+
+        if (locationTrack.canGetLocation()) {
+
+            double la=10.8734;
+            double  lon=106.7980;
+
+            double longitude = locationTrack.getLongitude();
+            double latitude = locationTrack.getLatitude();
+
+            double lontemp=Math.abs(longitude-lon);
+            double latemp=Math.abs(latitude-la);
+
+
+            int R = 6371; // Radius of the earth in km
+            double dLat = deg2rad(latemp);  // deg2rad below
+            double dLon = deg2rad(lontemp);
+            double a =
+                    Math.sin(dLat/2) * Math.sin(dLat/2) +
+                            Math.cos(deg2rad(la)) * Math.cos(deg2rad(latitude)) *
+                                    Math.sin(dLon/2) * Math.sin(dLon/2)
+                    ;
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            double d = R * c*1000; // Distance in k
+
+            if(d<40){
+
+               return true;
+            }
+
+        } else {
+
+            locationTrack.showSettingsAlert();
+            return false;
+        }
+
+        return false;
     }
 
+    public double deg2rad(double deg) {
+        return deg * (Math.PI/180);
+    }
+    private ArrayList findUnAskedPermissions(ArrayList wanted) {
+        ArrayList result = new ArrayList();
+
+        for (Object perm : wanted) {
+            if (!hasPermission((String) perm)) {
+                result.add(perm);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean hasPermission(String permission) {
+        if (canMakeSmores()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+            }
+        }
+        return true;
+    }
+
+    private boolean canMakeSmores() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode) {
+
+            case ALL_PERMISSIONS_RESULT:
+                for (Object perms : permissionsToRequest) {
+                    if (!hasPermission((String) perms)) {
+                        permissionsRejected.add(perms);
+                    }
+                }
+
+                if (permissionsRejected.size() > 0) {
+
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
+                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                            }
+                                        }
+                                    });
+                            return;
+                        }
+                    }
+
+                }
+
+                break;
+        }
+
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(HomeActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
     private void checkLogin() {
         String email = SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class);
         String password = SharedPrefs.getInstance().get(USER_PASSWORD_KEY, String.class);
         if (email.isEmpty() || password.isEmpty()){
             goToLogin();
+
         }else {
             new LoginUser(this).login(email, password, false);
         }
@@ -169,6 +313,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     }
 
     private void checkAttendance() {
+        showLoading();
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
@@ -204,7 +349,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 .enqueue(new Callback<ListUserModel>() {
                     @Override
                     public void onResponse(@NonNull Call<ListUserModel> call, @NonNull Response<ListUserModel> response) {
-                        progressDialog.dismiss();
                         ListUserModel models = response.body();
                         if (models != null) {
                             mUsermodelDetails = models.getData();
@@ -215,12 +359,12 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
                     @Override
                     public void onFailure(@NonNull Call<ListUserModel> call, @NonNull Throwable t) {
-                        progressDialog.dismiss();
                         Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
     private void checkoutAttendance() {
+        showLoading();
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
@@ -265,6 +409,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     }
     private void checkInUser() {
+        showLoading();
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
@@ -282,7 +427,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                         showdialogCheckin();
 
                 }else {
-                    Toast.makeText(HomeActivity.this,"user already checkin", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(HomeActivity.this,"user already checkin", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -339,7 +484,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                             public void onClick(DialogInterface dialog, int which) {
 
 //                                Toast.makeText(HomeActivity.this, "You have been check out", Toast.LENGTH_SHORT).show();
-                                showLoading();
                                 checkoutAttendance();
                             }
                         });
@@ -381,13 +525,10 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             }
             default: return false;
         }
-        //close navigation drawer
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
     private void getDataIntent() {
-//        Intent intent = getIntent();
-//        userModel = (User) intent.getSerializableExtra("usermodel");
         userModel = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class);
     }
 

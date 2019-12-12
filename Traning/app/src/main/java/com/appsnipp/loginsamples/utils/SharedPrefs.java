@@ -3,6 +3,9 @@ package com.appsnipp.loginsamples.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static com.appsnipp.loginsamples.HomeActivity.USER_EMAIL_KEY;
+import static com.appsnipp.loginsamples.HomeActivity.USER_PASSWORD_KEY;
+
 public class SharedPrefs {
     private static final String PREFS_NAME = "share_prefs";
     private static SharedPrefs mInstance;
@@ -55,6 +58,8 @@ public class SharedPrefs {
     }
 
     public void clear() {
-        mSharedPreferences.edit().clear().apply();
+      //  mSharedPreferences.edit().clear().apply();
+        SharedPrefs.getInstance().put(USER_EMAIL_KEY, "");
+        SharedPrefs.getInstance().put(USER_PASSWORD_KEY, "");
     }
 }
