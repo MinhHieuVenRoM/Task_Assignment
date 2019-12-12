@@ -28,9 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffc744" />
-                            <entry key="outputName" value="ic_perm_contact_calendar_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\User" />
+                            <entry key="outputName" value="ic_group_chat" />
+                            <entry key="sourceFile" value="C:\Users\Tran Duc Luan\Downloads\discussion.svg" />
                           </map>
                         </option>
                       </PersistentState>

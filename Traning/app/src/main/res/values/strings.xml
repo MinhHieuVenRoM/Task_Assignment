@@ -38,4 +38,7 @@
     <string name="summary">Summary</string>
     <string name="app_trainee_management">App Trainee Management</string>
     <string name="login">Login</string>
+    <string name="search">Search</string>
+    <string name="chat">Chat</string>
+    <string name="group">Group</string>
 </resources>

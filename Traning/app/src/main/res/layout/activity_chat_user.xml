@@ -1,53 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.UserActivity"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:focusableInTouchMode="true">
+    tools:context=".user.UserActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        app:popupTheme="@style/AppTheme.PopupOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:padding="@dimen/_5sdp"
-            android:src="@drawable/ic_arrow_back"
-            android:onClick="back_home_list_user"/>
-
-        <TextView
-            android:id="@+id/toolbar_title_task"
-            style="@style/TitleToolbar"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Chat"
-            android:layout_gravity="center"/>
-    </androidx.appcompat.widget.Toolbar>
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_search_black_24dp"
-        android:hint="  Search"
-        android:layout_marginTop="@dimen/_47sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:layout_marginLeft="@dimen/_5sdp"
-        android:fontFamily="@font/nunito"
-        android:textSize="@dimen/_13sdp"
-        android:textColorHint="#868686"
-        android:visibility="gone"/>
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_user_chat"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:onClick="back_home_list_user"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/ic_arrow_back" />
+
+            <TextView
+                android:id="@+id/toolbar_title_task"
+                style="@style/TitleToolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/chat" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary" >
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:icon="@drawable/ic_chatting"
+                android:text="@string/chat"
+                />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:icon="@drawable/ic_group_chat"
+                android:text="@string/group"
+                />
+        </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android" />
-</androidx.appcompat.widget.LinearLayoutCompat>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:background="#000000"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
