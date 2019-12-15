@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".chat.ChatUserActivity"/>
+        <activity android:name=".chat.ChatUserActivity"
+            android:theme="@style/Material"
+            />
         <activity android:name=".Managetment_Task.Detail_Task_ManagetmentActivity" />
         <activity android:name=".Managetment_Task.ProjectManagetmentActivity" />
         <activity android:name=".Managetment_Task.UserManagentTaskActivity" />
@@ -31,7 +33,8 @@
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity android:name=".attendance.AttendanceReportActivity" />
-        <activity android:name=".conclude.ConcludeActivity" />
+        <activity android:name=".conclude.ConcludeActivity"
+            android:theme="@style/Material" />
         <activity
             android:name=".task.DetailTaskActivity"
             android:label="@string/title_activity_detail_task"
@@ -51,9 +54,6 @@
             android:theme="@style/Material" />
         <activity
             android:name=".project.ProjectActivity"
-            android:theme="@style/Material" />
-        <activity
-            android:name=".chat.ChatActivity"
             android:theme="@style/Material" />
         <activity android:name=".chat.ChatBoxActivity" />
         <activity android:name=".login.RegisterActivity" />

@@ -63,7 +63,7 @@
         android:visibility="gone"
         android:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/ic_library_add_black_24dp"
-
+        app:tint="#FFFFFF"
         />
 
 </RelativeLayout>

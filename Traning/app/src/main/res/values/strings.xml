@@ -41,4 +41,5 @@
     <string name="search">Search</string>
     <string name="chat">Chat</string>
     <string name="group">Group</string>
+    <string name="attendance">Attendance</string>
 </resources>

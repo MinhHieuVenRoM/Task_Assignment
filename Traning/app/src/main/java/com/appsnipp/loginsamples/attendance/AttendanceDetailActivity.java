@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,19 +16,12 @@ import android.widget.Toast;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.AttendanceAdapter;
-import com.appsnipp.loginsamples.adapter.DiemDanhAdapter;
-import com.appsnipp.loginsamples.chat.ChatActivity;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
-import com.appsnipp.loginsamples.model.Attendance.Attendance_List;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_list_detail;
-import com.appsnipp.loginsamples.model.Attendance.DataAttendanceRespose;
 import com.appsnipp.loginsamples.model.Attendance.DataDetailAttendance;
-import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
-import com.appsnipp.loginsamples.task.DetailTaskActivity;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 
 import java.util.ArrayList;

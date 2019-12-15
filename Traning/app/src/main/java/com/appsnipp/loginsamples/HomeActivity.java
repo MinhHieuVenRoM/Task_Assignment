@@ -96,9 +96,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         if(!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()){
             getDataIntent();
 
-            if(getlocaltion()==true){
-                checkInUser();
-            }
+            getlocaltion();
+
 
 
             getprofileuser();
@@ -154,8 +153,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
         if (locationTrack.canGetLocation()) {
 
-            double la=10.8814388;
-            double  lon=106.8094963;
+            double la=10.8815708;
+            double  lon=106.8106216;
 
             double longitude = locationTrack.getLongitude();
             double latitude = locationTrack.getLatitude();
@@ -175,8 +174,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             double d = R * c*1000; // Distance in k
 
-            if(d<50){
-
+            if(d<100){
+                checkInUser();
                return true;
             }
 
