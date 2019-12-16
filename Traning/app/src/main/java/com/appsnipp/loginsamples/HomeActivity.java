@@ -57,6 +57,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,23 +97,26 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         setContentView(R.layout.activity_home);
         findViewByIds();
         registerReceiver();
-        setupView();
+        try {
+            setupView();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void setupView(){
+    private void setupView() throws InterruptedException {
         if (isNetworkConnected()) {
             mLottieAnimationView.setVisibility(View.GONE);
             mTVNoInternetConnection.setVisibility(View.GONE);
             mScrollViewContent.setVisibility(View.VISIBLE);
             checkLogin();
-
+            int i=0;
             locationTrack = new LocationTrack(HomeActivity.this);
 
             if (!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()) {
                 getDataIntent();
-
                 getlocaltion();
-
                 getprofileuser();
                 setupNavigation();
 
@@ -182,8 +186,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         startService(GPSt);
         if (locationTrack.canGetLocation()) {
 
-            double la=10.8815708;
-            double  lon=106.8106216;
+            double la=10.8813304;
+            double  lon=106.8087542;
 
             double longitude = locationTrack.getLongitude();
             double latitude = locationTrack.getLatitude();
@@ -204,8 +208,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             double d = R * c*1000; // Distance in k
 
-            if(d<100){
-                showdialogCheckin();
+            if(d<1000){
+                checkInUser();
                return true;
             }
 
@@ -335,7 +339,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     }
 
     private void checkAttendance() {
-        showLoading();
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
@@ -348,7 +351,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             @Override
             public void onResponse(@NonNull Call<Attendance> call, @NonNull Response<Attendance> response) {
 
-                progressDialog.dismiss();
                 Attendance models = response.body();
                 if (models != null) {
                     modelAttendance=models.getData();
@@ -431,7 +433,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     }
     private void checkInUser() {
-        showLoading();
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         dateFormatter.setLenient(false);
@@ -443,7 +444,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         call.enqueue(new Callback<Check>() {
             @Override
             public void onResponse(@NonNull Call<Check> call, @NonNull Response<Check> response) {
-                progressDialog.dismiss();
                 Check models = response.body();
                 if (models != null && !models.getMessage().toString().equals("True")) {
                         showdialogCheckin();
@@ -577,7 +577,11 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             int status = NetworkUtil.getConnectivityStatusString(context);
 //            Log.e("Sulod sa network reciever", "Sulod sa network receiver");
             if ("android.net.conn.CONNECTIVITY_CHANGE".equals(intent.getAction())) {
-                setupView();
+                try {
+                    setupView();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 //                if (status == NetworkUtil.NETWORK_STATUS_NOT_CONNECTED) {
 //                    new ForceExitPause(context).execute();
 //                } else {
