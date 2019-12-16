@@ -59,4 +59,7 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     //local
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    //Animation
+    implementation "com.airbnb.android:lottie:3.3.1"
 }

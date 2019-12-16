@@ -42,4 +42,7 @@
     <string name="chat">Chat</string>
     <string name="group">Group</string>
     <string name="attendance">Attendance</string>
+    <string name="project">Project</string>
+    <string name="manage_user">Manage User</string>
+    <string name="no_internet_connection">No internet connection</string>
 </resources>

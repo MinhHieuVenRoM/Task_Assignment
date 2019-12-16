@@ -3,28 +3,30 @@ package com.appsnipp.loginsamples;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.DhcpInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.format.Formatter;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.appsnipp.loginsamples.attendance.AttendanceDetailActivity;
 import com.appsnipp.loginsamples.chat.ChatUserActivity;
 import com.appsnipp.loginsamples.conclude.ConcludeActivity;
@@ -43,6 +45,7 @@ import com.appsnipp.loginsamples.project.ProjectActivity;
 import com.appsnipp.loginsamples.user.UserActivity;
 import com.appsnipp.loginsamples.utils.LocationTrack;
 import com.appsnipp.loginsamples.utils.LoginUser;
+import com.appsnipp.loginsamples.utils.NetworkUtil;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -69,6 +72,9 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     UserModelDetail modeluser;
     CardView car_summary,admin_home;
     TextView tv_username_main,tv_gmail_main;
+    LottieAnimationView mLottieAnimationView;
+    ScrollView mScrollViewContent;
+    AppCompatTextView mTVNoInternetConnection;
     Data modelAttendance;
     public ProgressDialog progressDialog;
     private ArrayList<UserModelDetail> mUsermodelDetails;
@@ -82,57 +88,78 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
     LocationTrack locationTrack;
-    public final static double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        checkLogin();
-        locationTrack = new LocationTrack(HomeActivity.this);
-
-        if(!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()){
-            getDataIntent();
-
-            getlocaltion();
-
-
-
-            getprofileuser();
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            drawer = findViewById(R.id.drawer_layout);
-
-            toolbar.setNavigationIcon(R.drawable.ic_list_shit_24dp);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            });
-            NavigationView navigationView = findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-
-            View header = navigationView.getHeaderView(0);
-            tv_username_main=header.findViewById(R.id.tv_username_main);
-            tv_username_main.setText(userModel.getName());
-            tv_gmail_main=header.findViewById(R.id.tv_gmail_main);
-            tv_gmail_main.setText(userModel.getEmail());
-            toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
-            car_summary=findViewById(R.id.car_summary);
-            admin_home=findViewById(R.id.admin_home);
-            int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
-            if (role == 0) {
-                admin_home.setVisibility(View.VISIBLE);
-                car_summary.setVisibility(View.VISIBLE);
-            } else {
-            }
-
-        }
-
+        findViewByIds();
+        registerReceiver();
+        setupView();
     }
+
+    private void setupView(){
+        if (isNetworkConnected()) {
+            mLottieAnimationView.setVisibility(View.GONE);
+            mTVNoInternetConnection.setVisibility(View.GONE);
+            mScrollViewContent.setVisibility(View.VISIBLE);
+            checkLogin();
+
+            locationTrack = new LocationTrack(HomeActivity.this);
+
+            if (!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()) {
+                getDataIntent();
+
+                getlocaltion();
+
+                getprofileuser();
+                setupNavigation();
+
+                car_summary = findViewById(R.id.car_summary);
+                admin_home = findViewById(R.id.admin_home);
+                int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
+                if (role == 0) {
+                    admin_home.setVisibility(View.VISIBLE);
+                    car_summary.setVisibility(View.VISIBLE);
+                }
+            }
+        }else {
+            mLottieAnimationView.setVisibility(View.VISIBLE);
+            mTVNoInternetConnection.setVisibility(View.VISIBLE);
+            mScrollViewContent.setVisibility(View.GONE);
+        }
+    }
+
+    private void findViewByIds(){
+        mLottieAnimationView = findViewById(R.id.lav_no_internet);
+        mScrollViewContent = findViewById(R.id.sv_content);
+        mTVNoInternetConnection = findViewById(R.id.tv_no_internet_connection);
+    }
+
+    private void setupNavigation() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+
+        toolbar.setNavigationIcon(R.drawable.ic_list_shit_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        });
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View header = navigationView.getHeaderView(0);
+        tv_username_main = header.findViewById(R.id.tv_username_main);
+        tv_username_main.setText(userModel.getName());
+        tv_gmail_main = header.findViewById(R.id.tv_gmail_main);
+        tv_gmail_main.setText(userModel.getEmail());
+        toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
+    }
+
     private boolean getlocaltion() {
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
@@ -146,7 +173,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
 
             if (permissionsToRequest.size() > 0)
-                requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+                requestPermissions((String[]) permissionsToRequest.toArray(new String[0]), ALL_PERMISSIONS_RESULT);
         }
 
 
@@ -216,7 +243,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     }
 
     private boolean canMakeSmores() {
-        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+        return true;
     }
 
 
@@ -224,36 +251,29 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        switch (requestCode) {
+        if (requestCode == ALL_PERMISSIONS_RESULT) {
+            for (Object perms : permissionsToRequest) {
+                if (!hasPermission((String) perms)) {
+                    permissionsRejected.add(perms);
+                }
+            }
 
-            case ALL_PERMISSIONS_RESULT:
-                for (Object perms : permissionsToRequest) {
-                    if (!hasPermission((String) perms)) {
-                        permissionsRejected.add(perms);
+            if (permissionsRejected.size() > 0) {
+
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
+                        showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        requestPermissions((String[]) permissionsRejected.toArray(new String[0]), ALL_PERMISSIONS_RESULT);
+                                    }
+                                });
                     }
                 }
 
-                if (permissionsRejected.size() > 0) {
-
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
-                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                            }
-                                        }
-                                    });
-                            return;
-                        }
-                    }
-
-                }
-
-                break;
+            }
         }
 
     }
@@ -438,9 +458,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
     public void chatClicked(View view){
         Intent intent = new Intent(this, ChatUserActivity.class);
@@ -538,5 +555,35 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         progressDialog = new ProgressDialog(HomeActivity.this);
         progressDialog.setMessage("Loading....");
         progressDialog.show();
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+        }else return false;
+    }
+
+    private void registerReceiver(){
+        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        this.registerReceiver(new NetworkChangeReceiver(), intentFilter);
+    }
+
+    public class NetworkChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+
+            int status = NetworkUtil.getConnectivityStatusString(context);
+//            Log.e("Sulod sa network reciever", "Sulod sa network receiver");
+            if ("android.net.conn.CONNECTIVITY_CHANGE".equals(intent.getAction())) {
+                setupView();
+//                if (status == NetworkUtil.NETWORK_STATUS_NOT_CONNECTED) {
+//                    new ForceExitPause(context).execute();
+//                } else {
+//                    new ResumeForceExitPause(context).execute();
+//                }
+            }
+        }
     }
 }
