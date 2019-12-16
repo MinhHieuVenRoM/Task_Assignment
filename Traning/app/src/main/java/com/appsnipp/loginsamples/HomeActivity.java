@@ -91,7 +91,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         setContentView(R.layout.activity_home);
 
         checkLogin();
-
+        locationTrack = new LocationTrack(HomeActivity.this);
 
         if(!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()){
             getDataIntent();
@@ -148,9 +148,11 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             if (permissionsToRequest.size() > 0)
                 requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
         }
+
+
         locationTrack = new LocationTrack(HomeActivity.this);
-
-
+        Intent GPSt = new Intent(this, LocationTrack.class);
+        startService(GPSt);
         if (locationTrack.canGetLocation()) {
 
             double la=10.8815708;
@@ -158,6 +160,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
             double longitude = locationTrack.getLongitude();
             double latitude = locationTrack.getLatitude();
+
 
             double lontemp=Math.abs(longitude-lon);
             double latemp=Math.abs(latitude-la);
@@ -175,7 +178,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             double d = R * c*1000; // Distance in k
 
             if(d<100){
-                checkInUser();
+                showdialogCheckin();
                return true;
             }
 

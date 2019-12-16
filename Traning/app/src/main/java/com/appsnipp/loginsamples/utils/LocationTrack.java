@@ -202,7 +202,9 @@ public class LocationTrack extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
+        this.loc = location;
+        getLatitude();
+        getLongitude();
     }
 
     @Override
