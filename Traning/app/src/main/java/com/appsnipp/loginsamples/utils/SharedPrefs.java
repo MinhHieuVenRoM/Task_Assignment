@@ -3,6 +3,7 @@ package com.appsnipp.loginsamples.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static com.appsnipp.loginsamples.HomeActivity.CHECK_STATUS_LOGIN;
 import static com.appsnipp.loginsamples.HomeActivity.USER_EMAIL_KEY;
 import static com.appsnipp.loginsamples.HomeActivity.USER_PASSWORD_KEY;
 
@@ -61,5 +62,7 @@ public class SharedPrefs {
       //  mSharedPreferences.edit().clear().apply();
         SharedPrefs.getInstance().put(USER_EMAIL_KEY, "");
         SharedPrefs.getInstance().put(USER_PASSWORD_KEY, "");
+        SharedPrefs.getInstance().put(CHECK_STATUS_LOGIN, "0");
+
     }
 }

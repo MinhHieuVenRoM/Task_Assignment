@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.appsnipp.loginsamples.HomeActivity;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.utils.LoginUser;
 

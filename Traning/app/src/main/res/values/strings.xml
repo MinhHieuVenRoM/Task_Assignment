@@ -45,4 +45,8 @@
     <string name="project">Project</string>
     <string name="manage_user">Manage User</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="create_chatroom">Chat room</string>
+    <string name="group_name">Group Name</string>
+    <string name="group_description">Group Description</string>
+    <string name="create_group">Create Group</string>
 </resources>

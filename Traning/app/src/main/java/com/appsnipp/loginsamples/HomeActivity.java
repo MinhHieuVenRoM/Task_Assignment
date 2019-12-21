@@ -45,7 +45,6 @@ import com.appsnipp.loginsamples.project.ProjectActivity;
 import com.appsnipp.loginsamples.user.UserActivity;
 import com.appsnipp.loginsamples.utils.LocationTrack;
 import com.appsnipp.loginsamples.utils.LoginUser;
-import com.appsnipp.loginsamples.utils.NetworkUtil;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -57,7 +56,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,13 +64,13 @@ import retrofit2.Response;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class HomeActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
     User userModel;
     UserModelDetail modeluser;
-    CardView car_summary,admin_home;
-    TextView tv_username_main,tv_gmail_main;
+    CardView car_summary, admin_home;
+    TextView tv_username_main, tv_gmail_main;
     LottieAnimationView mLottieAnimationView;
     ScrollView mScrollViewContent;
     AppCompatTextView mTVNoInternetConnection;
@@ -82,6 +80,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     public static final String USER_MODEL_KEY = "user_model";
     public static final String USER_EMAIL_KEY = "USER_EMAIL_KEY";
     public static final String USER_PASSWORD_KEY = "USER_PASSWORD_KEY";
+    public static final String CHECK_STATUS_LOGIN = "CHECK_STATUS_LOGIN";
 
     private ArrayList permissionsToRequest;
     private ArrayList permissionsRejected = new ArrayList();
@@ -90,31 +89,34 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     private final static int ALL_PERMISSIONS_RESULT = 101;
     LocationTrack locationTrack;
 
+    IntentFilter intentFilter;
+    NetworkChangeReceiver network;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         findViewByIds();
+        intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        network = new NetworkChangeReceiver();
         registerReceiver();
+        checkLogin();
         try {
             setupView();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    private void setupView() throws InterruptedException {
+    private void setupView() {
         if (isNetworkConnected()) {
             mLottieAnimationView.setVisibility(View.GONE);
             mTVNoInternetConnection.setVisibility(View.GONE);
             mScrollViewContent.setVisibility(View.VISIBLE);
-            checkLogin();
-            int i=0;
             locationTrack = new LocationTrack(HomeActivity.this);
 
-            if (!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()) {
+            if (!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()
+            ) {
                 getDataIntent();
                 getlocaltion();
                 getprofileuser();
@@ -128,14 +130,14 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                     car_summary.setVisibility(View.VISIBLE);
                 }
             }
-        }else {
+        } else {
             mLottieAnimationView.setVisibility(View.VISIBLE);
             mTVNoInternetConnection.setVisibility(View.VISIBLE);
             mScrollViewContent.setVisibility(View.GONE);
         }
     }
 
-    private void findViewByIds(){
+    private void findViewByIds() {
         mLottieAnimationView = findViewById(R.id.lav_no_internet);
         mScrollViewContent = findViewById(R.id.sv_content);
         mTVNoInternetConnection = findViewById(R.id.tv_no_internet_connection);
@@ -161,10 +163,10 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         tv_username_main.setText(userModel.getName());
         tv_gmail_main = header.findViewById(R.id.tv_gmail_main);
         tv_gmail_main.setText(userModel.getEmail());
-        toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
+        toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor, this.getTheme()));
     }
 
-    private boolean getlocaltion() {
+    private void getlocaltion() {
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
 
@@ -174,8 +176,6 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-
             if (permissionsToRequest.size() > 0)
                 requestPermissions((String[]) permissionsToRequest.toArray(new String[0]), ALL_PERMISSIONS_RESULT);
         }
@@ -186,50 +186,47 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         startService(GPSt);
         if (locationTrack.canGetLocation()) {
 
-            double la=10.8813304;
-            double  lon=106.8087542;
+            double la = 10.8813304;
+            double lon = 106.8087542;
 
             double longitude = locationTrack.getLongitude();
             double latitude = locationTrack.getLatitude();
 
 
-            double lontemp=Math.abs(longitude-lon);
-            double latemp=Math.abs(latitude-la);
+            double lontemp = Math.abs(longitude - lon);
+            double latemp = Math.abs(latitude - la);
 
 
             int R = 6371; // Radius of the earth in km
             double dLat = deg2rad(latemp);  // deg2rad below
             double dLon = deg2rad(lontemp);
             double a =
-                    Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                             Math.cos(deg2rad(la)) * Math.cos(deg2rad(latitude)) *
-                                    Math.sin(dLon/2) * Math.sin(dLon/2)
-                    ;
-            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            double d = R * c*1000; // Distance in k
+                                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            double d = R * c * 1000; // Distance in k
 
-            if(d<1000){
+            if (d < 200) {
                 checkInUser();
-               return true;
             }
 
         } else {
 
             locationTrack.showSettingsAlert();
-            return false;
         }
 
-        return false;
     }
 
     public double deg2rad(double deg) {
-        return deg * (Math.PI/180);
+        return deg * (Math.PI / 180);
     }
+
     private ArrayList findUnAskedPermissions(ArrayList wanted) {
         ArrayList result = new ArrayList();
 
         for (Object perm : wanted) {
-            if (!hasPermission((String) perm)) {
+            if (hasPermission((String) perm)) {
                 result.add(perm);
             }
         }
@@ -240,10 +237,10 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     private boolean hasPermission(String permission) {
         if (canMakeSmores()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+                return (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED);
             }
         }
-        return true;
+        return false;
     }
 
     private boolean canMakeSmores() {
@@ -253,21 +250,19 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         if (requestCode == ALL_PERMISSIONS_RESULT) {
             for (Object perms : permissionsToRequest) {
-                if (!hasPermission((String) perms)) {
+                if (hasPermission((String) perms)) {
                     permissionsRejected.add(perms);
                 }
             }
 
             if (permissionsRejected.size() > 0) {
-
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
-                        showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                        showMessageOKCancel(
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -282,9 +277,9 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
 
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+    private void showMessageOKCancel(DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(HomeActivity.this)
-                .setMessage(message)
+                .setMessage("These permissions are mandatory for the application. Please allow access.")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
                 .create()
@@ -294,14 +289,16 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        destroyReceiver();
     }
+
     private void checkLogin() {
         String email = SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class);
         String password = SharedPrefs.getInstance().get(USER_PASSWORD_KEY, String.class);
-        if (email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             goToLogin();
 
-        }else {
+        } else {
             new LoginUser(this).login(email, password, false);
         }
     }
@@ -312,7 +309,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         finish();
     }
 
-    private void showdialogCheckin(){
+    private void showdialogCheckin() {
 
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
@@ -346,14 +343,14 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         String date = dateFormatter.format(today);
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<Attendance> call = service.Attendance(token,date);
+        Call<Attendance> call = service.Attendance(token, date);
         call.enqueue(new Callback<Attendance>() {
             @Override
             public void onResponse(@NonNull Call<Attendance> call, @NonNull Response<Attendance> response) {
 
                 Attendance models = response.body();
                 if (models != null) {
-                    modelAttendance=models.getData();
+                    modelAttendance = models.getData();
                     Toast.makeText(HomeActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -369,7 +366,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         String email = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getEmail();
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.viewprofile(token,email)
+        service.viewprofile(token, email)
                 .enqueue(new Callback<ListUserModel>() {
                     @Override
                     public void onResponse(@NonNull Call<ListUserModel> call, @NonNull Response<ListUserModel> response) {
@@ -387,6 +384,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                     }
                 });
     }
+
     private void checkoutAttendance() {
         showLoading();
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
@@ -396,7 +394,7 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         String date = dateFormatter.format(today);
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<Attendance_checkout> call = service.Attendancecheckout(token,date);
+        Call<Attendance_checkout> call = service.Attendancecheckout(token, date);
         call.enqueue(new Callback<Attendance_checkout>() {
             @Override
             public void onResponse(@NonNull Call<Attendance_checkout> call, @NonNull Response<Attendance_checkout> response) {
@@ -405,13 +403,13 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 if (models != null) {
                     Toast.makeText(HomeActivity.this, models.getMessage(), Toast.LENGTH_SHORT).show();
 
-                }else {
+                } else {
                     try {
                         Gson gson = new Gson();
                         JSONObject object = new JSONObject(response.errorBody().string());
                         Attendance_checkout model = gson.fromJson(object.toString(), Attendance_checkout.class);
                         Toast.makeText(HomeActivity.this, model.getMessage(), Toast.LENGTH_SHORT).show();
-                        if(!model.getMessage().equals("user already checkout")){
+                        if (!model.getMessage().equals("user already checkout")) {
                             showdialogCheckin();
 
                         }
@@ -430,8 +428,8 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         });
 
 
-
     }
+
     private void checkInUser() {
         String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -440,16 +438,16 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         String date = dateFormatter.format(today);
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<Check> call = service.checkin(token,date);
+        Call<Check> call = service.checkin(token, date);
         call.enqueue(new Callback<Check>() {
             @Override
             public void onResponse(@NonNull Call<Check> call, @NonNull Response<Check> response) {
                 Check models = response.body();
                 if (models != null && !models.getMessage().toString().equals("True")) {
-                        showdialogCheckin();
+                    showdialogCheckin();
 
-                }else {
-                   // Toast.makeText(HomeActivity.this,"user already checkin", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Toast.makeText(HomeActivity.this,"user already checkin", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -459,23 +457,27 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
             }
         });
     }
-    public void chatClicked(View view){
+
+    public void chatClicked(View view) {
         Intent intent = new Intent(this, ChatUserActivity.class);
         startActivity(intent);
     }
-    public void ProjectClicked(View view){
+
+    public void ProjectClicked(View view) {
         Intent intent = new Intent(this, ProjectActivity.class);
         startActivity(intent);
     }
-    public void ConcludeClicked(View view){
+
+    public void ConcludeClicked(View view) {
         Intent intent = new Intent(this, ConcludeActivity.class);
         startActivity(intent);
     }
 
-    public void AdminClicked(View view){
+    public void AdminClicked(View view) {
         Intent intent = new Intent(this, UserActivity.class);
         startActivity(intent);
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -542,11 +544,13 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
                 break;
 
             }
-            default: return false;
+            default:
+                return false;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private void getDataIntent() {
         userModel = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class);
     }
@@ -561,32 +565,28 @@ public class HomeActivity extends AppCompatActivity  implements NavigationView.O
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-        }else return false;
+        } else return false;
     }
 
-    private void registerReceiver(){
-        IntentFilter intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-        this.registerReceiver(new NetworkChangeReceiver(), intentFilter);
+    private void registerReceiver() {
+        this.registerReceiver(network, intentFilter);
     }
+
+    private void destroyReceiver() {
+        this.unregisterReceiver(network);
+    }
+
 
     public class NetworkChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(final Context context, final Intent intent) {
-
-            int status = NetworkUtil.getConnectivityStatusString(context);
-//            Log.e("Sulod sa network reciever", "Sulod sa network receiver");
             if ("android.net.conn.CONNECTIVITY_CHANGE".equals(intent.getAction())) {
                 try {
                     setupView();
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                if (status == NetworkUtil.NETWORK_STATUS_NOT_CONNECTED) {
-//                    new ForceExitPause(context).execute();
-//                } else {
-//                    new ResumeForceExitPause(context).execute();
-//                }
             }
         }
     }

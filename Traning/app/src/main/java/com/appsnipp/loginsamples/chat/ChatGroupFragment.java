@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.ChatAdaterUserList;
+import com.appsnipp.loginsamples.adapter.ChatGroupAdaterUserList;
 import com.appsnipp.loginsamples.adapter.ManagementUserItemClicked;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
-import com.appsnipp.loginsamples.model.Chat.Chat_user;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
@@ -31,14 +30,13 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 
-public class ChatFragment extends Fragment implements ManagementUserItemClicked {
+public class ChatGroupFragment extends Fragment implements ManagementUserItemClicked {
     private View view;
     private ProgressDialog progressDialog;
     private ArrayList<UserModelDetail> mUsermodelDetails;
-    private ChatAdaterUserList mAdapter;
+    private ChatGroupAdaterUserList mAdapter;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +49,7 @@ public class ChatFragment extends Fragment implements ManagementUserItemClicked 
         mRecyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ChatAdaterUserList(new ArrayList<UserModelDetail>());
+        mAdapter = new ChatGroupAdaterUserList(new ArrayList<UserModelDetail>());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.itemClicked = this;
     }
@@ -92,40 +90,10 @@ public class ChatFragment extends Fragment implements ManagementUserItemClicked 
                     }
                 });
     }
-
-    private void get_id_rom(String id_user) {
-        User user = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class);
-        String token = "";
-        if (user != null){
-            token = user.getToken();
-        }
-        String []user_id = new String[2];
-        user_id[0]=user.getId();
-        user_id[1]=id_user;
-        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.get_id_room_twouser(token,user_id,"1")
-                .enqueue(new Callback<Chat_user>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Chat_user> call, @NonNull Response<Chat_user> response) {
-                        Chat_user models = response.body();
-                        if (models != null) {
-                           String id_room=models.getData();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<Chat_user> call, @NonNull Throwable t) {
-                        Toast.makeText(view.getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     @Override
     public void onItemClickeduser(int position, UserModelDetail model) {
-        get_id_rom(model.getId());
         Toast.makeText(view.getContext(), model.getName(), Toast.LENGTH_SHORT).show();
         Intent i  = new Intent(getActivity(), ChatBoxActivity.class);
-        i.putExtra(USER_MODEL_KEY, model);
         startActivity(i);
     }
 

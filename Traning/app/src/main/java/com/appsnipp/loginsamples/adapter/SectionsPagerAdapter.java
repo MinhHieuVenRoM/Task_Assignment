@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.chat.ChatFragment;
+import com.appsnipp.loginsamples.chat.ChatGroupFragment;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private void initFragment(){
         mListFragment.add(new ChatFragment());
-        mListFragment.add(new ChatFragment());
+        mListFragment.add(new ChatGroupFragment());
     }
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {

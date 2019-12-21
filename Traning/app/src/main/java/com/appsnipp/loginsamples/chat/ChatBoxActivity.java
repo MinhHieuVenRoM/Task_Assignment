@@ -1,9 +1,11 @@
 package com.appsnipp.loginsamples.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import com.appsnipp.loginsamples.adapter.ChatBoxAdapter;
 import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.Message;
 import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 
 import org.json.JSONException;
@@ -36,12 +39,14 @@ public class ChatBoxActivity extends AppCompatActivity {
     public ChatBoxAdapter chatBoxAdapter;
     public EditText messageText;
     public Button send;
+    private TextView toolbar_title_chatuser;
+    UserModelDetail modeluser;
 
     public static Socket mSocket;
 
     public void init() {
         try {
-            mSocket = IO.socket("http://192.168.42.36:3000");
+            mSocket = IO.socket("http://192.168.0.117:3000");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -57,10 +62,11 @@ public class ChatBoxActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_box);
 
         init();
-
+        getDataIntent();
         messageText = findViewById(R.id.message);
         send = findViewById(R.id.send);
-
+        toolbar_title_chatuser=findViewById(R.id.toolbar_title_chatuser);
+        toolbar_title_chatuser.setText(modeluser.getName());
 // get the nickame of the user
         String name = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getName();
         nickname = name;
@@ -164,6 +170,29 @@ public class ChatBoxActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mSocket.on("userdisconnect", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String data = (String) args[0];
+
+                        Toast.makeText(ChatBoxActivity.this, data, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        });
         mSocket.disconnect();
+    }
+    private void getDataIntent() {
+
+        Intent intent = getIntent();
+        modeluser = (UserModelDetail) intent.getSerializableExtra(USER_MODEL_KEY);
+    }
+
+    public void backuser_chat(View view) {
+        finish();
     }
 }

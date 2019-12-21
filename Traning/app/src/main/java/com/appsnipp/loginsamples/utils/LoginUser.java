@@ -21,6 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.appsnipp.loginsamples.HomeActivity.CHECK_STATUS_LOGIN;
 import static com.appsnipp.loginsamples.HomeActivity.USER_EMAIL_KEY;
 import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 import static com.appsnipp.loginsamples.HomeActivity.USER_PASSWORD_KEY;
@@ -95,5 +96,7 @@ public class LoginUser {
         SharedPrefs.getInstance().put(USER_MODEL_KEY, userModel);
         SharedPrefs.getInstance().put(USER_EMAIL_KEY, email);
         SharedPrefs.getInstance().put(USER_PASSWORD_KEY, password);
+        SharedPrefs.getInstance().put(CHECK_STATUS_LOGIN, "1");
+
     }
 }

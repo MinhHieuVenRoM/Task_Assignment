@@ -7,6 +7,7 @@ import com.appsnipp.loginsamples.model.Attendance.Attendance_List;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_list_detail;
 import com.appsnipp.loginsamples.model.Attendance.Check;
+import com.appsnipp.loginsamples.model.Chat.Chat_user;
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
@@ -210,5 +211,11 @@ public interface  RequestAPI {
             @Field("date") String date
     );
 
-
+    @POST("room/search_room")
+    @FormUrlEncoded
+    Call<Chat_user> get_id_room_twouser(
+            @Header("Authorization") String token,
+            @Field("users") String[] user_id,
+            @Field("is_single") String is_single
+    );
 }

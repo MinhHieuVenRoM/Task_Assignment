@@ -122,7 +122,11 @@
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <item name="android:textColor">@color/whiteTextColor</item>
     </style>
+    <style name="AppTheme.HelpText">
+        <item name="android:textSize">12sp</item>
 
+        <item name="android:color">@color/secondaryTextColor</item>
+    </style>
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>

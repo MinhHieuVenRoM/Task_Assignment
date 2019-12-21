@@ -7,6 +7,8 @@
     <color name="backgroundNull">#FAFAFA</color>
 
     <!--colors for modern ui-->
+    <color name="secondaryTextColor">#6b000000</color>
+    <color name="secondaryDarkColor">#004ba0</color>
     <color name="whiteTextColor">#ffffff</color>
     <color name="primaryTextColor">#00a5ff</color>
     <color name="primary2TextColor">#0074B3</color>
