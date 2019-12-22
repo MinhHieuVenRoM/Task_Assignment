@@ -24,6 +24,7 @@ import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -37,15 +38,16 @@ public class ChatGroupFragment extends Fragment implements ManagementUserItemCli
     private ProgressDialog progressDialog;
     private ArrayList<UserModelDetail> mUsermodelDetails;
     private ChatGroupAdaterUserList mAdapter;
+    private FloatingActionButton btn_add;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_chat, container, false);
+        view = inflater.inflate(R.layout.fragment_group_chat, container, false);
         return view;
     }
 
     private void setupRecyclerView() {
-        RecyclerView mRecyclerView = view.findViewById(R.id.rv_list_user_chat);
+        RecyclerView mRecyclerView = view.findViewById(R.id.rv_list_user_chat_group);
         mRecyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -60,6 +62,14 @@ public class ChatGroupFragment extends Fragment implements ManagementUserItemCli
         getListUser();
         setupRecyclerView();
         showLoading();
+        btn_add = view.findViewById(R.id.btn_add_group_chat);
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i  = new Intent(getActivity(), CreateGroupActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void getListUser() {

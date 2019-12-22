@@ -18,7 +18,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:onClick="backtask_addtask"
+            android:onClick="back_group_chat"
             android:padding="@dimen/_7sdp"
             android:src="@drawable/ic_arrow_back" />
 
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="Name Task:"
+                android:text="@string/name_group"
                 android:textSize="@dimen/_14ssp" />
 
             <EditText
@@ -61,29 +61,10 @@
                 android:fontFamily="@font/nunito" />
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_create_list_user_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
-                android:text="End Date:"
-                android:textSize="@dimen/_14ssp" />
-
-            <EditText
-                android:id="@+id/task_deadline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:focusable="false"
-                android:fontFamily="@font/nunito" />
-
-        </LinearLayout>
+            android:layout_height="@dimen/_150sdp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,48 +76,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="Task by user:"
-                android:textSize="@dimen/_14ssp" />
-
-            <Spinner
-                android:id="@+id/spinner_user_task_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito"
-                android:text="Content:"
+                android:text="List user:"
                 android:textSize="@dimen/_14ssp" />
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsv_chip_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
+            android:layout_height="@dimen/_100sdp">
 
-            <EditText
-                android:id="@+id/task_detail"
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top|left"
-                android:inputType="text|textMultiLine"
-                android:lines="6"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="false"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+                android:padding="@dimen/_5sdp"
+                app:chipSpacing="@dimen/_5sdp"
+                app:singleSelection="true"/>
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,12 +102,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/addtask_detail"
+                android:id="@+id/save_detail_group"
                 style="@style/loginButton"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunitobold"
-                android:text="Create"
+                android:text="Save"
                 android:textSize="18dp" />
         </LinearLayout>
     </LinearLayout>

@@ -43,6 +43,16 @@ public class UserModelDetail  implements Serializable {
     @Expose
     private String phone;
 
+    private boolean isChecked = false;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
     public Integer getRole() {
         return role;
     }

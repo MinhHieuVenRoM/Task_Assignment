@@ -16,9 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".chat.ChatUserActivity"
-            android:theme="@style/Material"
-            />
+        <activity android:name=".chat.CreateGroupActivity"
+            android:theme="@style/Material" ></activity>
+        <activity
+            android:name=".chat.ChatUserActivity"
+            android:theme="@style/Material" />
         <activity android:name=".Managetment_Task.Detail_Task_ManagetmentActivity" />
         <activity android:name=".Managetment_Task.ProjectManagetmentActivity" />
         <activity android:name=".Managetment_Task.UserManagentTaskActivity" />
@@ -34,7 +36,8 @@
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity android:name=".attendance.AttendanceReportActivity" />
-        <activity android:name=".conclude.ConcludeActivity"
+        <activity
+            android:name=".conclude.ConcludeActivity"
             android:theme="@style/Material" />
         <activity
             android:name=".task.DetailTaskActivity"
@@ -58,11 +61,12 @@
             android:theme="@style/Material" />
         <activity android:name=".chat.ChatBoxActivity" />
         <activity android:name=".login.RegisterActivity" />
-        <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".HomeActivity" >
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
