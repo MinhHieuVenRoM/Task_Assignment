@@ -25,6 +25,15 @@ public class DataGroup implements Serializable {
     @Expose
     private Integer v;
 
+    public String getTinnhancuoi() {
+        return tinnhancuoi;
+    }
+
+    public void setTinnhancuoi(String tinnhancuoi) {
+        this.tinnhancuoi = tinnhancuoi;
+    }
+
+    private String tinnhancuoi="";
     public ArrayList<String> getUsers() {
         return users;
     }

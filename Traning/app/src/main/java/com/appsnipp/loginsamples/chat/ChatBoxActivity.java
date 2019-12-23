@@ -2,6 +2,9 @@ package com.appsnipp.loginsamples.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,7 +55,7 @@ public class ChatBoxActivity extends AppCompatActivity {
     public ChatBoxAdapter chatBoxAdapter;
     public EditText messageText;
     public Button send;
-    private TextView toolbar_title_chatuser;
+    private TextView toolbar_title_chatuser,tv_typing;
     UserModelDetail modeluser;
     private  String ID_ROOM;
 
@@ -81,12 +84,36 @@ public class ChatBoxActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         toolbar_title_chatuser=findViewById(R.id.toolbar_title_chatuser);
         toolbar_title_chatuser.setText(modeluser.getName());
+        tv_typing=findViewById(R.id.tv_typing);
+
 // get the nickame of the user
         String name = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getName();
         final String idusersend = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getId();
         nickname = name;
-//
-        MessageList = new ArrayList<>();
+
+        messageText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mSocket.emit("typing", nickname,ID_ROOM);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+
+
+                MessageList = new ArrayList<>();
 
         setupRecyclerView();
         checkoutAttendance();
@@ -156,6 +183,43 @@ public class ChatBoxActivity extends AppCompatActivity {
                             chatBoxAdapter.notifyItemInserted(MessageList.size());
                             myRecylerView.scrollToPosition(MessageList.size()-1);
                             //set the adapter for the recycler view
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        mSocket.on("notifyTyping", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JSONObject data = (JSONObject) args[0];
+                        try {
+                            //extract data from fired event
+                            String nicknametemp = data.getString("senderNickname");
+                            String message = data.getString("message");
+                            if(!nicknametemp.equals(nickname)){
+                                tv_typing.setText(nicknametemp+message);
+                               // Toast.makeText(ChatBoxActivity.this, nicknametemp+message, Toast.LENGTH_SHORT).show();
+                                CountDownTimer countDownTimer=new CountDownTimer(2000,1000) {
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
+
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        tv_typing.setText("");
+                                        cancel();
+                                    }
+                                };
+                                countDownTimer.start();
+                            }
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

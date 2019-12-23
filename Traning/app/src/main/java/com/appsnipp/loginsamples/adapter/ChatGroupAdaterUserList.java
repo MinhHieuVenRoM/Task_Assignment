@@ -74,6 +74,7 @@ public class ChatGroupAdaterUserList extends RecyclerView.Adapter<ChatGroupAdate
 
         void initData(final DataGroup m) {
             tv_emp_name.setText(m.getRoomName());
+            tv_role.setText(m.getTinnhancuoi());
             itemView.setOnClickListener(new View.OnClickListener()
 
             {

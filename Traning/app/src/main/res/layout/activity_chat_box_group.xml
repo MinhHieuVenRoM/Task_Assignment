@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:weightSum="3">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_alignParentTop="true"
         android:background="@color/colorAccent"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:onClick="backuser_chat"
             android:padding="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_8sdp"
             android:src="@drawable/ic_arrow_back" />
 
         <TextView
@@ -28,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            tool:text="" />
+            tools:text="" />
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/img_editproject"
             android:layout_width="@dimen/_40sdp"
@@ -36,43 +38,61 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:padding="@dimen/_10sdp"
-            android:src="@drawable/ic_list_shit_24dp"
+            android:src="@drawable/settings"
             android:onClick="Edit_group"
             />
     </androidx.appcompat.widget.Toolbar>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagelist"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:scrollbars="vertical">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_above="@id/tv_typing"
+        android:layout_below="@id/toolbar"
+        android:scrollbars="vertical" />
 
-    <LinearLayout
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_typing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
+        android:layout_above="@id/ll_input_message"
+        android:layout_marginBottom="@dimen/_2sdp"
+        tools:text="Luan Typing...." />
 
-        <EditText
-            android:id="@+id/message"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:hint="your message" />
+    <RelativeLayout
+        android:id="@+id/ll_input_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/send"
+            app:boxCornerRadiusBottomEnd="@dimen/_5sdp"
+            app:boxCornerRadiusBottomStart="@dimen/_5sdp"
+            app:boxCornerRadiusTopEnd="@dimen/_5sdp"
+            app:boxCornerRadiusTopStart="@dimen/_5sdp"
+            android:layout_centerVertical="true"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/your_message"
+                android:maxLines="4"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:background="#00000000"
-            android:text="send" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/separator"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/darker_gray" />
-</LinearLayout>
+            android:layout_centerVertical="true"
+            android:text="send"
+            android:layout_margin="@dimen/_2sdp"/>
+    </RelativeLayout>
+</RelativeLayout>

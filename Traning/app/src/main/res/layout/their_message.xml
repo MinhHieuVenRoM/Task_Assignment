@@ -8,13 +8,17 @@
     android:paddingRight="60dp"
     android:clipToPadding="false">
 
-    <View
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/avatar_chat_avt"
         android:layout_alignParentStart="true"
         android:scaleType="centerInside"
-        android:background="@drawable/circle"
+        android:background="@drawable/background_circle_avatar"
         android:layout_width="34dp"
         android:layout_height="34dp"
+        tools:text="L"
+        android:gravity="center"
+        android:textColor="@color/whiteTextColor"
+        android:textSize="@dimen/_18sdp"
         android:layout_marginTop="@dimen/_30sdp"
         />
 

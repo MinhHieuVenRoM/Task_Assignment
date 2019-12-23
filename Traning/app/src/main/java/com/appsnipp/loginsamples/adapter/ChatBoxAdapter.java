@@ -1,12 +1,12 @@
 package com.appsnipp.loginsamples.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
@@ -19,21 +19,18 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.MyViewHo
     private int RIGHT = 0;
     private int LEFT = 1;
     private String mNickname;
-    private String mNicksex;
-
-
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nickname;
         TextView message;
-        View avatar_chat_avt;
+        AppCompatTextView avatar_chat_avt;
 
         MyViewHolder(View view) {
             super(view);
 
             nickname = view.findViewById(R.id.nickname);
             message = view.findViewById(R.id.message);
-            avatar_chat_avt=view.findViewById(R.id.avatar_chat_avt);
+            avatar_chat_avt = view.findViewById(R.id.avatar_chat_avt);
         }
     }
 
@@ -71,6 +68,7 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.MyViewHo
         Message m = MessageList.get(position);
         holder.nickname.setText(m.getNickname());
         holder.message.setText(m.getMessage());
+        holder.avatar_chat_avt.setText(m.getNickname().substring(0, 1));
         if (MessageList.get(position).getNickname().equals(mNickname)) {
             holder.nickname.setVisibility(View.GONE);
         }

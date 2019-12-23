@@ -50,7 +50,7 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
     private ArrayList<DataGroup> mGroupchat;
     private ChatGroupAdaterUserList mAdapter;
     private FloatingActionButton btn_add;
-    String message;
+    ArrayList<String> message;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,6 +82,9 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
                 startActivity(i);
             }
         });
+
+
+
     }
 
     private void getListUser() {
@@ -100,6 +103,7 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
                         Find_Group_Chat models = response.body();
                         if (models != null) {
                             mGroupchat = (ArrayList<DataGroup>) models.getData();
+
                             mAdapter.userModelList = mGroupchat;
                             mAdapter.notifyDataSetChanged();
                         }
@@ -129,6 +133,8 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
     public void onResume() {
         super.onResume();
         getListUser();
+
+
     }
 
     private void showLoading() {
@@ -138,44 +144,5 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
     }
 
 
-    private void checkoutAttendance( String ID_ROOM) {
-        // showLoading();
-        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
 
-        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        Call<Messenger> call = service.get_chat_history_twouser(token,ID_ROOM );
-        call.enqueue(new Callback<Messenger>() {
-            @Override
-            public void onResponse(@NonNull Call<Messenger> call, @NonNull Response<Messenger> response) {
-                //  progressDialog.dismiss();
-                Messenger models = response.body();
-                if (models != null) {
-                message=models.getData().get(models.getData().size()-1).getMessage();
-                }
-                else {
-                    try {
-                        Gson gson = new Gson();
-                        JSONObject object = new JSONObject(response.errorBody().string());
-                        Attendance_checkout model = gson.fromJson(object.toString(), Attendance_checkout.class);
-
-                        if (!model.getMessage().equals("Error")) {
-                            //  showdialogCheckin();
-
-                        }
-
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Messenger> call, @NonNull Throwable t) {
-
-            }
-        });
-
-
-    }
 }

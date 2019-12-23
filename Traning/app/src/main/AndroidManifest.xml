@@ -60,10 +60,12 @@
         <activity
             android:name=".project.ProjectActivity"
             android:theme="@style/Material" />
-        <activity android:name=".chat.ChatBoxActivity" />
+        <activity android:name=".chat.ChatBoxActivity"
+            android:theme="@style/Material"/>
         <activity android:name=".chat.EditGroupActivity"
             android:theme="@style/Material"/>
-        <activity android:name=".chat.ChatBoxGroupActivity" />
+        <activity android:name=".chat.ChatBoxGroupActivity"
+            android:theme="@style/Material"/>
         <activity android:name=".login.RegisterActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".HomeActivity">
