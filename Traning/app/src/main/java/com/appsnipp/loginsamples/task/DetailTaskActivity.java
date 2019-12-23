@@ -55,7 +55,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     final String[] iduser = {null};
     final String[] nameuser = {null};
     int status_id = 0;
-    String UserNamebyTask="";
+    private String UserNamebyTask="";
 
 
     private ProgressDialog progressDialog;
@@ -70,6 +70,10 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
         getDataIntent();
         tv_nguoiduocgiaotask = findViewById(R.id.et_nguoiduocgiaotask);
+        if(UserNamebyTask.equals("")){
+            UserNamebyTask=model.getUserDetail();
+
+        }
         tv_nguoiduocgiaotask.setText(UserNamebyTask);
 
         tv_hancuoitask = findViewById(R.id.tv_hancuoitask);

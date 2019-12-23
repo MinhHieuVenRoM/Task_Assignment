@@ -21,14 +21,20 @@ import com.appsnipp.loginsamples.adapter.ManagementGroupItemClicked;
 import com.appsnipp.loginsamples.adapter.ManagementUserItemClicked;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
+import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Chat.DataGroup;
 import com.appsnipp.loginsamples.model.Chat.DataGroup;
 import com.appsnipp.loginsamples.model.Chat.Datum;
 import com.appsnipp.loginsamples.model.Chat.Find_Group_Chat;
+import com.appsnipp.loginsamples.model.Chat.Messenger;
+import com.appsnipp.loginsamples.model.Message;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,6 +50,7 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
     private ArrayList<DataGroup> mGroupchat;
     private ChatGroupAdaterUserList mAdapter;
     private FloatingActionButton btn_add;
+    String message;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,6 +113,8 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
                 });
     }
     @Override
+
+
     public void onItemClickeduser(int position, DataGroup model) {
         Toast.makeText(view.getContext(), model.getRoomName(), Toast.LENGTH_SHORT).show();
         Intent i  = new Intent(getActivity(), ChatBoxGroupActivity.class);
@@ -116,9 +125,57 @@ public class ChatGroupFragment extends Fragment implements ManagementGroupItemCl
         startActivity(i);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getListUser();
+    }
+
     private void showLoading() {
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("Loading....");
         progressDialog.show();
+    }
+
+
+    private void checkoutAttendance( String ID_ROOM) {
+        // showLoading();
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
+
+        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+        Call<Messenger> call = service.get_chat_history_twouser(token,ID_ROOM );
+        call.enqueue(new Callback<Messenger>() {
+            @Override
+            public void onResponse(@NonNull Call<Messenger> call, @NonNull Response<Messenger> response) {
+                //  progressDialog.dismiss();
+                Messenger models = response.body();
+                if (models != null) {
+                message=models.getData().get(models.getData().size()-1).getMessage();
+                }
+                else {
+                    try {
+                        Gson gson = new Gson();
+                        JSONObject object = new JSONObject(response.errorBody().string());
+                        Attendance_checkout model = gson.fromJson(object.toString(), Attendance_checkout.class);
+
+                        if (!model.getMessage().equals("Error")) {
+                            //  showdialogCheckin();
+
+                        }
+
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Messenger> call, @NonNull Throwable t) {
+
+            }
+        });
+
+
     }
 }

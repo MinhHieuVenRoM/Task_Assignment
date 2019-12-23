@@ -37,6 +37,7 @@ import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
 import com.appsnipp.loginsamples.model.Task_model.TaskListResponse;
 import com.appsnipp.loginsamples.model.Task_model.TaskModel;
 import com.appsnipp.loginsamples.model.User_model.User;
+import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.appsnipp.loginsamples.utils.SharedPrefs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -132,6 +133,8 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
 
         Intent intent = new Intent(TaskActivity.this, AddingTaskActivity.class);
         intent.putExtra("projectModel", model);
+
+
         startActivity(intent);
     }
 
@@ -237,6 +240,7 @@ public class TaskActivity extends AppCompatActivity implements TaskItemClicked {
         Toast.makeText(TaskActivity.this, modeltask.getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailTaskActivity.class);
         intent.putExtra("taskmodel", modeltask);
+        intent.putExtra("UserNameOfTask", modeltask.getUserDetail());
         startActivityForResult(intent, RESULT);
     }
 
