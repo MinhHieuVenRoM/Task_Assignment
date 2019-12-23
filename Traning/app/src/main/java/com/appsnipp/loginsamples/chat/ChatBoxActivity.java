@@ -77,7 +77,6 @@ public class ChatBoxActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_box);
-
         init();
         getDataIntent();
         messageText = findViewById(R.id.message);

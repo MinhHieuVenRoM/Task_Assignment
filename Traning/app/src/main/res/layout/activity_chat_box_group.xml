@@ -32,13 +32,14 @@
             android:layout_marginTop="16dp"
             tools:text="" />
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/img_editproject"
+            android:id="@+id/im_edit_group_chat"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:padding="@dimen/_10sdp"
             android:src="@drawable/settings"
+            android:visibility="gone"
             android:onClick="Edit_group"
             />
     </androidx.appcompat.widget.Toolbar>

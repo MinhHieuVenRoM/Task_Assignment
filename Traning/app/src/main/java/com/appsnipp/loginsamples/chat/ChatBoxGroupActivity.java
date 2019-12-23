@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +53,7 @@ public class ChatBoxGroupActivity extends AppCompatActivity {
     public Button send;
     private TextView toolbar_title_chatuser,tv_typing;
     User modeluser;
+    AppCompatImageView im_edit_group_chat;
     DataGroup ModelGroup;
     private  String ID_ROOM;
 
@@ -80,10 +82,17 @@ public class ChatBoxGroupActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         toolbar_title_chatuser=findViewById(R.id.toolbar_title_chatuser);
         toolbar_title_chatuser.setText(ModelGroup.getRoomName());
+        im_edit_group_chat=findViewById(R.id.im_edit_group_chat);
+
 // get the nickame of the user
         String name = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getName();
         final String idusersend = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getId();
         nickname = name;
+        if(idusersend.equals(ModelGroup.getCreatedBy())){
+            im_edit_group_chat.setVisibility(View.VISIBLE);
+        }
+
+
          tv_typing=findViewById(R.id.tv_typing);
         MessageList = new ArrayList<>();
 
