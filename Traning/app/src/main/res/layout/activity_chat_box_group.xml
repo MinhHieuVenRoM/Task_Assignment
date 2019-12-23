@@ -29,7 +29,16 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             tool:text="" />
-
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_editproject"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_list_shit_24dp"
+            android:onClick="Edit_group"
+            />
     </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messagelist"

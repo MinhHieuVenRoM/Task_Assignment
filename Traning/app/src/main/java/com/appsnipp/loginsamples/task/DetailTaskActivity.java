@@ -55,6 +55,8 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
     final String[] iduser = {null};
     final String[] nameuser = {null};
     int status_id = 0;
+    String UserNamebyTask="";
+
 
     private ProgressDialog progressDialog;
 
@@ -68,7 +70,7 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
         getDataIntent();
         tv_nguoiduocgiaotask = findViewById(R.id.et_nguoiduocgiaotask);
-        tv_nguoiduocgiaotask.setText(model.getUserDetail());
+        tv_nguoiduocgiaotask.setText(UserNamebyTask);
 
         tv_hancuoitask = findViewById(R.id.tv_hancuoitask);
         String deadline = model.getEndDate().substring(0, 10);
@@ -117,6 +119,8 @@ public class DetailTaskActivity extends AppCompatActivity implements View.OnClic
 
         Intent intent = getIntent();
         model = (TaskModel) intent.getSerializableExtra("taskmodel");
+        UserNamebyTask = (String) intent.getSerializableExtra("UserNameOfTask");
+
     }
 
     private void setOptionSpinner(int position) {

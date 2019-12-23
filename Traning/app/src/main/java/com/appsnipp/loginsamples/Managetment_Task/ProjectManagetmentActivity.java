@@ -39,7 +39,6 @@ import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 public class ProjectManagetmentActivity extends AppCompatActivity implements ProjectItemClicked {
 
 
-    private FloatingActionButton btn_add;
     private ProjectAdapter mAdapter;
     private ArrayList<ProjectModel> mProjectModelList;
     private ArrayList<UserModelDetail> mUsermodelDetails;
@@ -48,18 +47,13 @@ public class ProjectManagetmentActivity extends AppCompatActivity implements Pro
     private TextView tv_enddate_addproject, tv_full_name_project_addproject;
     private SwipeRefreshLayout swipeContainer;
     UserModelDetail modeluser;
+    private String UserNamebyTask="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-        btn_add = findViewById(R.id.btn_add_project);
         int role = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getRole();
-        if (role == 0) {
-
-            btn_add.setVisibility(View.VISIBLE);
-
-        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("List Project");
         toolbar.setTitleTextColor(this.getResources().getColor(R.color.whiteTextColor));
@@ -114,6 +108,7 @@ public class ProjectManagetmentActivity extends AppCompatActivity implements Pro
                             mProjectModelList = models.getData_project();
                             mAdapter.projectModelList = mProjectModelList;
                             mAdapter.userModelDetailList = mUsermodelDetails;
+
                             mAdapter.notifyDataSetChanged();
                         }
                     }
@@ -150,6 +145,7 @@ public class ProjectManagetmentActivity extends AppCompatActivity implements Pro
         Intent intent = new Intent(this, Detail_Task_ManagetmentActivity.class);
         intent.putExtra("usermodel", modeluser);
         intent.putExtra("projectModel", model);
+
         startActivity(intent);
     }
 

@@ -8,6 +8,10 @@ import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_list_detail;
 import com.appsnipp.loginsamples.model.Attendance.Check;
 import com.appsnipp.loginsamples.model.Chat.Chat_user;
+import com.appsnipp.loginsamples.model.Chat.Find_Group_Chat;
+import com.appsnipp.loginsamples.model.Chat.Group_chat;
+import com.appsnipp.loginsamples.model.Chat.Group_chat_edit;
+import com.appsnipp.loginsamples.model.Chat.Messenger;
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
@@ -18,6 +22,8 @@ import com.appsnipp.loginsamples.model.Login.Login;
 import com.appsnipp.loginsamples.model.Project_model.ProjectListResponse;
 import com.appsnipp.loginsamples.model.Task_model.TaskListResponse;
 import com.appsnipp.loginsamples.model.User_model.UserEditModel;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -217,5 +223,35 @@ public interface  RequestAPI {
             @Header("Authorization") String token,
             @Field("users") String[] user_id,
             @Field("is_single") String is_single
+    );
+    @POST("room/create_room")
+    @FormUrlEncoded
+    Call<Group_chat> create_group_chat(
+            @Header("Authorization") String token,
+            @Field("users") ArrayList<String> user_id,
+            @Field("room_name") String room_name,
+            @Field("user_create") String create_by
+    );
+
+    @PUT("room/edit_room")
+    @FormUrlEncoded
+    Call<Group_chat_edit> edit_group_chat(
+            @Header("Authorization") String token,
+            @Field("_id") String id_room,
+            @Field("users") ArrayList<String> user_id,
+            @Field("room_name") String room_name
+    );
+
+    @POST("room/get_list_group")
+    @FormUrlEncoded
+    Call<Find_Group_Chat> find_group_chat(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id
+    );
+    @POST("/api/v1/chat/get_history_chat")
+    @FormUrlEncoded
+    Call<Messenger> get_chat_history_twouser(
+            @Header("Authorization") String token,
+            @Field("room_id") String room_id
     );
 }

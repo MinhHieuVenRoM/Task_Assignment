@@ -127,6 +127,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
 
         Intent intent = new Intent(Detail_Task_ManagetmentActivity.this, AddingTaskActivity.class);
         intent.putExtra("projectModel", model);
+        intent.putExtra("usermodel", modeluser);
         startActivity(intent);
     }
 
@@ -183,6 +184,7 @@ public class Detail_Task_ManagetmentActivity extends AppCompatActivity implement
         Toast.makeText(Detail_Task_ManagetmentActivity.this, modeltask.getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailTaskActivity.class);
         intent.putExtra("taskmodel", modeltask);
+        intent.putExtra("UserNameOfTask", modeluser.getName());
         startActivityForResult(intent, RESULT);
     }
 

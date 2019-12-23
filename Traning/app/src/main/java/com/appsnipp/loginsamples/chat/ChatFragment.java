@@ -39,6 +39,7 @@ public class ChatFragment extends Fragment implements ManagementUserItemClicked 
     private ProgressDialog progressDialog;
     private ArrayList<UserModelDetail> mUsermodelDetails;
     private ChatAdaterUserList mAdapter;
+    private  String id_room=null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,7 +94,8 @@ public class ChatFragment extends Fragment implements ManagementUserItemClicked 
                 });
     }
 
-    private void get_id_rom(String id_user) {
+    private void get_id_rom(String id_user, final UserModelDetail model) {
+        showLoading();
         User user = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class);
         String token = "";
         if (user != null){
@@ -107,14 +109,23 @@ public class ChatFragment extends Fragment implements ManagementUserItemClicked 
                 .enqueue(new Callback<Chat_user>() {
                     @Override
                     public void onResponse(@NonNull Call<Chat_user> call, @NonNull Response<Chat_user> response) {
+                        progressDialog.dismiss();
                         Chat_user models = response.body();
                         if (models != null) {
-                           String id_room=models.getData();
+                           id_room=models.getData();
+                            if(id_room!=null){
+                                Intent i  = new Intent(getActivity(), ChatBoxActivity.class);
+                                i.putExtra(USER_MODEL_KEY, model);
+                                i.putExtra("ID_Room", id_room);
+                                startActivity(i);
+
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<Chat_user> call, @NonNull Throwable t) {
+                        progressDialog.dismiss();
                         Toast.makeText(view.getContext(), "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -122,11 +133,10 @@ public class ChatFragment extends Fragment implements ManagementUserItemClicked 
 
     @Override
     public void onItemClickeduser(int position, UserModelDetail model) {
-        get_id_rom(model.getId());
-        Toast.makeText(view.getContext(), model.getName(), Toast.LENGTH_SHORT).show();
-        Intent i  = new Intent(getActivity(), ChatBoxActivity.class);
-        i.putExtra(USER_MODEL_KEY, model);
-        startActivity(i);
+        get_id_rom(model.getId(),model);
+
+
+
     }
 
     private void showLoading() {

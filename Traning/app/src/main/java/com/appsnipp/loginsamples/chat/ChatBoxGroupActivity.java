@@ -6,20 +6,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.appsnipp.loginsamples.HomeActivity;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.ChatBoxAdapter;
-import com.appsnipp.loginsamples.login.LoginActivity;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
+import com.appsnipp.loginsamples.model.Chat.DataGroup;
 import com.appsnipp.loginsamples.model.Chat.Messenger;
 import com.appsnipp.loginsamples.model.Message;
 import com.appsnipp.loginsamples.model.User_model.User;
@@ -31,10 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URISyntaxException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -45,7 +40,7 @@ import retrofit2.Response;
 
 import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 
-public class ChatBoxActivity extends AppCompatActivity {
+public class ChatBoxGroupActivity extends AppCompatActivity {
     private String nickname;
     public RecyclerView myRecylerView;
     public ArrayList<Message> MessageList;
@@ -53,7 +48,8 @@ public class ChatBoxActivity extends AppCompatActivity {
     public EditText messageText;
     public Button send;
     private TextView toolbar_title_chatuser;
-    UserModelDetail modeluser;
+    User modeluser;
+    DataGroup ModelGroup;
     private  String ID_ROOM;
 
     public static Socket mSocket;
@@ -73,14 +69,14 @@ public class ChatBoxActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_box);
+        setContentView(R.layout.activity_chat_box_group);
 
         init();
         getDataIntent();
         messageText = findViewById(R.id.message);
         send = findViewById(R.id.send);
         toolbar_title_chatuser=findViewById(R.id.toolbar_title_chatuser);
-        toolbar_title_chatuser.setText(modeluser.getName());
+        toolbar_title_chatuser.setText(ModelGroup.getRoomName());
 // get the nickame of the user
         String name = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getName();
         final String idusersend = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getId();
@@ -183,8 +179,9 @@ public class ChatBoxActivity extends AppCompatActivity {
     private void getDataIntent() {
 
         Intent intent = getIntent();
-        modeluser = (UserModelDetail) intent.getSerializableExtra(USER_MODEL_KEY);
+        modeluser = (User) intent.getSerializableExtra(USER_MODEL_KEY);
         ID_ROOM = (String) intent.getSerializableExtra("ID_Room");
+        ModelGroup= (DataGroup) intent.getSerializableExtra("Group");
     }
 
     public void backuser_chat(View view) {
@@ -243,6 +240,15 @@ public class ChatBoxActivity extends AppCompatActivity {
                    }
         });
 
+
+    }
+
+    public void Edit_group(View view) {
+
+        Intent i  = new Intent(ChatBoxGroupActivity.this, EditGroupActivity.class);
+        i.putExtra("ID_Room", ID_ROOM);
+        i.putExtra("ModelGroup", ModelGroup);
+        startActivity(i);
 
     }
 }

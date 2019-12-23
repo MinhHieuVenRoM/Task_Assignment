@@ -21,7 +21,8 @@
         <activity
             android:name=".chat.ChatUserActivity"
             android:theme="@style/Material" />
-        <activity android:name=".Managetment_Task.Detail_Task_ManagetmentActivity" />
+        <activity android:name=".Managetment_Task.Detail_Task_ManagetmentActivity"
+            android:theme="@style/Material"/>
         <activity android:name=".Managetment_Task.ProjectManagetmentActivity" />
         <activity android:name=".Managetment_Task.UserManagentTaskActivity" />
         <activity android:name=".Managetment_Task.TaskManagementActivity" />
@@ -60,6 +61,9 @@
             android:name=".project.ProjectActivity"
             android:theme="@style/Material" />
         <activity android:name=".chat.ChatBoxActivity" />
+        <activity android:name=".chat.EditGroupActivity"
+            android:theme="@style/Material"/>
+        <activity android:name=".chat.ChatBoxGroupActivity" />
         <activity android:name=".login.RegisterActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".HomeActivity">

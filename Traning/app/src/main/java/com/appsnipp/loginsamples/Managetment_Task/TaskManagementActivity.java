@@ -39,6 +39,7 @@ public class TaskManagementActivity extends AppCompatActivity implements TaskIte
     CalendarView calendarView;
     ProgressDialog progressDialog;
     private TaskAdapter mAdapter;
+    private String UserNameTask;
     private ArrayList<TaskModel> mDiemdanhModelList;
 
 
@@ -82,6 +83,7 @@ public class TaskManagementActivity extends AppCompatActivity implements TaskIte
                 if (models != null){
                     mDiemdanhModelList = models.getDataTask();
                     mAdapter.taskModelList = mDiemdanhModelList;
+                    UserNameTask= models.getDataTask().get(0).getUserDetail();
                     mAdapter.notifyDataSetChanged();
                 }
             }

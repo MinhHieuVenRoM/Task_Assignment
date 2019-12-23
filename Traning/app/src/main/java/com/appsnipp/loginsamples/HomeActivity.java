@@ -88,6 +88,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private final static int ALL_PERMISSIONS_RESULT = 101;
     LocationTrack locationTrack;
+    public static int temp=0;
 
     IntentFilter intentFilter;
     NetworkChangeReceiver network;
@@ -101,10 +102,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         network = new NetworkChangeReceiver();
         registerReceiver();
         checkLogin();
+        if(temp!=0){
         try {
             setupView();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
         }
     }
 
@@ -300,6 +304,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         } else {
             new LoginUser(this).login(email, password, false);
+
         }
     }
 

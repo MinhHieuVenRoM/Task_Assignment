@@ -1,5 +1,6 @@
 package com.appsnipp.loginsamples.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +19,21 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.MyViewHo
     private int RIGHT = 0;
     private int LEFT = 1;
     private String mNickname;
+    private String mNicksex;
+
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView nickname;
         TextView message;
+        View avatar_chat_avt;
 
         MyViewHolder(View view) {
             super(view);
 
             nickname = view.findViewById(R.id.nickname);
             message = view.findViewById(R.id.message);
+            avatar_chat_avt=view.findViewById(R.id.avatar_chat_avt);
         }
     }
 
@@ -68,6 +74,7 @@ public class ChatBoxAdapter extends RecyclerView.Adapter<ChatBoxAdapter.MyViewHo
         if (MessageList.get(position).getNickname().equals(mNickname)) {
             holder.nickname.setVisibility(View.GONE);
         }
+        //holder.avatar_chat_avt.setBackgroundResource(R.drawable.avtadmin);
     }
 
     @Override

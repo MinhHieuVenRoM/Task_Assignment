@@ -1,6 +1,8 @@
 package com.appsnipp.loginsamples.chat;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,7 +18,9 @@ import com.appsnipp.loginsamples.adapter.ListAddUserGroupChatAdapter;
 import com.appsnipp.loginsamples.adapter.ManagementUserItemClicked;
 import com.appsnipp.loginsamples.model.API.APIClient;
 import com.appsnipp.loginsamples.model.API.RequestAPI;
+import com.appsnipp.loginsamples.model.Chat.DataGroup;
 import com.appsnipp.loginsamples.model.Chat.Group_chat;
+import com.appsnipp.loginsamples.model.Chat.Group_chat_edit;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
@@ -33,7 +37,7 @@ import retrofit2.Response;
 
 import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 
-public class CreateGroupActivity extends AppCompatActivity implements ManagementUserItemClicked {
+public class EditGroupActivity extends AppCompatActivity implements ManagementUserItemClicked {
     private ArrayList<UserModelDetail> mUsermodelDetails;
     private ListAddUserGroupChatAdapter mAdapter;
     private ChipGroup chipGroup;
@@ -41,17 +45,27 @@ public class CreateGroupActivity extends AppCompatActivity implements Management
     private NestedScrollView mNestedScrollContainer;
     private EditText group_name_create;
     private User user;
+    DataGroup ModelGroup;
+    private  String ID_ROOM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_group_chat);
-        getListUser();
+        setContentView(R.layout.edit_group_chat);
         setupRecyclerView();
         setupChip();
+        getListUser();
+        getDataIntent();
+        group_name_create=findViewById(R.id.group_name_create);
+        group_name_create.setText(ModelGroup.getRoomName());
 
     }
+    private void getDataIntent() {
 
+        Intent intent = getIntent();
+        ID_ROOM = (String) intent.getSerializableExtra("ID_Room");
+        ModelGroup= (DataGroup) intent.getSerializableExtra("ModelGroup");
+    }
     private void setupChip() {
         chipGroup = findViewById(R.id.chip_group);
         mNestedScrollContainer = findViewById(R.id.nsv_chip_container);
@@ -60,7 +74,7 @@ public class CreateGroupActivity extends AppCompatActivity implements Management
     private void setupRecyclerView() {
         RecyclerView mRecyclerView = this.findViewById(R.id.rv_create_list_user_group);
         mRecyclerView.hasFixedSize();
-        LinearLayoutManager layoutManager = new LinearLayoutManager(CreateGroupActivity.this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(EditGroupActivity.this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new ListAddUserGroupChatAdapter(new ArrayList<UserModelDetail>(), this);
 
@@ -88,6 +102,16 @@ public class CreateGroupActivity extends AppCompatActivity implements Management
                                {
                                    mUsermodelDetails.remove(i);
                                }
+                               for(int j=0;j<ModelGroup.getUsers().size();j++){
+
+                                   if((mUsermodelDetails.get(i).getId().equals(ModelGroup.getUsers().get(j)))){
+                                       mUsermodelDetails.get(i).setChecked(true);
+                                       Chip chip = new ChipItem().getChip(EditGroupActivity.this,  mUsermodelDetails.get(i).getName(),  mUsermodelDetails.get(i).getId());
+                                       chipGroup.addView(chip);
+                                       mNestedScrollContainer.fullScroll(View.FOCUS_DOWN);
+                                   }
+
+                               }
 
                            }
 
@@ -101,7 +125,7 @@ public class CreateGroupActivity extends AppCompatActivity implements Management
 
                     @Override
                     public void onFailure(@NonNull Call<ListUserModel> call, @NonNull Throwable t) {
-                        Toast.makeText(CreateGroupActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditGroupActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -136,16 +160,17 @@ public class CreateGroupActivity extends AppCompatActivity implements Management
         mAdapter.notifyItemChanged(position);
     }
 
-    private void create_group() {
+    private void edit_group() {
         list_create_user_group.clear();
         list_create_user_group.add(user.getId());
+
         for (int i = 0; i < mAdapter.userModelList.size(); i++) {
             UserModelDetail row = mAdapter.userModelList.get(i);
             if (row.isChecked()) {
                 list_create_user_group.add(row.getId());
             }
         }
-        group_name_create=findViewById(R.id.group_name_create);
+
         User user = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class);
         String token = "";
         if (user != null) {
@@ -153,20 +178,20 @@ public class CreateGroupActivity extends AppCompatActivity implements Management
         }
 
         RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.create_group_chat(token,list_create_user_group,group_name_create.getText().toString(),user.getId())
-                .enqueue(new Callback<Group_chat>() {
+        service.edit_group_chat(token,ModelGroup.getId(),list_create_user_group,group_name_create.getText().toString())
+                .enqueue(new Callback<Group_chat_edit>() {
                     @Override
-                    public void onResponse(@NonNull Call<Group_chat> call, @NonNull Response<Group_chat> response) {
-                        Group_chat models = response.body();
+                    public void onResponse(@NonNull Call<Group_chat_edit> call, @NonNull Response<Group_chat_edit> response) {
+                        Group_chat_edit models = response.body();
                         if (models != null) {
-                            Toast.makeText(CreateGroupActivity.this, "Success create Room"+models.getDataRoom(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditGroupActivity.this, "Success create Room"+models.getDataRoom(), Toast.LENGTH_SHORT).show();
                            finish();
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<Group_chat> call, @NonNull Throwable t) {
-                        Toast.makeText(CreateGroupActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                    public void onFailure(@NonNull Call<Group_chat_edit> call, @NonNull Throwable t) {
+                        Toast.makeText(EditGroupActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -187,7 +212,7 @@ public class CreateGroupActivity extends AppCompatActivity implements Management
     }
 
     public void create_group(View view) {
-        create_group();
+        edit_group();
 
 
     }

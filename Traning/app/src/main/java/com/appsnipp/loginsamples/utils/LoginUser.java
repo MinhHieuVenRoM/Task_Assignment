@@ -25,6 +25,7 @@ import static com.appsnipp.loginsamples.HomeActivity.CHECK_STATUS_LOGIN;
 import static com.appsnipp.loginsamples.HomeActivity.USER_EMAIL_KEY;
 import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
 import static com.appsnipp.loginsamples.HomeActivity.USER_PASSWORD_KEY;
+import static com.appsnipp.loginsamples.HomeActivity.temp;
 
 public class LoginUser {
     private ProgressDialog progressDialog;
@@ -90,6 +91,7 @@ public class LoginUser {
         Intent intent = new Intent(mContext, HomeActivity.class);
         mContext.startActivity(intent);
         ((LoginActivity) mContext).finish();
+        temp=1;
     }
 
     private void saveIntoMemory(User userModel, String email, String password) {

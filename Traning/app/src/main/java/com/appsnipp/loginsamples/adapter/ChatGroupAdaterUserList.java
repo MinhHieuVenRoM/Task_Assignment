@@ -12,6 +12,9 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsnipp.loginsamples.R;
+import com.appsnipp.loginsamples.model.Chat.DataGroup;
+import com.appsnipp.loginsamples.model.Chat.DataRoom;
+import com.appsnipp.loginsamples.model.Chat.Datum;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
 import com.github.curioustechizen.ago.RelativeTimeTextView;
 
@@ -30,8 +33,8 @@ import static com.appsnipp.loginsamples.R.drawable.avttre;
 import static com.appsnipp.loginsamples.R.drawable.nvnu;
 
 public class ChatGroupAdaterUserList extends RecyclerView.Adapter<ChatGroupAdaterUserList.MyViewHolder> {
-    public ArrayList<UserModelDetail> userModelList;
-    public ManagementUserItemClicked itemClicked;
+    public ArrayList<DataGroup> userModelList;
+    public ManagementGroupItemClicked itemClicked;
     private Context context;
 
     public ChatGroupAdaterUserList(Context context) {
@@ -69,19 +72,8 @@ public class ChatGroupAdaterUserList extends RecyclerView.Adapter<ChatGroupAdate
             });
         }
 
-        void initData(final UserModelDetail m) {
-            tv_emp_name.setText(m.getName());
-            if(m.getRole()==0)
-
-            {
-                tv_role.setText("Admin");
-
-            }else
-
-            {
-                tv_role.setText("User");
-
-            }
+        void initData(final DataGroup m) {
+            tv_emp_name.setText(m.getRoomName());
             itemView.setOnClickListener(new View.OnClickListener()
 
             {
@@ -95,7 +87,7 @@ public class ChatGroupAdaterUserList extends RecyclerView.Adapter<ChatGroupAdate
 
     }
 
-    public ChatGroupAdaterUserList(ArrayList<UserModelDetail> userModelList) {
+    public ChatGroupAdaterUserList(ArrayList<DataGroup> userModelList) {
         this.userModelList = userModelList;
     }
 
@@ -116,7 +108,7 @@ public class ChatGroupAdaterUserList extends RecyclerView.Adapter<ChatGroupAdate
     @Override
     public void onBindViewHolder(final ChatGroupAdaterUserList.MyViewHolder holder, final int position) {
 
-        UserModelDetail userModel = userModelList.get(position);
+        DataGroup userModel = userModelList.get(position);
         holder.initData(userModel);
 
 

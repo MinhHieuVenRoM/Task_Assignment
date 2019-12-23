@@ -9,7 +9,7 @@
     android:clipToPadding="false">
 
     <View
-        android:id="@+id/avatar"
+        android:id="@+id/avatar_chat_avt"
         android:layout_alignParentStart="true"
         android:scaleType="centerInside"
         android:background="@drawable/circle"
