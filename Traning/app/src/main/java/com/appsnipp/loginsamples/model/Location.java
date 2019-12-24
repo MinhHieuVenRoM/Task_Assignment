@@ -1,10 +1,14 @@
-package com.appsnipp.loginsamples.model.Chat;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.appsnipp.loginsamples.model;
 
 
-public class Group_chat_edit {
+        import com.google.gson.annotations.Expose;
+        import com.google.gson.annotations.SerializedName;
+
+        import java.io.Serializable;
+
+
+public class Location implements Serializable {
+
     @SerializedName("success")
     @Expose
     private Boolean success;
@@ -13,7 +17,7 @@ public class Group_chat_edit {
     private String message;
     @SerializedName("data")
     @Expose
-    private DataRoom data;
+    private Locationdata data;
 
     public Boolean getSuccess() {
         return success;
@@ -31,14 +35,12 @@ public class Group_chat_edit {
         this.message = message;
     }
 
-    public DataRoom getData() {
+    public Locationdata getData() {
         return data;
     }
 
-    public void setData(DataRoom data) {
+    public void setData(Locationdata data) {
         this.data = data;
     }
-
-
 
 }

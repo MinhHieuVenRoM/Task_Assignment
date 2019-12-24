@@ -12,10 +12,12 @@ import com.appsnipp.loginsamples.model.Chat.Find_Group_Chat;
 import com.appsnipp.loginsamples.model.Chat.Group_chat;
 import com.appsnipp.loginsamples.model.Chat.Group_chat_edit;
 import com.appsnipp.loginsamples.model.Chat.Messenger;
+import com.appsnipp.loginsamples.model.Location;
 import com.appsnipp.loginsamples.model.Login.Register;
 import com.appsnipp.loginsamples.model.Project_model.ProjectAddResponse;
 import com.appsnipp.loginsamples.model.Project_model.Project_edit_model;
 import com.appsnipp.loginsamples.model.Task_model.EditTaskModel;
+import com.appsnipp.loginsamples.model.Task_model.NotifyTask;
 import com.appsnipp.loginsamples.model.Task_model.TaskaddResponse;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.Login.Login;
@@ -74,6 +76,13 @@ public interface  RequestAPI {
             @Field("project_id") String project_id
     );
 
+    @POST("task/get_nearby_task")
+    @FormUrlEncoded
+    Call<NotifyTask>  gettask_notify(
+            @Header("Authorization") String token,
+            @Field("user_id") String user_id
+    );
+
     @POST("task/get_task_by_date")
     @FormUrlEncoded
     Call<TaskListResponse> gettask_date(
@@ -113,7 +122,11 @@ public interface  RequestAPI {
             @Field("email") String email
 
     );
-
+    @POST("location/get_location_by_name")
+    @FormUrlEncoded
+    Call<Location> getlocaltion(
+            @Field("name") String name
+    );
     @PUT("users/ad/reset_password")
     @FormUrlEncoded
     Call<Login> resetpassword(

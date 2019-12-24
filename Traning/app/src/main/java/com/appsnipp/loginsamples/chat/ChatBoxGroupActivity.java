@@ -56,6 +56,7 @@ public class ChatBoxGroupActivity extends AppCompatActivity {
     AppCompatImageView im_edit_group_chat;
     DataGroup ModelGroup;
     private  String ID_ROOM;
+    public  static ArrayList<String> dsuser;
 
     public static Socket mSocket;
 
@@ -249,12 +250,18 @@ public class ChatBoxGroupActivity extends AppCompatActivity {
         modeluser = (User) intent.getSerializableExtra(USER_MODEL_KEY);
         ID_ROOM = (String) intent.getSerializableExtra("ID_Room");
         ModelGroup= (DataGroup) intent.getSerializableExtra("Group");
+        dsuser=ModelGroup.getUsers();
     }
 
     public void backuser_chat(View view) {
         //mSocket.disconnect();
         finish();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ModelGroup.setUsers(dsuser);
     }
 
     private void checkoutAttendance() {

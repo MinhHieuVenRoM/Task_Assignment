@@ -16,13 +16,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".chat.CreateGroupActivity"
-            android:theme="@style/Material" ></activity>
+        <activity android:name=".NotifycationActivity"></activity>
+        <activity
+            android:name=".chat.CreateGroupActivity"
+            android:theme="@style/Material" />
         <activity
             android:name=".chat.ChatUserActivity"
             android:theme="@style/Material" />
-        <activity android:name=".Managetment_Task.Detail_Task_ManagetmentActivity"
-            android:theme="@style/Material"/>
+        <activity
+            android:name=".Managetment_Task.Detail_Task_ManagetmentActivity"
+            android:theme="@style/Material" />
         <activity android:name=".Managetment_Task.ProjectManagetmentActivity" />
         <activity android:name=".Managetment_Task.UserManagentTaskActivity" />
         <activity android:name=".Managetment_Task.TaskManagementActivity" />
@@ -60,12 +63,15 @@
         <activity
             android:name=".project.ProjectActivity"
             android:theme="@style/Material" />
-        <activity android:name=".chat.ChatBoxActivity"
-            android:theme="@style/Material"/>
-        <activity android:name=".chat.EditGroupActivity"
-            android:theme="@style/Material"/>
-        <activity android:name=".chat.ChatBoxGroupActivity"
-            android:theme="@style/Material"/>
+        <activity
+            android:name=".chat.ChatBoxActivity"
+            android:theme="@style/Material" />
+        <activity
+            android:name=".chat.EditGroupActivity"
+            android:theme="@style/Material" />
+        <activity
+            android:name=".chat.ChatBoxGroupActivity"
+            android:theme="@style/Material" />
         <activity android:name=".login.RegisterActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".HomeActivity">

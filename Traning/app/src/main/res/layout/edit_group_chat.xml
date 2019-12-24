@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunitobold"
                 android:text="Save"
-                android:onClick="create_group"
+                android:onClick="edit_group"
                 android:textSize="18dp" />
         </LinearLayout>
     </LinearLayout>

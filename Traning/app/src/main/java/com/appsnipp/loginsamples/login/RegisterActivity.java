@@ -161,10 +161,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         et_dob_register.setOnClickListener(this);
     }
 
+    public void back_login_register(View view) {
+        finish();
+    }
     public void BackClicked(View view) {
-        Intent intent;
-        intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     public void registerClicked(View view) throws ParseException {

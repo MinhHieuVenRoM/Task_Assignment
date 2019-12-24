@@ -110,9 +110,11 @@
         <Button
             android:id="@+id/btn_Register"
             style="@style/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:onClick="registerClicked"
             android:layout_marginTop="@dimen/_10sdp"
+            android:onClick="registerClicked"
             android:text="Register" />
 
         <TextView
@@ -121,6 +123,7 @@
             android:textStyle="bold"
             android:textColor="@color/primaryTextColor"
             android:text="@string/signup_login_hint"
+            android:onClick="back_login_register"
             android:layout_marginTop="@dimen/loginViewsMargin"/>
 
     </LinearLayout>

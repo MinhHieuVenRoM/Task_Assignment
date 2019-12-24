@@ -24,16 +24,18 @@ public class DataGroup implements Serializable {
     @SerializedName("__v")
     @Expose
     private Integer v;
-
-    public String getTinnhancuoi() {
-        return tinnhancuoi;
+    @SerializedName("last_message")
+    @Expose
+    private String last_message;
+    public String last_message() {
+        return last_message;
     }
 
-    public void setTinnhancuoi(String tinnhancuoi) {
-        this.tinnhancuoi = tinnhancuoi;
+    public void setlast_message(String last_message) {
+        this.last_message = last_message;
     }
 
-    private String tinnhancuoi="";
+
     public ArrayList<String> getUsers() {
         return users;
     }

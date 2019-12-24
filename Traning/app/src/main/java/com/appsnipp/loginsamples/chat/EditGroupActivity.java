@@ -36,6 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.appsnipp.loginsamples.HomeActivity.USER_MODEL_KEY;
+import static com.appsnipp.loginsamples.chat.ChatBoxGroupActivity.dsuser;
 
 public class EditGroupActivity extends AppCompatActivity implements ManagementUserItemClicked {
     private ArrayList<UserModelDetail> mUsermodelDetails;
@@ -184,7 +185,8 @@ public class EditGroupActivity extends AppCompatActivity implements ManagementUs
                     public void onResponse(@NonNull Call<Group_chat_edit> call, @NonNull Response<Group_chat_edit> response) {
                         Group_chat_edit models = response.body();
                         if (models != null) {
-                            Toast.makeText(EditGroupActivity.this, "Success create Room"+models.getDataRoom(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditGroupActivity.this, "Success Edit Room", Toast.LENGTH_SHORT).show();
+                            dsuser= list_create_user_group;
                            finish();
                         }
                     }
@@ -211,7 +213,7 @@ public class EditGroupActivity extends AppCompatActivity implements ManagementUs
         return false;
     }
 
-    public void create_group(View view) {
+    public void edit_group(View view) {
         edit_group();
 
 

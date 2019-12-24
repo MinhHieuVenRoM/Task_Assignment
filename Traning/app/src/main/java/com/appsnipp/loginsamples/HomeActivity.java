@@ -37,6 +37,8 @@ import com.appsnipp.loginsamples.model.Attendance.Attendance;
 import com.appsnipp.loginsamples.model.Attendance.Attendance_checkout;
 import com.appsnipp.loginsamples.model.Attendance.Check;
 import com.appsnipp.loginsamples.model.Attendance.Data;
+import com.appsnipp.loginsamples.model.Location;
+import com.appsnipp.loginsamples.model.Locationdata;
 import com.appsnipp.loginsamples.model.User_model.ListUserModel;
 import com.appsnipp.loginsamples.model.User_model.User;
 import com.appsnipp.loginsamples.model.User_model.UserModelDetail;
@@ -98,6 +100,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         findViewByIds();
+        temp=0;
         intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
         network = new NetworkChangeReceiver();
         registerReceiver();
@@ -122,8 +125,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             if (!SharedPrefs.getInstance().get(USER_EMAIL_KEY, String.class).isEmpty()
             ) {
                 getDataIntent();
-                getlocaltion();
                 getprofileuser();
+                getlocaltion();
+
                 setupNavigation();
 
                 car_summary = findViewById(R.id.car_summary);
@@ -178,6 +182,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //get the permissions we have asked for before but are not granted..
         //we will store this in a global list to access later.
 
+        Intent GPSt = new Intent(this, LocationTrack.class);
+        startService(GPSt);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (permissionsToRequest.size() > 0)
@@ -186,12 +192,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         locationTrack = new LocationTrack(HomeActivity.this);
-        Intent GPSt = new Intent(this, LocationTrack.class);
-        startService(GPSt);
+
         if (locationTrack.canGetLocation()) {
 
             double la = 10.8813304;
             double lon = 106.8087542;
+
 
             double longitude = locationTrack.getLongitude();
             double latitude = locationTrack.getLatitude();
@@ -211,7 +217,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             double d = R * c * 1000; // Distance in k
 
-            if (d < 200) {
+            if (d < 500) {
                 checkInUser();
             }
 
@@ -292,6 +298,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         destroyReceiver();
     }
@@ -415,7 +422,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                         Attendance_checkout model = gson.fromJson(object.toString(), Attendance_checkout.class);
                         Toast.makeText(HomeActivity.this, model.getMessage(), Toast.LENGTH_SHORT).show();
                         if (!model.getMessage().equals("user already checkout")) {
-                            showdialogCheckin();
+                            getlocaltion();
 
                         }
 
@@ -495,7 +502,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.nav_attendance: {
                 Intent intent = new Intent(HomeActivity.this, AttendanceDetailActivity.class);
-                intent.putExtra("usermodel", (Serializable) modeluser);
+                String id = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getId();
+                UserModelDetail modelDetail = new UserModelDetail();
+                modelDetail.setId(id);
+                intent.putExtra("usermodel", (Serializable) modelDetail);
                 startActivity(intent);
                 break;
             }
@@ -581,6 +591,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         this.unregisterReceiver(network);
     }
 
+    public void Notifycation(View view) {
+
+        Intent intent = new Intent(this, NotifycationActivity.class);
+        startActivity(intent);
+
+    }
+
 
     public class NetworkChangeReceiver extends BroadcastReceiver {
 
@@ -594,5 +611,29 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
+    }
+
+
+    private void checklocaltion() {
+        String token = SharedPrefs.getInstance().get(USER_MODEL_KEY, User.class).getToken();
+        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+        Call<Location> call = service.getlocaltion("UIT");
+        call.enqueue(new Callback<Location>() {
+            @Override
+            public void onResponse(@NonNull Call<Location> call, @NonNull Response<Location> response) {
+
+                Location models = response.body();
+                Locationdata data=models.getData();
+                if (models != null) {
+                  //  getlocaltion(models.getData().getLocalX(),models.getData().getLocalY());
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Location> call, @NonNull Throwable t) {
+                Toast.makeText(HomeActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

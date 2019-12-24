@@ -134,6 +134,7 @@ public class SummaryTaskFragment extends Fragment implements TaskItemClicked {
     public void onItemClickedTask(int position, TaskModel model) {
         Intent intent = new Intent(view.getContext(), DetailTaskActivity.class);
         intent.putExtra("taskmodel", model);
+        intent.putExtra("UserNameOfTask", model.getUserDetail());
         startActivity(intent);
     }
     private void setupfisrtView(){
