@@ -1,5 +1,6 @@
 package com.appsnipp.loginsamples.chat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
@@ -13,6 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.appsnipp.loginsamples.HomeActivity;
 import com.appsnipp.loginsamples.R;
 import com.appsnipp.loginsamples.adapter.ListAddUserGroupChatAdapter;
 import com.appsnipp.loginsamples.adapter.ManagementUserItemClicked;
@@ -48,6 +50,7 @@ public class EditGroupActivity extends AppCompatActivity implements ManagementUs
     private User user;
     DataGroup ModelGroup;
     private  String ID_ROOM;
+    public ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,28 +181,43 @@ public class EditGroupActivity extends AppCompatActivity implements ManagementUs
             token = user.getToken();
         }
 
-        RequestAPI service = APIClient.getClient().create(RequestAPI.class);
-        service.edit_group_chat(token,ModelGroup.getId(),list_create_user_group,group_name_create.getText().toString())
-                .enqueue(new Callback<Group_chat_edit>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Group_chat_edit> call, @NonNull Response<Group_chat_edit> response) {
-                        Group_chat_edit models = response.body();
-                        if (models != null) {
-                            Toast.makeText(EditGroupActivity.this, "Success Edit Room", Toast.LENGTH_SHORT).show();
-                            dsuser= list_create_user_group;
-                           finish();
+
+        if(list_create_user_group.size()>=3) {
+            showLoading();
+            RequestAPI service = APIClient.getClient().create(RequestAPI.class);
+            service.edit_group_chat(token, ModelGroup.getId(), list_create_user_group, group_name_create.getText().toString())
+                    .enqueue(new Callback<Group_chat_edit>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Group_chat_edit> call, @NonNull Response<Group_chat_edit> response) {
+                            Group_chat_edit models = response.body();
+                            progressDialog.dismiss();
+                            if (models != null) {
+                                Toast.makeText(EditGroupActivity.this, "Success Edit Room", Toast.LENGTH_SHORT).show();
+                                dsuser = list_create_user_group;
+                                finish();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<Group_chat_edit> call, @NonNull Throwable t) {
-                        Toast.makeText(EditGroupActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(@NonNull Call<Group_chat_edit> call, @NonNull Throwable t) {
+                            progressDialog.dismiss();
+                            Toast.makeText(EditGroupActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
+        }
+        else{
+            Toast.makeText(EditGroupActivity.this, "Group less than two people", Toast.LENGTH_SHORT).show();
+
+
+        }
 
     }
-
+    private void showLoading() {
+        progressDialog = new ProgressDialog(EditGroupActivity.this);
+        progressDialog.setMessage("Loading....");
+        progressDialog.show();
+    }
     private boolean checkChipItem(ChipGroup chipGroup, String id) {
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             View chip = chipGroup.getChildAt(i);

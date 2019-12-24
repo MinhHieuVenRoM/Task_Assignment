@@ -17,13 +17,14 @@ import java.util.ArrayList;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.chat, R.string.group};
+    private static final int[] TAB_TITLES = new int[]{ R.string.group,R.string.chat};
     private final Context mContext;
     private ArrayList<Fragment> mListFragment = new ArrayList<>();
 
     private void initFragment(){
-        mListFragment.add(new ChatFragment());
         mListFragment.add(new ChatGroupFragment());
+        mListFragment.add(new ChatFragment());
+
     }
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
