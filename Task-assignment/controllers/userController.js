@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config.json')
 
-
 exports.loginUser = (email,password) => 
  new Promise((resolve,reject)=>{
     user.find({email:email,status:1})
@@ -126,4 +125,40 @@ exports.resetPassword = (email) =>
         .then((user)=>resolve({status: 201,message: 'Password has been reseted successfully!',data: user }))
 
         .catch(err=> reject({status: 500, message: 'Internal Server Error!'}))
+    })
+
+    //get all users and last message sent in rooom chat
+exports.getUsersAndLastMessage = (user_id) =>
+    new Promise((resolve,reject)=>{
+      user.aggregate([
+        {
+            "$addFields": {
+              "_id": {
+                "$toString": "$_id"
+              }
+            }
+          },
+        { $lookup:
+            {
+              from: 'room',
+              localField: '_id',
+              foreignField: 'users',
+              as: 'room'
+            }
+        },
+        { "$unwind": "$room" },
+        { "$project": { "_id":1,
+                        "name":1,
+                        "room.last_message" : 1,
+                        "room.users" : 1
+                         } },
+         { "$match": {
+                "room.users":{$size:2},
+                "room.users":{ $all: user_id }
+          }}
+    ])
+
+        .then(users=> resolve({status: 201,message: 'get completed!',data: users}))
+
+        .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })

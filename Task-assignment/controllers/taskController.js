@@ -69,6 +69,7 @@ exports.getTaskOfProject = (project_id) =>
                         } 
             },
             { "$match": { "project_id":  project_id} },
+            { $sort : { _id : -1 } }
         ])
         .then(tasks=> resolve(tasks))
         .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
@@ -174,7 +175,7 @@ exports.getUserTaskByDate = (user_id,date) =>
 
 exports.getUserTask = (user_id) =>
     new Promise((resolve,reject)=>{
-      task.find({user_id:user_id,})
+      task.find({user_id:user_id})
       .then(tasks=> resolve(tasks))
       .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })
@@ -186,9 +187,9 @@ exports.getUserProjectTask = (user_id,project_id) =>
       .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })
 
-exports.getUserProjectTask = (user_id,project_id) =>
+exports.getNearbyTask = (user_id) =>
     new Promise((resolve,reject)=>{
-      task.find({user_id:user_id,project_id:project_id})
+      task.find({user_id:user_id}).limit(10).sort({_id: -1})
       .then(tasks=> resolve(tasks))
       .catch(err=> reject({status: 500, message: 'Internal Server Error !'}))
     })

@@ -2,6 +2,7 @@
 
 //const auth = require('basic-auth')
 const jwt = require('jsonwebtoken')
+const validator = require('validator')
 
 const user = require('../controllers/userController')
 const password = require('../controllers/password')
@@ -10,6 +11,9 @@ const project = require('../controllers/projectContronller')
 const task = require('../controllers/taskController')
 const authenticate  = require('../middleware/authenticate')
 const attendance = require('../controllers/attendanceContronller')
+const room =  require('../controllers/roomContronller')
+const chat = require('../controllers/chatController')
+const location = require('../controllers/locationContronller')
 
 module.exports = router =>{
     router.get('/',(req,res)=>  res.sendFile('F://Android/Android-project/Task_Assignment_Git/Task-assignment' + '/index.html')) //res.end('Welcome to task assignment apps'))
@@ -20,6 +24,9 @@ module.exports = router =>{
         // if(!credentials){
         //     res.status(400).json({message: 'Invalid request!'})
         // }else{
+			if(req.body.email =='' || req.body.pass =='' || !validator.isEmail(req.body.email)){
+				res.status(400).json({success: false,message: 'Invalid Request !',data:{}});
+			}
             user.loginUser(req.body.email, req.body.pass)
             .then(result =>{
 				
@@ -39,7 +46,7 @@ module.exports = router =>{
 		const phone = req.body.phone
 		const dob = req.body.dob
 
-		if (!name || !email || !password || !name.trim() || !email.trim() || !password.trim()) {
+		if (!name || !email || !password || !name.trim() || !email.trim() || !password.trim() || !validator.isEmail(email)) {
 
 			res.status(400).json({success: false,message: 'Invalid Request !',data:{}});
 
@@ -73,84 +80,11 @@ module.exports = router =>{
 			.catch(err => res.status(err.status).json({success: false, message: err.message,data: [{}] }));
 
     })
-    
-    // router.put('/users/:id', (req,res) => {
-
-	// 	if (checkToken(req)) {
-
-	// 		const oldPassword = req.body.password;
-	// 		const newPassword = req.body.newPassword;
-
-	// 		if (!oldPassword || !newPassword || !oldPassword.trim() || !newPassword.trim()) {
-
-	// 			res.status(400).json({ success:false, message: 'Invalid Request !' ,data: {}});
-
-	// 		} else {
-
-	// 			password.changePassword(req.params.id, oldPassword, newPassword)
-
-	// 			.then(result => res.status(result.status).json({ message: result.message }))
-
-	// 			.catch(err => res.status(err.status).json({ message: err.message }));
-
-	// 		}
-	// 	} else {
-
-	// 		res.status(401).json({ message: 'Invalid Token !' });
-	// 	}
-    // })
-    
-    // router.post('/users/:id/password', (req,res) => {
-
-	// 	const email = req.params.id;
-	// 	const token = req.body.token;
-	// 	const newPassword = req.body.password;
-
-	// 	if (!token || !newPassword || !token.trim() || !newPassword.trim()) {
-
-	// 		password.resetPasswordInit(email)
-
-	// 		.then(result => res.status(result.status).json({ message: result.message }))
-
-	// 		.catch(err => res.status(err.status).json({ message: err.message }));
-
-	// 	} else {
-
-	// 		password.resetPasswordFinish(email, token, newPassword)
-
-	// 		.then(result => res.status(result.status).json({ message: result.message }))
-
-	// 		.catch(err => res.status(err.status).json({ message: err.message }));
-	// 	}
-	// });
-
-
-    // function checkToken(req) {
-
-	// 	const token = req.headers['x-access-token'];
-
-	// 	if (token) {
-
-	// 		try {
-
-  	// 			var decoded = jwt.verify(token, config.secret);
-
-  	// 			return decoded.message === req.params.id;
-
-	// 		} catch(err) {
-
-	// 			return false;
-	// 		}
-
-	// 	} else {
-
-	// 		return false;
-	// 	}
-	// }
 
 	router.put('/users/edit_user',authenticate,(req,res)=>{
 		const updates = Object.keys(req.body)
 		const body_val = req.body
+
 		user.editUserById(updates,body_val)
 
 		.then(result => res.json({success:true,message:result.message ,data_users:result.data}))
@@ -346,6 +280,14 @@ module.exports = router =>{
 
 		.catch(err => res.status(err.status).json({success:false, message: err.message, data_task: {} }));
 	})
+	router.post('/task/get_nearby_task', authenticate,(req,res) => {
+		const user_id = req.body.user_id
+		task.getNearbyTask(user_id)
+
+		.then(result => res.json({success:true,message:"successfully" ,data_task:result}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data_task: {} }));
+	})
 //attendance
 
 	router.put('/attendance/check_in',authenticate,(req,res)=>{
@@ -460,6 +402,101 @@ module.exports = router =>{
 
 		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
 	})
-	
+	//Room
+
+	router.post('/room/create_room',authenticate, (req, res) => {
+
+		const room_name = req.body.room_name
+		const user_ids = req.body.users
+		const user_create = req.body.user_create
+		if (!room_name) {
+
+			res.status(400).json({success:false, message: 'Invalid Request !',data_room: {}});
+
+		} else {
+
+			room.addRoom(user_ids,room_name,user_create)
+
+			.then(result => {
+
+				res.setHeader('Location', '/create_room/'+room_name);
+				res.status(result.status).json({success:true, message: result.message,data_room: result.data })
+			})
+
+			.catch(err => res.status(err.status).json({success:false, message: err.message,data_room: {} }));
+		}
+	})
+
+	router.post('/room/search_room',authenticate, (req, res) => {
+		const user_ids = req.body.users
+		const is_single =  req.body.is_single
+		const room_name =  req.body.room_name
+		room.searchRoom(user_ids,is_single,room_name)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
+	router.post('/room/get_list_group',authenticate, (req, res) => {
+		const user_id = req.body.user_id
+		room.getListGroups(user_id)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
+	router.post('/room/get_list_room',authenticate, (req, res) => {
+		const user_id = req.body.user_id
+		room.getListRoomOfUser(user_id)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
+	router.put('/room/edit_room',authenticate,(req,res)=>{
+		const updates = Object.keys(req.body)
+		const body_val = req.body
+		room.editUserInGroup(updates,body_val)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
+	//no use this path
+	router.put('/room/add_last_message',authenticate,(req,res)=>{
+		const last_message = req.body.last_message
+		const room_id = req.body.room_id
+		room.addLastMessage(last_message,room_id)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
+	router.post('/room/get_single_room_and_last_chat',authenticate, (req, res) => {
+		const user_id = req.body.user_id
+		user.getUsersAndLastMessage(user_id)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
+	//chat
+	router.post('/chat/get_history_chat',authenticate, (req, res) => {
+		const room_id = req.body.room_id
+		chat.getHistoryChat(room_id)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
+	//location
+	router.post('/location/get_location_by_name', (req, res) => {
+		const name = req.body.name
+		location.getLocation(name)
+
+		.then(result => res.json({success:true,message:result.message ,data:result.data}))
+
+		.catch(err => res.status(err.status).json({success:false, message: err.message, data: {} }));
+	})
 }
 
