@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="60dp"
+    android:clipToPadding="false">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/avatar_chat_avt"
+        android:layout_alignParentStart="true"
+        android:scaleType="centerInside"
+        android:background="@drawable/background_circle_avatar"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        tools:text="L"
+        android:gravity="center"
+        android:textColor="@color/whiteTextColor"
+        android:textSize="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        />
+
+    <TextView
+        android:id="@+id/nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:paddingBottom="4dp"
+        android:text="@string/rose" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/message"
+        android:background="@drawable/their_message"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="16dp"
+        android:elevation="2dp"
+        android:textSize="18sp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_30sdp"
+        android:text="@string/how_are_you_doing_this_is_a_long_message_that_should_probably_wrap"
+        tools:targetApi="o" />
+<!--        android:layout_below="@id/nickname"-->
+<!--        android:layout_alignParentStart="@+id/nickname"-->
+
+
+</RelativeLayout>

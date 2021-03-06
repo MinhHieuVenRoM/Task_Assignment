@@ -1,0 +1,6 @@
+<chip
+    style="@style/Widget.MaterialComponents.Chip.Entry"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:checkable="false"
+    android:layout_margin="5dp"
+    />

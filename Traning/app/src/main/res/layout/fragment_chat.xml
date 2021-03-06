@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".user.UserActivity">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_47sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:drawableStart="@drawable/ic_search_black_24dp"
+        android:fontFamily="@font/nunito"
+        android:hint="@string/search"
+        android:textColorHint="#868686"
+        android:textSize="@dimen/_13sdp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_user_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
+</androidx.appcompat.widget.LinearLayoutCompat>
